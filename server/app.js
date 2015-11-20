@@ -8,11 +8,24 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+var hbs = require('hbs');
+var hbsutils = require('hbs-utils')(hbs);
+
 var app = express();
 
 // view engine setup
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
+hbsutils.registerWatchedPartials(__dirname + '/views/templates', {
+  onchange: function(t){
+    console.log(t, ' changed!');
+    }
+  }, function() {
+      console.log("partials registered");
+  });
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
