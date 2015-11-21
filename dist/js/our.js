@@ -2,14 +2,17 @@ function placeBlock(templ, location, info){
   var source = $(templ).html(),
       template = Handlebars.compile(source),
       html = template(info);
-      $(location).html(html);
+      $(location).append(html);
 
   console.log('created');
 }
 
-function findPlace(side, oldBlock, body){
-  console.log(oldBlock, 'old!');
-  this[side] = oldBlock[body] + oldBlock[side];
+function findPlace(side, oldBlock, body){ //uses math when things are stirngs grrr
+  var siden = intoNum(oldBlock[side]);
+  var bodyn = intoNum(oldBlock[body]);
+
+  
+  this[side] = siden + bodyn + 'px';
 }
 
 function createBlock(id, type, qtype){
@@ -40,22 +43,6 @@ function setSide(side, lengthArr){
   
 }
 
-function genRandomInt(max){
-  var ints = Math.floor(Math.random() * (max));
-  return ints;
-}
-
-function genLength(min, max){
-  var m = max / min,
-      i = 0,
-      options = [];
-
-  for(i; i<m; i++){
-    options.push(min * i + min);
-  }
-
-  return options;
-}
 
 // function fits(block, field, side){
 
@@ -92,16 +79,29 @@ $(document).ready(function(){
     'question-type': 'paw'
   };
 
+  placeBlock('#block-template', '#game-field', a);
+
 
   var b = createBlock(2, 'green', 'paw');
   setSide.call(b, 'block-height', genLength(blocks.min, blocks.max));
   setSide.call(b, 'block-width', genLength(blocks.min, blocks.max));
-  // findPlace.call(b, 'left', locateBlock(1), 'width');
-  // findPlace.call(b, 'bottom', locateBlock(1), 'height');
-  console.log(b, 'newblock');
+ 
+  var old = locateBlock(1);
+  
 
-  placeBlock('#block-template', '#game-field', a);
-  console.log(locateBlock(1));
+  findPlace.call(b, 'left', old, 'width');
+  findPlace.call(b, 'bottom', old, 'height');
+
+
+  placeBlock('#block-template', '#game-field', b);
+
+
+
+  
+  
+
+  
+
 
 
 }); //end ready
@@ -110,5 +110,32 @@ $(document).ready(function(){
 // block-type
 // question-type
 
+function intoNum(stat){
+  var i = stat.indexOf('px');
+  var num = '';
+
+  for(j = 0; j < i; j++){
+    num += stat[j];
+  }
+
+  return num - 0;
+}
+
+function genRandomInt(max){
+  var ints = Math.floor(Math.random() * (max));
+  return ints;
+}
+
+function genLength(min, max){
+  var m = max / min,
+      i = 0,
+      options = [];
+
+  for(i; i<m; i++){
+    options.push(min * i + min);
+  }
+
+  return options;
+}
 // console.log('test');
 
