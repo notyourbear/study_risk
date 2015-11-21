@@ -109,6 +109,3 @@ $(document).ready(function(){
 // block-id
 // block-type
 // question-type
-
-// console.log('test');
-

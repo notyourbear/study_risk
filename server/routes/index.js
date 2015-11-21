@@ -3,6 +3,6 @@ var router = express.Router();
 var indexCtrl = require('../controllers/index');
 
 /* GET home page. */
-router.get('/', indexCtrl.index);
+router.get('/', indexCtrl.game);
 
 module.exports = router;

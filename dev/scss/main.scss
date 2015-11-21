@@ -1,3 +1,29 @@
 body {
   
-};
+}
+
+#game-field {
+  background: #d2d2d2;
+  height: 400px;
+  width: 600px;
+  margin: 10% auto;
+  position: relative;
+  .black {
+    background: white;
+    text-align: center;
+    color: black;
+  }
+  .green {
+    background: green;
+    text-align: center;
+    color: white;
+  }
+  #block-1 {
+    position: absolute;
+    left: 250px;
+    bottom: 200px;
+  }
+}
+
+
+
