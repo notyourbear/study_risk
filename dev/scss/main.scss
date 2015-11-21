@@ -18,8 +18,10 @@ body {
     text-align: center;
     color: white;
   }
-  #block-1 {
+  .block {
     position: absolute;
+  }
+  #block-1 {
     left: 250px;
     bottom: 200px;
   }
