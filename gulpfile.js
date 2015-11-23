@@ -102,7 +102,7 @@ function bowerScripts() {
       }
     }))
     .pipe(concat('vendor.js'))
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(gulp.dest(paths.dist + '/js'));
 }
 

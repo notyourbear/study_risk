@@ -8,7 +8,7 @@ var secrets = require('../../../secrets.js');
 module.exports.token = function(req, res, next){
   var token = secrets.mapAccessToken();
 
-  sendJsonResponse(res, '200', {accessToken: token});
+  sendJsonResponse(res, '200', token);
 };
 
 
