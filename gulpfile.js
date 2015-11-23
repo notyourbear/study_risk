@@ -96,10 +96,13 @@ function bowerScripts() {
         'foundation-sites': {
           main: ['./dist/foundation.js']
         },
+        'leaflet': {
+          main: ['./dist/leaflet.js']
+        }
       }
     }))
     .pipe(concat('vendor.js'))
-   
+    .pipe(uglify())
     .pipe(gulp.dest(paths.dist + '/js'));
 }
 
@@ -109,7 +112,7 @@ function handlebarsScripts(){
 }
 
 function bowerStyles(){
-  return gulp.src([paths.bower + '/font-awesome/css/font-awesome.css', paths.bower + '/foundation-sites/dist/foundation.min.css']) //if bootstrap is used, add it in here as well
+  return gulp.src([paths.bower + '/font-awesome/css/font-awesome.css', paths.bower + '/foundation-sites/dist/foundation.min.css', paths.bower + '/leaflet/dist/leaflet.css'])
   .pipe(concat('vendor.css'))
   // .pipe(minifyCSS())
   .pipe(gulp.dest(paths.dist+ '/styles'));
