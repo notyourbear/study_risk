@@ -584,7 +584,7 @@ module.exports.southdakota = function(){
   };
 };
 
-module.exports.tenneseee = function(){
+module.exports.tennessee = function(){
   return {
     "type":"Feature",
     "properties":{

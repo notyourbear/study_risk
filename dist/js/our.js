@@ -1,7 +1,29 @@
+function inObj(key){
+  if(this.hasOwnPropety(key)){
+    return true;
+  }
+
+  return false;
+}
+function Gameboard(){
+  this.states = ['alabama', 'arizona', 'arkansas', 'california', 'colorado', 'connecticut', 'maryland', 'dc', 'florida', 'georgia', 'idaho', 'illinois', 'indiana', 'iowa', 'kansas', 'kentucky', 'louisiana', 'maine', 'maryland', 'massachusetts', 'michigan', 'minnesota', 'mississippi', 'missouri', 'montana', 'nebraska', 'nevada', 'newhampshire', 'newjersey', 'newmexico', 'newyork', 'northcarolina', 'northdakota', 'ohio', 'oklahoma', 'oregon', 'pennsylvania', 'rhodeisland', 'southcarolina', 'southdakota', 'tennessee', 'texas', 'utah', 'vermont', 'virginia', 'washington', 'westvirginia', 'wisconsin', 'wyoming'];
+  this.userStates = [];
+}
+
+Gameboard.prototype.createBoard = function(){
+  this.states.forEach(function(name){
+    
+  });
+};
+
+
 // console.log('test');
 
 
+var alabama = 'hey';
+
 $('document').ready(function(){
+
   $.get("/api/map/access", function(data){
     var states = data.map + '?access_token=' + data.token;
     var mapOptions = {
@@ -14,7 +36,7 @@ $('document').ready(function(){
     //init map and set location
     var map = createMap('map', mapOptions, [38.925, -98.481], 4);
     setTile.call(map, states, '<a href="http://mapbox.com">Mapbox</a>');
-    var alabama;
+    
 
     getStateData('alabama', function(data){
       alabama = createGeoJson(data, 'green');

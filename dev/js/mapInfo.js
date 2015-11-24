@@ -1,4 +1,7 @@
+var alabama = 'hey';
+
 $('document').ready(function(){
+
   $.get("/api/map/access", function(data){
     var states = data.map + '?access_token=' + data.token;
     var mapOptions = {
@@ -11,7 +14,7 @@ $('document').ready(function(){
     //init map and set location
     var map = createMap('map', mapOptions, [38.925, -98.481], 4);
     setTile.call(map, states, '<a href="http://mapbox.com">Mapbox</a>');
-    var alabama;
+    
 
     getStateData('alabama', function(data){
       alabama = createGeoJson(data, 'green');

@@ -11,7 +11,8 @@ var paths = {
   dist: './dist',
   server: './server',
   bower: './bower_components',
-  dev: './dev'
+  dev: './dev',
+  test: './test'
 };
 
 //minifies js, converts scss to css and minifies
@@ -23,7 +24,7 @@ gulp.task('build production', gulp.series(
 //won't minify the js for easier bug-fixing
 gulp.task('build', gulp.series(
   clean,
-  gulp.parallel(scripts, bowerScripts, handlebarsScripts, styles, bowerStyles, icons, images)
+  gulp.parallel(scripts, bowerScripts, handlebarsScripts, styles, bowerStyles, icons, images, testScripts, bowerTestScripts)
 ));
 
 // The default task (called when you run `gulp` from cli)
@@ -51,6 +52,11 @@ function scripts(){
   return gulp.src(paths.dev + '/js/**/*.js')
   .pipe(concat('our.js'))
   .pipe(gulp.dest(paths.dist + '/js'));
+}
+
+function testScripts(){
+  return gulp.src(paths.test + '**/*.js')
+  .pipe(gulp.dest(paths.dist + '/js/'));
 }
 
 function minifyScripts() {
@@ -99,12 +105,24 @@ function bowerScripts() {
         },
         'leaflet': {
           main: ['./dist/leaflet.js']
+        },
+        'chai': {
+          ignore: true
+        },
+        'mocha': {
+          ignore: true
         }
       }
     }))
     .pipe(concat('vendor.js'))
-    // .pipe(uglify())
+    .pipe(uglify())
     .pipe(gulp.dest(paths.dist + '/js'));
+}
+
+function bowerTestScripts(){
+  return gulp.src([paths.bower + '/mocha/mocha.js', paths.bower + '/chai/chai.js'])
+    .pipe(concat('vendor.js'))
+    .pipe(gulp.dest(paths.dist + '/js/test'));
 }
 
 function handlebarsScripts(){
@@ -127,6 +145,8 @@ function icons(){
 function watch(){
   var js = paths.dev + '/js/**/*';
   var scss = paths.dev + '/scss/**/*';
+  var tsts = paths.test + '**/*';
   gulp.watch(js, scripts);
   gulp.watch(scss, styles);
+  gulp.watch(tsts, testScripts);
 }
