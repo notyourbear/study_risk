@@ -21,10 +21,18 @@ function createGeoJson(data, col){
     },
     onEachFeature: function(feature, layr){
       layr.on('click', function(){
-        console.log(feature.properties.touching);
-      });
-    }
-  });
+        feature.properties.touching.forEach( function(state){
+            var name = state.toLowerCase();
+            console.log(name);
+          });
+          
+        });
+      }
+    });
 
   return layer;
+}
+
+function addToMap(layer){
+  this.addLayer(layer);
 }

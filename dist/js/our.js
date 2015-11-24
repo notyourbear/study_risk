@@ -15,16 +15,20 @@ function Gameboard(){
   this.userStates = {};
 }
 
-Gameboard.prototype.createBoard = function(layerColor){
+Gameboard.prototype.createBoard = function(map, layerColor){
   var that = this;
+  var layer;
   this.states.forEach(function(name){
     getStateData(name, function(data){
-      var layer = createGeoJson(data, layerColor);
+      
+      layer = createGeoJson(data, layerColor);
+      console.log(layer);
       that.layers[name] = layer;
+      map.addLayer(layer);
+      return that.layers;
+      
     });
   });
-
-  return that.layers;
 };
 
 
@@ -35,7 +39,6 @@ var alabama = 'hey';
 var game = new Gameboard();
 
 $('document').ready(function(){
-
   $.get("/api/map/access", function(data){
 
     var states = data.map + '?access_token=' + data.token;
@@ -49,13 +52,20 @@ $('document').ready(function(){
     //init map and set location
     var map = createMap('map', mapOptions, [38.925, -94.481], 4);
     setTile.call(map, states, '<a href="http://mapbox.com">Mapbox</a>');
+
+    game.createBoard(map, 'yellow');
     
 
 
     getStateData('alabama', function(data){
       alabama = createGeoJson(data, 'green');
-      map.addLayer(alabama);
+      console.log(alabama);
+      addToMap.call(map, alabama);
     });
+
+    
+
+    // map.addLayer();
 
     
 
@@ -89,10 +99,18 @@ function createGeoJson(data, col){
     },
     onEachFeature: function(feature, layr){
       layr.on('click', function(){
-        console.log(feature.properties.touching);
-      });
-    }
-  });
+        feature.properties.touching.forEach( function(state){
+            var name = state.toLowerCase();
+            console.log(name);
+          });
+          
+        });
+      }
+    });
 
   return layer;
+}
+
+function addToMap(layer){
+  this.addLayer(layer);
 }

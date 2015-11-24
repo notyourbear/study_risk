@@ -4,15 +4,19 @@ function Gameboard(){
   this.userStates = {};
 }
 
-Gameboard.prototype.createBoard = function(layerColor){
+Gameboard.prototype.createBoard = function(map, layerColor){
   var that = this;
+  var layer;
   this.states.forEach(function(name){
     getStateData(name, function(data){
-      var layer = createGeoJson(data, layerColor);
+      
+      layer = createGeoJson(data, layerColor);
+      console.log(layer);
       that.layers[name] = layer;
+      map.addLayer(layer);
+      return that.layers;
+      
     });
   });
-
-  return that.layers;
 };
 
