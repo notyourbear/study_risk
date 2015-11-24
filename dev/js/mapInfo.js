@@ -11,6 +11,15 @@ $('document').ready(function(){
     //init map and set location
     var map = createMap('map', mapOptions, [38.925, -98.481], 4);
     setTile.call(map, states, '<a href="http://mapbox.com">Mapbox</a>');
+    var alabama;
+
+    getStateData('alabama', function(data){
+      alabama = createGeoJson(data, 'green');
+      map.addLayer(alabama);
+    });
+
+
+
   });
 }); //end ready
 
@@ -27,6 +36,24 @@ function setTile(tile, attr) {
   this.addLayer(layer);
 }
 
+function getStateData(name, cb){
+  $.get("/api/map/states/" + name, function(data){
+    cb(data);
+  });
+}
 
+function createGeoJson(data, col){
+  var layer = L.geoJson(data, {
+    style: function(){
+      return {color: col};
+    },
+    onEachFeature: function(feature, layr){
+      layr.on('click', function(){
+        console.log(feature.properties.touching);
+      });
+    }
+  });
 
+  return layer;
+}
 
