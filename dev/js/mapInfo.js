@@ -45,7 +45,9 @@ function getStateData(name, cb){
 function createGeoJson(data, col){
   var layer = L.geoJson(data, {
     style: function(){
-      return {color: col};
+      return {
+        color: col
+      };
     },
     onEachFeature: function(feature, layr){
       layr.on('click', function(){

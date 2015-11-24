@@ -2,4 +2,10 @@
   height: 650px;
   border: 1px solid black;
   width: 700px;
+  background: white;
+}
+
+path {
+  stroke-opacity: 0 !important;
+  fill-opacity: 1 !important;
 }

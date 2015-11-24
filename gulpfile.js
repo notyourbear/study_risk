@@ -91,7 +91,8 @@ function bowerScripts() {
           ignore: true
         },
         'what-input': {
-          main: ['what-input.js']
+          // main: ['what-input.js']
+          ignore: true
         },
         'foundation-sites': {
           main: ['./dist/foundation.js']
