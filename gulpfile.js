@@ -111,6 +111,9 @@ function bowerScripts() {
         },
         'mocha': {
           ignore: true
+        },
+        'async': {
+          main: ['./dist/async.min.js']
         }
       }
     }))

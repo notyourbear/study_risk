@@ -1,5 +1,6 @@
 var alabama = 'hey';
 var game = new Gameboard();
+var b;
 
 $('document').ready(function(){
   $.get("/api/map/access", function(data){
@@ -15,8 +16,13 @@ $('document').ready(function(){
     //init map and set location
     var map = createMap('map', mapOptions, [38.925, -94.481], 4);
     setTile.call(map, states, '<a href="http://mapbox.com">Mapbox</a>');
+    b = map;
 
-    game.createBoard(map, 'yellow');
+    game.initGame(map);
+
+    // game.createBoard(map, 'transparent');
+    // console.log(game.layers, 'layers');
+    // game.createLayerGroup(map, 'layers', 'yellow');
 
     getStateData('alabama', function(data){
       alabama = createGeoJson(data, 'green');
@@ -24,14 +30,13 @@ $('document').ready(function(){
       addToMap.call(map, alabama);
     });
 
-    
-
-    // map.addLayer();
-
+    });
     
 
 
-  });
+    
+
+  
 }); //end ready
 
 
