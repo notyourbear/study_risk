@@ -66,10 +66,7 @@ Gameboard.prototype.initGame = function(map){
       callback(null, 'two');
     },
     function(callback){
-      getStateData('alabama', function(data){
-        var alabama = createGeoJson(data, 'green');
-        addToMap.call(map, alabama);
-      });
+      that.createState(map, 'oregon', 'green');
       callback(null, 'three');
     }
   ], function(err,results){

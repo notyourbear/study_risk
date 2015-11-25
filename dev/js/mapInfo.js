@@ -20,17 +20,7 @@ $('document').ready(function(){
 
     game.initGame(map);
 
-    // game.createBoard(map, 'transparent');
-    // console.log(game.layers, 'layers');
-    // game.createLayerGroup(map, 'layers', 'yellow');
-
-    getStateData('alabama', function(data){
-      alabama = createGeoJson(data, 'green');
-      console.log(alabama);
-      addToMap.call(map, alabama);
-    });
-
-    });
+  });
     
 
 
