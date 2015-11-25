@@ -31,6 +31,25 @@ Gameboard.prototype.createBoard = function(map, layerColor){
   });
 };
 
+Gameboard.prototype.clearBoard = function(map){
+  map.eachLayer(function(layer){
+    map.removeLayer(layer);
+  });
+};
+
+Gameboard.prototype.createLayer = function(map, state, layerColor){
+  var layer;
+  var stateName;
+  var that = this;
+
+  getStateData(state, function(data){
+    layer = createGeoJson(data, layerColor);
+
+    that.layers[state] = layer;
+    map.addLayer(layer);
+  });
+};
+
 
 // console.log('test');
 
@@ -54,8 +73,6 @@ $('document').ready(function(){
     setTile.call(map, states, '<a href="http://mapbox.com">Mapbox</a>');
 
     game.createBoard(map, 'yellow');
-    
-
 
     getStateData('alabama', function(data){
       alabama = createGeoJson(data, 'green');
@@ -114,3 +131,4 @@ function createGeoJson(data, col){
 function addToMap(layer){
   this.addLayer(layer);
 }
+

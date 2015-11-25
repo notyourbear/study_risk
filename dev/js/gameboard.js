@@ -20,3 +20,22 @@ Gameboard.prototype.createBoard = function(map, layerColor){
   });
 };
 
+Gameboard.prototype.clearBoard = function(map){
+  map.eachLayer(function(layer){
+    map.removeLayer(layer);
+  });
+};
+
+Gameboard.prototype.createLayer = function(map, state, layerColor){
+  var layer;
+  var stateName;
+  var that = this;
+
+  getStateData(state, function(data){
+    layer = createGeoJson(data, layerColor);
+
+    that.layers[state] = layer;
+    map.addLayer(layer);
+  });
+};
+

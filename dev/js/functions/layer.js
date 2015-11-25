@@ -36,3 +36,4 @@ function createGeoJson(data, col){
 function addToMap(layer){
   this.addLayer(layer);
 }
+

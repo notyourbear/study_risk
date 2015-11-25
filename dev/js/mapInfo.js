@@ -17,8 +17,6 @@ $('document').ready(function(){
     setTile.call(map, states, '<a href="http://mapbox.com">Mapbox</a>');
 
     game.createBoard(map, 'yellow');
-    
-
 
     getStateData('alabama', function(data){
       alabama = createGeoJson(data, 'green');
