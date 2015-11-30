@@ -12,6 +12,11 @@ module.exports.token = function(req, res, next){
   sendJsonResponse(res, '200', token);
 };
 
+module.exports.allStates = function(req, res, next){
+  var state = states.all();
+  sendJsonResponse(res, '200', state);
+};
+
 module.exports.state = function(req, res, next){
   var stateName = req.params.name;
 

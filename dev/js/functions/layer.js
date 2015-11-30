@@ -12,28 +12,39 @@ function getStateData(name, cb){
   });
 }
 
-function createGeoJson(data, col){
+function getStatesData(cb){
+  $.get("/api/map/states", function(data){
+    cb(data);
+  });
+}
+
+function createGeoJson(data, stateColor){
   var layer = L.geoJson(data, {
     style: function(){
       return {
-        color: col
+        color: stateColor
       };
-    },
-    onEachFeature: function(feature, layr){
-      layr.on('click', function(){
-        feature.properties.touching.forEach( function(state){
-            var name = state.toLowerCase();
-            console.log(name);
-          });
-          
-        });
-      }
-    });
-
+    }
+  });
   return layer;
 }
 
 function addToMap(layer){
   this.addLayer(layer);
 }
+
+function addClick(layer, fn){
+  layer.on('click', fn);
+}
+
+function consle(data){
+  return console.log(data);
+}
+
+function touching(state, cb){
+  getStateData(state, function(data){
+    cb(data.properties.touching);
+  });
+}
+//now create clickedy click click
 
