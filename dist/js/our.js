@@ -52,7 +52,6 @@ Gameboard.prototype.clearBoard = function(map){
 
 Gameboard.prototype.createState = function(map, state, layerColor){
   var layer = this.layers[state];
-  console.log(layer, state, 'here');
   var that = this;
   var group = {};
 
@@ -61,13 +60,47 @@ Gameboard.prototype.createState = function(map, state, layerColor){
   map.addLayer(layer);
 };
 
-Gameboard.prototype.createLayerGroup = function(map, group, groupColor, clickFn){
-
+Gameboard.prototype.createLayerGroup = function(map, group, groupColor, cb){
+  console.log(group, this[group]);
   for(var state in this[group]){
     if (this[group].hasOwnProperty(state)){
-      this.createState(map, state, groupColor);
+      console.log(state, 'state');
+      var lowercaseState = state.toLowerCase();
+      console.log(lowercaseState, 'lower');
+      this.createState(map, lowercaseState, groupColor);
     }
   }
+  cb();
+};
+
+Gameboard.prototype.addToGroup = function(stateName, groupName, cb){
+  //adds to group name
+  this[groupName][stateName] = stateName;
+  cb();
+};
+
+Gameboard.prototype.createBorderingGroup = function(cb){
+  var that = this;
+  var arr = [];
+  this.bordering = {};
+
+  //run through states in user group
+  for(var state in this.userStates){
+    if(this.userStates.hasOwnProperty(state)){
+        arr = this.stateProperties[state].properties.touching;
+
+        arr.forEach(function(borderingState){
+          that.addToGroup(borderingState, 'bordering', function(){
+            //double check that borderingState is not in user owned states
+            if(that.userStates.hasOwnProperty(borderingState)){
+              //if so, delete it from the bordering list
+              delete that.bordering[borderingState];
+            }
+          });
+        });
+    }
+  }
+  cb();
 };
 
 Gameboard.prototype.initGame = function(map){
@@ -75,13 +108,33 @@ Gameboard.prototype.initGame = function(map){
   async.series([
     function(callback){
       that.createBoard(map, 'purple', function(){
-        callback(null, 'one');
+        console.log('done! 1');
+        callback(null, {'one': 'map created'});
+      });
+    },
+    function(callback){
+      that.addToGroup('oregon', 'userStates', function(){
+        console.log('done! 2');
+        callback(null, {'two': 'state added to user group'});
+      });
+    },
+    function(callback){
+      that.createBorderingGroup(function(){
+        console.log('done! 3');
+        callback(null, {'three': 'created touching list'});
       });
     },
     function(callback){
       that.createState(map, 'oregon', 'green');
-      callback(null, 'three');
-    }
+      console.log('done! 4');
+      callback(null, {'state': 'state added to map'});
+    },
+    function(callback){
+      that.createLayerGroup(map, 'bordering', 'orange', function(){
+        console.log('done! 5');
+        callback(null, {'five': 'added touching list to map'});
+      });
+    },
   ], function(err,results){
     if(err){
       console.log(err);
