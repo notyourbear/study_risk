@@ -45,7 +45,7 @@ Gameboard.prototype.createState = function(map, state, layerColor, clickFn){
   var that = this;
 
   layer.setStyle({color: layerColor});
-
+  layer.off('click');
   layer.on('click', function(){
     return clickFn(state, that, 'userStates', map);
   });
@@ -117,17 +117,17 @@ Gameboard.prototype.initGame = function(map){
       });
     },
     function(callback){
-      that.createLayerGroup(map, 'userStates', 'green', consoleState, function(){
-        console.log('done! 4');
-        callback(null, {'four': 'added user list to map'});
-      });
-    },
-    function(callback){
       that.createLayerGroup(map, 'bordering', 'orange', addToUserStates, function(){
         console.log('done! 5');
         callback(null, {'five': 'added touching list to map'});
       });
     },
+    function(callback){
+      that.createLayerGroup(map, 'userStates', 'green', consoleState, function(){
+        console.log('done! 4');
+        callback(null, {'four': 'added user list to map'});
+      });
+    }
   ], function(err,results){
     if(err){
       console.log(err);
@@ -154,17 +154,17 @@ Gameboard.prototype.newTurn = function(map){
       });
     },
     function(callback){
+      that.createLayerGroup(map, 'bordering', 'orange', addToUserStates, function(){
+        console.log('done! 5');
+        callback(null, {'five': 'added touching list to map'});
+      });
+    },
+    function(callback){
       that.createLayerGroup(map, 'userStates', 'green', consoleState, function(){
         console.log('done! 4');
         callback(null, {'four': 'added user list to map'});
       });
     },
-    function(callback){
-      that.createLayerGroup(map, 'bordering', 'orange', addToUserStates, function(){
-        console.log('done! 5');
-        callback(null, {'five': 'added touching list to map'});
-      });
-    }
     ], function(err,results){
     if(err){
       console.log(err);
