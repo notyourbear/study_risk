@@ -33,18 +33,17 @@ function addToMap(layer){
   this.addLayer(layer);
 }
 
-function addClick(layer, fn){
-  layer.on('click', fn);
+function consoleState(state){
+  return console.log(state);
 }
 
-function consle(data){
-  return console.log(data);
-}
-
-function touching(state, cb){
-  getStateData(state, function(data){
-    cb(data.properties.touching);
+function addToUserStates(state, game, group){
+  game['addToGroup'](state, group, function(){
+    console.log(game[group]);
+    return state;
   });
 }
+
+
 //now create clickedy click click
 

@@ -39,21 +39,24 @@ Gameboard.prototype.clearBoard = function(map){
   });
 };
 
-Gameboard.prototype.createState = function(map, state, layerColor){
+Gameboard.prototype.createState = function(map, state, layerColor, clickFn){
   var layer = this.layers[state];
   var that = this;
-  var group = {};
 
   layer.setStyle({color: layerColor});
+
+  layer.on('click', function(){
+    return clickFn(state, that, 'userStates');
+  });
   
   map.addLayer(layer);
 };
 
-Gameboard.prototype.createLayerGroup = function(map, group, groupColor, cb){
+Gameboard.prototype.createLayerGroup = function(map, group, groupColor, clickFn, cb){
   console.log(group, this[group]);
   for(var state in this[group]){
     if (this[group].hasOwnProperty(state)){
-      this.createState(map, state, groupColor);
+      this.createState(map, state, groupColor, clickFn);
     }
   }
   cb();
@@ -113,13 +116,13 @@ Gameboard.prototype.initGame = function(map){
       });
     },
     function(callback){
-      that.createLayerGroup(map, 'userStates', 'green', function(){
+      that.createLayerGroup(map, 'userStates', 'green', consoleState, function(){
         console.log('done! 4');
         callback(null, {'four': 'added user list to map'});
       });
     },
     function(callback){
-      that.createLayerGroup(map, 'bordering', 'orange', function(){
+      that.createLayerGroup(map, 'bordering', 'orange', addToUserStates, function(){
         console.log('done! 5');
         callback(null, {'five': 'added touching list to map'});
       });

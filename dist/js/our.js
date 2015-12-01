@@ -50,21 +50,24 @@ Gameboard.prototype.clearBoard = function(map){
   });
 };
 
-Gameboard.prototype.createState = function(map, state, layerColor){
+Gameboard.prototype.createState = function(map, state, layerColor, clickFn){
   var layer = this.layers[state];
   var that = this;
-  var group = {};
 
   layer.setStyle({color: layerColor});
+
+  layer.on('click', function(){
+    return clickFn(state, that, 'userStates');
+  });
   
   map.addLayer(layer);
 };
 
-Gameboard.prototype.createLayerGroup = function(map, group, groupColor, cb){
+Gameboard.prototype.createLayerGroup = function(map, group, groupColor, clickFn, cb){
   console.log(group, this[group]);
   for(var state in this[group]){
     if (this[group].hasOwnProperty(state)){
-      this.createState(map, state, groupColor);
+      this.createState(map, state, groupColor, clickFn);
     }
   }
   cb();
@@ -124,13 +127,13 @@ Gameboard.prototype.initGame = function(map){
       });
     },
     function(callback){
-      that.createLayerGroup(map, 'userStates', 'green', function(){
+      that.createLayerGroup(map, 'userStates', 'green', consoleState, function(){
         console.log('done! 4');
         callback(null, {'four': 'added user list to map'});
       });
     },
     function(callback){
-      that.createLayerGroup(map, 'bordering', 'orange', function(){
+      that.createLayerGroup(map, 'bordering', 'orange', addToUserStates, function(){
         console.log('done! 5');
         callback(null, {'five': 'added touching list to map'});
       });
@@ -217,18 +220,17 @@ function addToMap(layer){
   this.addLayer(layer);
 }
 
-function addClick(layer, fn){
-  layer.on('click', fn);
+function consoleState(state){
+  return console.log(state);
 }
 
-function consle(data){
-  return console.log(data);
-}
-
-function touching(state, cb){
-  getStateData(state, function(data){
-    cb(data.properties.touching);
+function addToUserStates(state, game, group){
+  game['addToGroup'](state, group, function(){
+    console.log(game[group]);
+    return state;
   });
 }
+
+
 //now create clickedy click click
 
