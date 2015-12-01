@@ -64,10 +64,7 @@ Gameboard.prototype.createLayerGroup = function(map, group, groupColor, cb){
   console.log(group, this[group]);
   for(var state in this[group]){
     if (this[group].hasOwnProperty(state)){
-      console.log(state, 'state');
-      var lowercaseState = state.toLowerCase();
-      console.log(lowercaseState, 'lower');
-      this.createState(map, lowercaseState, groupColor);
+      this.createState(map, state, groupColor);
     }
   }
   cb();
@@ -91,7 +88,9 @@ Gameboard.prototype.createBorderingGroup = function(cb){
 
         arr.forEach(function(borderingState){
           that.addToGroup(borderingState, 'bordering', function(){
+          
             //double check that borderingState is not in user owned states
+  
             if(that.userStates.hasOwnProperty(borderingState)){
               //if so, delete it from the bordering list
               delete that.bordering[borderingState];
@@ -107,7 +106,7 @@ Gameboard.prototype.initGame = function(map){
   var that = this;
   async.series([
     function(callback){
-      that.createBoard(map, 'purple', function(){
+      that.createBoard(map, 'transparent', function(){
         console.log('done! 1');
         callback(null, {'one': 'map created'});
       });
@@ -125,9 +124,10 @@ Gameboard.prototype.initGame = function(map){
       });
     },
     function(callback){
-      that.createState(map, 'oregon', 'green');
-      console.log('done! 4');
-      callback(null, {'state': 'state added to map'});
+      that.createLayerGroup(map, 'userStates', 'green', function(){
+        console.log('done! 4');
+        callback(null, {'four': 'added user list to map'});
+      });
     },
     function(callback){
       that.createLayerGroup(map, 'bordering', 'orange', function(){
