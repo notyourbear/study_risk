@@ -37,10 +37,10 @@ function consoleState(state){
   return console.log(state);
 }
 
-function addToUserStates(state, game, group){
+function addToUserStates(state, game, group, map){
   game['addToGroup'](state, group, function(){
     console.log(game[group]);
-    return state;
+    game['newTurn'](map);
   });
 }
 

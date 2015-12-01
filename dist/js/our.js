@@ -44,10 +44,11 @@ Gameboard.prototype.createBoard = function(map, layerColor, cb){
   });
 };
 
-Gameboard.prototype.clearBoard = function(map){
+Gameboard.prototype.clearBoard = function(map, cb){
   map.eachLayer(function(layer){
     map.removeLayer(layer);
   });
+  cb();
 };
 
 Gameboard.prototype.createState = function(map, state, layerColor, clickFn){
@@ -57,7 +58,7 @@ Gameboard.prototype.createState = function(map, state, layerColor, clickFn){
   layer.setStyle({color: layerColor});
 
   layer.on('click', function(){
-    return clickFn(state, that, 'userStates');
+    return clickFn(state, that, 'userStates', map);
   });
   
   map.addLayer(layer);
@@ -147,6 +148,43 @@ Gameboard.prototype.initGame = function(map){
   });
 };
 
+Gameboard.prototype.newTurn = function(map){
+  console.log('new turn!');
+  var that = this;
+  async.series([
+    function(callback){
+      that.clearBoard(map, function(){
+        console.log('done! clearboard');
+        callback(null, {'one': 'clearedBoard'});
+      });
+    },
+    function(callback){
+      that.createBorderingGroup(function(){
+        console.log('done! border group created');
+        callback(null, {'two': 'border group created'});
+      });
+    },
+    function(callback){
+      that.createLayerGroup(map, 'userStates', 'green', consoleState, function(){
+        console.log('done! 4');
+        callback(null, {'four': 'added user list to map'});
+      });
+    },
+    function(callback){
+      that.createLayerGroup(map, 'bordering', 'orange', addToUserStates, function(){
+        console.log('done! 5');
+        callback(null, {'five': 'added touching list to map'});
+      });
+    }
+    ], function(err,results){
+    if(err){
+      console.log(err);
+    } else {
+      console.log('done!', results);
+    }
+  });
+};
+
 
 // console.log('test');
 
@@ -224,10 +262,10 @@ function consoleState(state){
   return console.log(state);
 }
 
-function addToUserStates(state, game, group){
+function addToUserStates(state, game, group, map){
   game['addToGroup'](state, group, function(){
     console.log(game[group]);
-    return state;
+    game['newTurn'](map);
   });
 }
 
