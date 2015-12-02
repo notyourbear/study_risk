@@ -34,7 +34,7 @@ function addToMap(layer){
 }
 
 function consoleState(state){
-  return console.log(state);
+  return console.log('HEY', state);
 }
 
 function addToUserStates(state, game, group, map){

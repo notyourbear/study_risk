@@ -50,7 +50,47 @@ Gameboard.prototype.createState = function(map, state, layerColor, clickFn){
 
   layer.off('click');
   layer.on('click', function(){
-    return clickFn(state, that, 'userStates', map);
+    //check if clickFn is what i want it to be (is state defined?)
+    // if so, async: 
+    // 1. place question
+    // 2. validate question
+    //    2b. on validate callback, go do what i want which mayyyy be return clickFn. 
+    console.log(clickFn);
+    if(clickFn === undefined){
+      console.log('MEOW');
+    } else {
+
+      async.series([
+        function(callback){
+          clear('questionField');
+          callback(null, {'one': 'placedQuestion'});
+        },
+        function(callback){
+          placeQuestion('questionField', context, function(){
+            callback(null, {'one': 'placedQuestion'});
+          });
+        },
+        function(callback){
+          validateQuestion('answers', context, function(){
+            console.log('correct!');
+            return clickFn(state, that, 'userStates', map);
+          }, function(){
+            console.log('false!');
+            return that.newTurn(map);
+          });
+          
+          callback(null, {'two': 'border group created'});
+        }
+        ], function(err,results){
+        if(err){
+          console.log(err);
+        } else {
+          console.log('done!', results);
+        }
+      });
+
+    }
+
   });
   
   map.addLayer(layer);
@@ -126,7 +166,7 @@ Gameboard.prototype.initGame = function(map){
       });
     },
     function(callback){
-      that.createLayerGroup(map, 'userStates', 'green', consoleState, function(){
+      that.createLayerGroup(map, 'userStates', 'green', undefined, function(){
         console.log('done! 4');
         callback(null, {'four': 'added user list to map'});
       });
@@ -146,6 +186,7 @@ Gameboard.prototype.newTurn = function(map){
   async.series([
     function(callback){
       that.clearBoard(map, function(){
+        clear('questionField');
         console.log('done! clearboard');
         callback(null, {'one': 'clearedBoard'});
       });
@@ -163,7 +204,7 @@ Gameboard.prototype.newTurn = function(map){
       });
     },
     function(callback){
-      that.createLayerGroup(map, 'userStates', 'green', consoleState, function(){
+      that.createLayerGroup(map, 'userStates', 'green', undefined, function(){
         console.log('done! 4');
         callback(null, {'four': 'added user list to map'});
       });
@@ -217,10 +258,12 @@ $('document').ready(function(){
 
 var context = {
     question: "It's tricky to rock a rhyme",
+    correctAnswer: "for doggies",
     answers: [
       "that's right on time",
       "no it's not",
-      "baka!"
+      "baka!",
+      "for doggies"
     ]
   };
 
@@ -228,24 +271,27 @@ function clear(id){
   $('#'+id).html('');
 }
 
-function placeQuestion(id, context){
+function placeQuestion(id, context, cb){
   var source = $('#question-template').html();
   var template = Handlebars.compile(source);
 
   var html = template(context);
 
   $('#'+id).append(html);
+
+  cb();
 }
 
-function validateQuestion(answers){
+function validateQuestion(answers, context, successCb, failCb){
   $('.'+ answers).click(function(){
-    if ($(this).is(':checked'))
-    {
-      console.log($(this).val());
+    var $this = $(this);
+    if($this.is(':checked') && $this.val() === context.correctAnswer) {
+      successCb();
+    } else {
+      failCb();
     }
   });
 }
-//start by turning this into a function
 
 function setTile(tile, attr) {
   var layer = L.tileLayer(tile, {
@@ -283,7 +329,7 @@ function addToMap(layer){
 }
 
 function consoleState(state){
-  return console.log(state);
+  return console.log('HEY', state);
 }
 
 function addToUserStates(state, game, group, map){

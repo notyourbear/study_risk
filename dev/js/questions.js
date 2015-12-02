@@ -1,9 +1,11 @@
 var context = {
     question: "It's tricky to rock a rhyme",
+    correctAnswer: "for doggies",
     answers: [
       "that's right on time",
       "no it's not",
-      "baka!"
+      "baka!",
+      "for doggies"
     ]
   };
 
@@ -11,21 +13,24 @@ function clear(id){
   $('#'+id).html('');
 }
 
-function placeQuestion(id, context){
+function placeQuestion(id, context, cb){
   var source = $('#question-template').html();
   var template = Handlebars.compile(source);
 
   var html = template(context);
 
   $('#'+id).append(html);
+
+  cb();
 }
 
-function validateQuestion(answers){
+function validateQuestion(answers, context, successCb, failCb){
   $('.'+ answers).click(function(){
-    if ($(this).is(':checked'))
-    {
-      console.log($(this).val());
+    var $this = $(this);
+    if($this.is(':checked') && $this.val() === context.correctAnswer) {
+      successCb();
+    } else {
+      failCb();
     }
   });
 }
-//start by turning this into a function
