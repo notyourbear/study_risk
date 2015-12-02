@@ -1,14 +1,3 @@
-function inObj(key){
-  if(this.hasOwnPropety(key)){
-    return true;
-  }
-
-  return false;
-}
-
-function createMap(id, options, coords, scale){
-  return L.map(id, options).setView(coords, scale);
-}
 function Gameboard(){
   this.states = ['alabama', 'arizona', 'arkansas', 'california', 'colorado', 'connecticut', 'maryland', 'dc', 'florida', 'georgia', 'idaho', 'illinois', 'indiana', 'iowa', 'kansas', 'kentucky', 'louisiana', 'maine', 'maryland', 'massachusetts', 'michigan', 'minnesota', 'mississippi', 'missouri', 'montana', 'nebraska', 'nevada', 'newhampshire', 'newjersey', 'newmexico', 'newyork', 'northcarolina', 'northdakota', 'ohio', 'oklahoma', 'oregon', 'pennsylvania', 'rhodeisland', 'southcarolina', 'southdakota', 'tennessee', 'texas', 'utah', 'vermont', 'virginia', 'washington', 'westvirginia', 'wisconsin', 'wyoming'];
   this.layers = {};
@@ -223,6 +212,33 @@ $('document').ready(function(){
 
 
 
+$('document').ready(function(){
+  var source = $("#question-template").html();
+  var template = Handlebars.compile(source);
+
+  var context = {
+    question: "It's tricky to rock a rhyme",
+    answers: [
+      "that's right on time",
+      "no it's not",
+      "baka!"
+    ]
+  };
+
+  var html = template(context);
+
+  $('#questionField').append(html);
+
+  $('.answers').click(function(){
+    if ($(this).is(':checked'))
+    {
+      console.log($(this).val());
+    }
+  });
+
+
+});
+
 function setTile(tile, attr) {
   var layer = L.tileLayer(tile, {
     attribution: attr
@@ -272,3 +288,7 @@ function addToUserStates(state, game, group, map){
 
 //now create clickedy click click
 
+
+function createMap(id, options, coords, scale){
+  return L.map(id, options).setView(coords, scale);
+}

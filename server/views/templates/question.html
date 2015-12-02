@@ -1,0 +1,16 @@
+<script id="question-template" type="text/x-handlebars-template">
+  <form id="question" action="">
+  <div class="row">
+    <div class="large-12 columns">
+      <label>
+        \{{question}}
+      </label>
+    </div>
+    \{{#each answers}}
+    <div class="large-12 columns">
+      <input type="radio" name="answer" value="\{{this}}" id="\{{this}}" class="answers"><label for="\{{this}}">\{{this}}</label>
+      </div>
+    \{{/each}}
+  </form>
+</script>
+
