@@ -50,11 +50,7 @@ Gameboard.prototype.createState = function(map, state, layerColor, clickFn){
 
   layer.off('click');
   layer.on('click', function(){
-    //check if clickFn is what i want it to be (is state defined?)
-    // if so, async: 
-    // 1. place question
-    // 2. validate question
-    //    2b. on validate callback, go do what i want which mayyyy be return clickFn. 
+    
     console.log(clickFn);
     if(clickFn === undefined){
       console.log('MEOW');

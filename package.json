@@ -13,6 +13,8 @@
     "hbs": "~2.9.0",
     "hbs-utils": "0.0.3",
     "morgan": "~1.5.3",
+    "mysql": "^2.9.0",
+    "sequelize": "^3.14.2",
     "serve-favicon": "~2.2.1"
   },
   "devDependencies": {
