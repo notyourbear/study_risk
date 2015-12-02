@@ -1,8 +1,4 @@
-$('document').ready(function(){
-  var source = $("#question-template").html();
-  var template = Handlebars.compile(source);
-
-  var context = {
+var context = {
     question: "It's tricky to rock a rhyme",
     answers: [
       "that's right on time",
@@ -11,16 +7,25 @@ $('document').ready(function(){
     ]
   };
 
+function clear(id){
+  $('#'+id).html('');
+}
+
+function placeQuestion(id, context){
+  var source = $('#question-template').html();
+  var template = Handlebars.compile(source);
+
   var html = template(context);
 
-  $('#questionField').append(html);
+  $('#'+id).append(html);
+}
 
-  $('.answers').click(function(){
+function validateQuestion(answers){
+  $('.'+ answers).click(function(){
     if ($(this).is(':checked'))
     {
       console.log($(this).val());
     }
   });
-
-
-});
+}
+//start by turning this into a function
