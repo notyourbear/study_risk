@@ -59,36 +59,36 @@ Gameboard.prototype.createState = function(map, state, layerColor, clickFn){
     if(clickFn === undefined){
       console.log('MEOW');
     } else {
-
-      async.series([
-        function(callback){
-          clear('questionField');
-          callback(null, {'one': 'placedQuestion'});
-        },
-        function(callback){
-          placeQuestion('questionField', context, function(){
+      getQuestion(function(question){
+        async.series([
+          function(callback){
+            clear('questionField');
             callback(null, {'one': 'placedQuestion'});
-          });
-        },
-        function(callback){
-          validateQuestion('answers', context, function(){
-            console.log('correct!');
-            return clickFn(state, that, 'userStates', map);
-          }, function(){
-            console.log('false!');
-            return that.newTurn(map);
-          });
-          
-          callback(null, {'two': 'border group created'});
-        }
-        ], function(err,results){
-        if(err){
-          console.log(err);
-        } else {
-          console.log('done!', results);
-        }
+          },
+          function(callback){
+            placeQuestion('questionField', question, function(){
+              callback(null, {'one': 'placedQuestion'});
+            });
+          },
+          function(callback){
+            validateQuestion('answers', question, function(){
+              console.log('correct!');
+              return clickFn(state, that, 'userStates', map);
+            }, function(){
+              console.log('false!');
+              return that.newTurn(map);
+            });
+            
+            callback(null, {'two': 'border group created'});
+          }
+          ], function(err,results){
+          if(err){
+            console.log(err);
+          } else {
+            console.log('done!', results);
+          }
+        });
       });
-
     }
 
   });
@@ -256,19 +256,14 @@ $('document').ready(function(){
 
 
 
-var context = {
-    question: "It's tricky to rock a rhyme",
-    correctAnswer: "for doggies",
-    answers: [
-      "that's right on time",
-      "no it's not",
-      "baka!",
-      "for doggies"
-    ]
-  };
-
 function clear(id){
   $('#'+id).html('');
+}
+
+function getQuestion(cb){
+  $.get("/api/questions/question", function(data){
+    cb(data);
+  });
 }
 
 function placeQuestion(id, context, cb){
@@ -338,9 +333,6 @@ function addToUserStates(state, game, group, map){
     game['newTurn'](map);
   });
 }
-
-
-//now create clickedy click click
 
 
 function createMap(id, options, coords, scale){

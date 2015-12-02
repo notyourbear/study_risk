@@ -1,16 +1,11 @@
-var context = {
-    question: "It's tricky to rock a rhyme",
-    correctAnswer: "for doggies",
-    answers: [
-      "that's right on time",
-      "no it's not",
-      "baka!",
-      "for doggies"
-    ]
-  };
-
 function clear(id){
   $('#'+id).html('');
+}
+
+function getQuestion(cb){
+  $.get("/api/questions/question", function(data){
+    cb(data);
+  });
 }
 
 function placeQuestion(id, context, cb){

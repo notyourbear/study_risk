@@ -59,36 +59,36 @@ Gameboard.prototype.createState = function(map, state, layerColor, clickFn){
     if(clickFn === undefined){
       console.log('MEOW');
     } else {
-
-      async.series([
-        function(callback){
-          clear('questionField');
-          callback(null, {'one': 'placedQuestion'});
-        },
-        function(callback){
-          placeQuestion('questionField', context, function(){
+      getQuestion(function(question){
+        async.series([
+          function(callback){
+            clear('questionField');
             callback(null, {'one': 'placedQuestion'});
-          });
-        },
-        function(callback){
-          validateQuestion('answers', context, function(){
-            console.log('correct!');
-            return clickFn(state, that, 'userStates', map);
-          }, function(){
-            console.log('false!');
-            return that.newTurn(map);
-          });
-          
-          callback(null, {'two': 'border group created'});
-        }
-        ], function(err,results){
-        if(err){
-          console.log(err);
-        } else {
-          console.log('done!', results);
-        }
+          },
+          function(callback){
+            placeQuestion('questionField', question, function(){
+              callback(null, {'one': 'placedQuestion'});
+            });
+          },
+          function(callback){
+            validateQuestion('answers', question, function(){
+              console.log('correct!');
+              return clickFn(state, that, 'userStates', map);
+            }, function(){
+              console.log('false!');
+              return that.newTurn(map);
+            });
+            
+            callback(null, {'two': 'border group created'});
+          }
+          ], function(err,results){
+          if(err){
+            console.log(err);
+          } else {
+            console.log('done!', results);
+          }
+        });
       });
-
     }
 
   });

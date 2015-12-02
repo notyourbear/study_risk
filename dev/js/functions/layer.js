@@ -44,6 +44,3 @@ function addToUserStates(state, game, group, map){
   });
 }
 
-
-//now create clickedy click click
-
