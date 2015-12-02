@@ -33,6 +33,8 @@ npm-debug.log
 #sass-cache
 .sass-cache
 
+#config
+
 readme.md
 
 secrets.js
