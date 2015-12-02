@@ -13,7 +13,19 @@ var users = require('./routes/users');
 var hbs = require('hbs');
 var hbsutils = require('hbs-utils')(hbs);
 
+var Sequelize = require('sequelize');
 var app = express();
+
+var sequelize = new Sequelize('testing', 'root', null, {
+  host: 'localhost',
+  dialect: 'mysql',
+
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 10000
+  }
+});
 
 // view engine setup
 
