@@ -1,1 +1,1 @@
-#map,#questionField{border:1px solid #000;display:inline-block}#map{height:650px;width:725px;background:#fff}path{stroke-opacity:1!important;fill-opacity:1!important}#questionField{width:300px;height:300px;vertical-align:top}
+#map,#questionField{border:1px solid #000;display:inline-block}#map{height:650px;width:725px;background:#fff}path{stroke-opacity:1;fill-opacity:.8;stroke-width:1px}#questionField{width:300px;height:300px;vertical-align:top}

@@ -43,8 +43,11 @@ Gameboard.prototype.clearBoard = function(map, cb){
 Gameboard.prototype.createState = function(map, state, layerColor, clickFn){
   var layer = this.layers[state];
   var that = this;
+  
+  layer.setStyle({
+    color: layerColor,
+  });
 
-  layer.setStyle({color: layerColor});
   layer.off('click');
   layer.on('click', function(){
     return clickFn(state, that, 'userStates', map);
