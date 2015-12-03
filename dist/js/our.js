@@ -334,3 +334,19 @@ function addToUserStates(state, game, group, map){
 function createMap(id, options, coords, scale){
   return L.map(id, options).setView(coords, scale);
 }
+$('document').ready(function(){
+
+  $('#signupForm').submit(function(e){
+    e.preventDefault();
+    var $this = $(this);
+    var newUser = {
+      email: $this.find('input:text').val(),
+      password: $this.find('input:password').val()
+    };
+
+    $.post("/api/users", newUser, function(result) {
+      console.log(result);
+    });
+  });
+
+});

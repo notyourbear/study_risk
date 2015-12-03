@@ -6,10 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
+var users = require('./routes/users');
 var apiMapRoutes = require('./api/routes/map');
 var apiQuestionRoutes = require('./api/routes/questions');
 var apiUserRoutes = require('./api/routes/user');
-var users = require('./routes/users');
+
 
 var hbs = require('hbs');
 var hbsutils = require('hbs-utils')(hbs);

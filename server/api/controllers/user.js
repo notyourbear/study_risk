@@ -16,3 +16,17 @@ module.exports.all = function(req, res, next){
       }
     });
 };
+
+module.exports.create = function(req, res, next){
+  var user = {
+    email: req.body.email,
+    password: req.body.password
+  };
+
+  db.User.createSecure(user.email, user.password).
+  then(function(createdUser){
+    sendJsonResponse(res, 200, createdUser);
+  });
+
+
+};
