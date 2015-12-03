@@ -34,7 +34,7 @@ module.exports.arkansas = function(){
     "properties":{
       "name":"arkansas",
       "id":3,
-      "touching":["mississippi", "oklahoma", "missouri", "tennessee", "texas"]
+      "touching":["mississippi", "oklahoma", "missouri", "tennessee", "texas", "louisiana"]
     },
     "geometry":{
       "type":"Polygon",
@@ -740,7 +740,7 @@ module.exports.all = function(){
       "properties":{
         "name":"arkansas",
         "id":3,
-        "touching":["mississippi", "oklahoma", "missouri", "tennessee", "texas"]
+        "touching":["mississippi", "oklahoma", "missouri", "tennessee", "texas", "louisiana"]
       },
       "geometry":{
         "type":"Polygon",

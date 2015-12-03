@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var apiMapRoutes = require('./api/routes/map');
 var apiQuestionRoutes = require('./api/routes/questions');
+var apiUserRoutes = require('./api/routes/user');
 var users = require('./routes/users');
 
 var hbs = require('hbs');
@@ -42,6 +43,7 @@ app.use(express.static(path.join(__dirname, '../', 'dist')));
 app.use('/', routes);
 app.use('/api/map', apiMapRoutes);
 app.use('/api/questions', apiQuestionRoutes);
+app.use('/api/users', apiUserRoutes);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
