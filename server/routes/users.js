@@ -8,5 +8,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/signup', userCtrl.signup);
+router.get('/login', userCtrl.login);
+
+router.get('/profile', userCtrl.profile);
 
 module.exports = router;

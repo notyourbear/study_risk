@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -11,6 +12,7 @@ var apiMapRoutes = require('./api/routes/map');
 var apiQuestionRoutes = require('./api/routes/questions');
 var apiUserRoutes = require('./api/routes/user');
 
+var db = require('./api/models');
 
 var hbs = require('hbs');
 var hbsutils = require('hbs-utils')(hbs);
@@ -40,6 +42,41 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../', 'dist')));
+
+app.use(session({
+  secret: 'thisisasupersecretkey',
+  cookie: { maxAge: 60000 },
+  resave: false,
+  saveUninitialized: false
+}));
+
+//login middleware 
+app.use("/", function (req, res, next) {
+
+  req.login = function (user) {
+    req.session.userId = user.id;
+  };
+
+  req.currentUser = function (cb) {
+    return db.User.
+      find({
+        where: {
+          id: req.session.userId
+       }
+      }).
+      then(function (user) {
+        req.session.user = user;
+        cb(user);
+      });
+  };
+
+  req.logout = function () {
+    req.session.userId = null;
+    req.session.user = null;
+  };
+
+  next();
+});
 
 app.use('/', routes);
 app.use('/api/map', apiMapRoutes);

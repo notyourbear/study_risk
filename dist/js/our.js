@@ -334,6 +334,35 @@ function addToUserStates(state, game, group, map){
 function createMap(id, options, coords, scale){
   return L.map(id, options).setView(coords, scale);
 }
+function redirect(url){
+  window.location.href = url;
+}
+$('document').ready(function(){
+
+  $('#loginForm').submit(function(e){
+    e.preventDefault();
+    var $this = $(this);
+    var user = {
+      email: $this.find('input:text').val(),
+      password: $this.find('input:password').val()
+    };
+
+    $.post("/api/users/login", user, function(user) {
+      console.log(user);
+      //redirect user
+      redirect('/users/profile');
+    });
+  });
+
+  $('#logout').click(function(){
+    $.get("/api/users/logout", function(result){
+        console.log(result);
+        //redirect user
+        redirect('/users/login');
+    });
+  });
+
+});
 $('document').ready(function(){
 
   $('#signupForm').submit(function(e){

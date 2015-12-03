@@ -28,5 +28,30 @@ module.exports.create = function(req, res, next){
     sendJsonResponse(res, 200, createdUser);
   });
 
+};
 
+module.exports.login = function(req, res, next){
+  var user = {
+    email: req.body.email,
+    password: req.body.password
+  };
+
+  db.User
+    .authenticate(user.email, user.password)
+    .then(function (user) {
+          if(!user){
+            sendJsonResponse(res, 400, {'error': 'user not found'});
+          }
+          // note here the super step
+          req.login(user);
+          req.currentUser(function(user){
+            console.log(user, 'user');
+            sendJsonResponse(res, 200, user);
+          });
+      });
+};
+
+module.exports.logout = function(req, res, next){
+  req.logout();
+  sendJsonResponse(res, 200, {'complete': 'logged out'});
 };
