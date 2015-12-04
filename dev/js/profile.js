@@ -38,7 +38,7 @@ function submitNewList(id, href, obj){
 }
 
 function getLists(cb){
-  $.get("/api/lists", function(data){
+  $.get("/api/lists/user", function(data){
     cb(data);
   });
 }

@@ -45,3 +45,23 @@ module.exports.all = function(req, res, next){
       }
     });
 };
+
+module.exports.userLists = function(req, res, next){
+  if(!req.session.user){
+    sendJsonResponse(res, '400', {'error': 'user not logged in'});
+  } else {
+    db.List.findAll({
+      where: {
+        UserId: req.session.user.id
+      }
+    }).then(function(lists){
+      if(!lists){
+          sendJsonResponse(res, '400', {'error': 'no lists found'});
+        } else {
+          var obj = {lsts: lists};
+          sendJsonResponse(res, '200', obj);
+        }
+    });
+  }
+  
+};
