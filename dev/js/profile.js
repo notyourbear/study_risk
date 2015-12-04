@@ -42,3 +42,13 @@ function getLists(cb){
     cb(data);
   });
 }
+
+function deleteList(id){
+  $.ajax({
+   url: '/api/lists/delete/'+id,
+   type: 'DELETE',
+   success: function(response) {
+     console.log(response);
+   }
+});
+}

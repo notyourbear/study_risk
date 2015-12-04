@@ -7,4 +7,6 @@ router.post('/', listCtrl.create);
 router.get('/', listCtrl.all);
 router.get('/user', listCtrl.userLists);
 
+router.delete('/delete/:id', listCtrl.destroy);
+
 module.exports = router;
