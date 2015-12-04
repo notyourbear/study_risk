@@ -7,7 +7,6 @@ module.exports.login = function(req, res, next){
 };
 
 module.exports.profile = function(req, res, next){
-  console.log(user, 'user');
   console.log(req.session.user, 'req user');
-  res.render('profile', {title: 'Risk', user: req.session.user.email});
+  res.render('profile', {title: 'Risk', user: req.session.user});
 };

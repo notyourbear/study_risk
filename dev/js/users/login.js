@@ -15,7 +15,8 @@ $('document').ready(function(){
     });
   });
 
-  $('#logout').click(function(){
+  $('#logoutButton').click(function(){
+    console.log('CLICKED!');
     $.get("/api/users/logout", function(result){
         console.log(result);
         //redirect user
