@@ -253,7 +253,21 @@ $('document').ready(function(){
 
 
 $('document').ready(function(){
- submitNewList('createNewLists');
+ 
+ getLists(function(data){
+  var lists = {lists:data.lsts};
+  console.log('lists', lists);
+
+  var source = $("#lists-template").html();
+  var template = Handlebars.compile(source);
+
+  var html = template(lists);
+  console.log(source);
+
+  $('#theLists').append(html);
+
+  submitNewList('createNewLists');
+ });
 });
 
 function submitNewList(id, href, obj){
@@ -274,6 +288,12 @@ function submitNewList(id, href, obj){
         console.log('yay!', list);
       }
     });
+  });
+}
+
+function getLists(cb){
+  $.get("/api/lists", function(data){
+    cb(data);
   });
 }
 function clear(id){
