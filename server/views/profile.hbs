@@ -13,74 +13,23 @@
     </div>
   </div>
 
-  <div id="createNewLists">
-    <div class="row">
-      <div class="small-6 small-centered columns"> 
-        <h4>Create a new list</h4>
-        <form>
-          <div class="row">
-            <div class="small-8 columns">
-              <input id="newlist-name" type="text" name="name" placeholder="name">
-            </div>
-          </div>
-          <div class="row">
-            <div class="small-8 columns">
-              <input id="newlist-desc" type="text" name="description" placeholder="description">
-            </div>
-          </div>
-          <div class="row">
-            <div class="small-8 columns">
-              <input type="checkbox" name="private">  Private?
-            </div>
-          </div>
-          <div class="row">
-            <div class="small-8 columns">
-              <input class="button" type="submit" value="Create List">
-            </div>
-          </div>  
-        </form>
+
+  <div class="row">
+    <div class="small-8 columns">
+      <div class="callout primary">
+        <div class="row column">
+          <h5>Select with which list to play or <button id="getListForm" class='button'>create a new one</button></h5>
+        </div>
       </div>
+
+      <div id="theLists" class="row small-up-2 medium-up-3 large-up-4"></div>
+
+    </div>
+    <div id="selectedList" class="small-4 columns">
+      selected list will go here.
     </div>
   </div>
-
-
-
-  <div class="callout primary">
-    <div class="row column">
-      <h5>Below are all the lists.</h5>
-    </div>
-  </div>
-
-  <div id="theLists" class="row small-up-2 medium-up-3 large-up-4">
-  </div>
-
-<hr>
-<div class="row">
-<div class="medium-6 columns">
-<h3>Contact Me</h3>
-<p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor.</p>
-<ul class="menu">
-<li><a href="#">Dribbble</a></li>
-<li><a href="#">Facebook</a></li>
-<li><a href="#">Yo</a></li>
-</ul>
-</div>
-<div class="medium-6 columns">
-<label>Name
-<input type="text" placeholder="Name">
-</label>
-<label>Email
-<input type="text" placeholder="Email">
-</label>
-<label>
-Message
-<textarea placeholder="holla at a designerd"></textarea>
-</label>
-<button class="button expanded">Submit</a>
-</div>
-</div>
-</div>
-</div>
 </div>
 
 {{> lists}}
+{{> newList}}

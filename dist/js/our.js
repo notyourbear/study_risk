@@ -262,13 +262,29 @@ $('document').ready(function(){
   var template = Handlebars.compile(source);
 
   var html = template(lists);
-  console.log(source);
 
   $('#theLists').append(html);
-
-  submitNewList('createNewLists');
+  console.log('hey');
+  getCreateListForm('getListForm', 'selectedList', function(){
+    submitNewList('createNewLists');
+  });
  });
 });
+
+function getCreateListForm(buttonId, placeId, cb){
+  $('#'+buttonId).on('click', function(){
+    var $place = $('#'+placeId);
+    var source = $("#newList-template").html();
+    console.log('source', source);
+    var template = Handlebars.compile(source);
+    // var html = template('');
+
+
+    $place.html('');
+    $place.append(source);
+    cb();
+  });
+}
 
 function submitNewList(id, href, obj){
   $('#'+id).on('submit', function(e){
