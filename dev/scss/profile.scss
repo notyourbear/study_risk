@@ -13,4 +13,10 @@
   h2 {
     font-size: 1em;
   }
+  .listbackground {
+    background: #d3d3d3;
+    &:hover {
+      background: orange;
+    }
+  }
 }
