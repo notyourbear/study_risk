@@ -252,11 +252,17 @@ $('document').ready(function(){
 
 
 
+var listsObj = {};
 $('document').ready(function(){
  
  getLists(function(data){
   var lists = {lists:data.lsts};
+  
   console.log('lists', lists);
+  lists.lists.forEach(function(entry) {
+    listsObj[entry.id] = entry;
+  });
+  
 
   var source = $("#lists-template").html();
   var template = Handlebars.compile(source);
@@ -273,17 +279,28 @@ $('document').ready(function(){
 
 function getCreateListForm(buttonId, placeId, cb){
   $('#'+buttonId).on('click', function(){
+    cleanSpot(placeId);
     var $place = $('#'+placeId);
     var source = $("#newList-template").html();
-    console.log('source', source);
+    
     var template = Handlebars.compile(source);
-    // var html = template('');
 
-
-    $place.html('');
     $place.append(source);
     cb();
   });
+}
+
+function getListView(placeId, listId){
+  cleanSpot(placeId);
+  var $place = $('#'+placeId);
+  var context = listsObj[listId];
+  console.log(context);
+
+  var source = $('#listView-template').html();
+  var template = Handlebars.compile(source);
+  var html = template(context);
+
+  $place.append(html);
 }
 
 function submitNewList(id, href, obj){
@@ -320,7 +337,11 @@ function deleteList(id){
    success: function(response) {
      console.log(response);
    }
-});
+  });
+}
+
+function cleanSpot(placeId){
+  $('#'+placeId).html('');
 }
 function clear(id){
   $('#'+id).html('');

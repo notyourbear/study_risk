@@ -1,0 +1,33 @@
+<script id="listView-template" type="text/x-handlebars-template">
+  <div id="listView" class="row">
+    <div class="small-10 small-centered columns">
+      <h3>\{{this.name}}</h3>
+      <hr/>
+
+      <div class="row">
+        <div class="small-12 columns">
+          'num of quests'
+        </div>
+      </div>
+
+      <div class="row">
+        {{#each question}}
+          <div class="small-10 small-centered columns">
+            {{this}}
+          </div>
+        {{/each}}
+      </div>
+
+      <div class="row">
+        <div class="small-6 columns">
+          <button class="button">Play</button>
+        </div>
+        <div class="small-6 columns">
+          <button class="button" onclick="deleteList(\{{this.id}})">Delete List</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</script>
+

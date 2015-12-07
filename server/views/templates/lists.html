@@ -1,12 +1,10 @@
 <script id="lists-template" type="text/x-handlebars-template">
   \{{#each lists}}
     <div class="column">
-      <div class="listbackground">
+      <div class="listbackground" onclick="getListView('selectedList', \{{this.id}})">
         <h1>\{{this.name}}</h1>
         <h2>\{{this.description}}</h2>
-        <button class="button" onclick="deleteList(\{{this.id}})">delete</button>
-      </div>
-   
+      </div> 
     </div>
   \{{/each}}
 </script>
