@@ -1,0 +1,15 @@
+<script id="questions-template" type="text/x-handlebars-template">
+  \{{#each question}}
+    <div class="column">
+      <div class="questionbackground">
+        <h1>\{{this.question}}</h1>
+        <h2>\{{this.answer}}</h2>
+        
+        \{{#each falseAnswers}}
+        <h3>\{{this}}</h3>
+        \{{/each}}
+        <button class="button" onclick="addToList(\{{this.id}}, currentList)">Add to current list</button>
+      </div> 
+    </div>
+  \{{/each}}
+</script>

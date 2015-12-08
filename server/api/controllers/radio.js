@@ -77,13 +77,14 @@ module.exports.associateWithList = function(req, res, next){
     db.Radio.findById(questionId).then(function(q){
       db.List.findById(listId).then(function(list){
         list.addRadio(q);
-      }).then(function(){
+        return list;
+      });
+    }).then(function(list){
         if(list){
           sendJsonResponse(res, 200, list);
         } else {
           sendJsonResponse(res, 400, {'error': 'something went wrong'});
         }
-      });
     });
   }
 };

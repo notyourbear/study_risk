@@ -253,31 +253,63 @@ $('document').ready(function(){
 
 
 var listsObj = {};
+var radiosObj = {
+  question: {}
+};
+var currentList;
 $('document').ready(function(){
  
- getLists(function(data){
-  var lists = {lists:data.lsts};
-  
-  console.log('lists', lists);
-  lists.lists.forEach(function(entry) {
-    listsObj[entry.id] = entry;
-  });
-  
+ getLists(function(listData){
+  getRadios(function(radioData){
+      var lists = {lists:listData.lsts};
+      var radios = {radios:radioData.radio};
+      console.log('lists', lists);
+      console.log('radios', radios);
 
-  var source = $("#lists-template").html();
-  var template = Handlebars.compile(source);
+      lists.lists.forEach(function(entry) {
+        listsObj[entry.id] = entry;
+      });
 
-  var html = template(lists);
+      radios.radios.forEach(function(q){
+        var radio = {
+          question: q.question,
+          id: q.id,
+          answer: q.answer,
+          falseAnswers: []
+        };
 
-  $('#theLists').append(html);
-  getCreateListForm('getListForm', 'selectedList', function(){
-    submitNewList('createNewLists');
-  });
-  getCreateRadioForm('getRadioForm', 'selectedList', function(){
-    submitNewRadio('createNewRadio');
-  });
- });
-});
+        for(var i = 1; i <=5; i++){
+          var fls = "false"+i;
+
+          if(q[fls]!==""){
+            radio.falseAnswers.push(q[fls]);
+          }
+        }
+
+        radiosObj.question[q.id] = radio;
+      });
+      
+
+      var source = $("#lists-template").html();
+      var template = Handlebars.compile(source);
+
+      var html = template(lists);
+
+      $('#theLists').append(html);
+      getCreateListForm('getListForm', 'selectedList', function(){
+        submitNewList('createNewLists');
+      });
+      getCreateRadioForm('getRadioForm', 'selectedList', function(){
+        submitNewRadio('createNewRadio');
+      });
+
+
+
+
+
+  }); //end get radios
+ }); //end get lists
+}); //end ready
 
 function getCreateListForm(buttonId, placeId, cb){
   $('#'+buttonId).on('click', function(){
@@ -309,9 +341,23 @@ function getListView(placeId, listId){
   cleanSpot(placeId);
   var $place = $('#'+placeId);
   var context = listsObj[listId];
-  console.log(context);
+  currentList = listId;
+  console.log('the current list', listId);
 
   var source = $('#listView-template').html();
+  var template = Handlebars.compile(source);
+  var html = template(context);
+
+  $place.append(html);
+  getQuestionsView('theLists');
+}
+
+function getQuestionsView(placeId){
+  cleanSpot(placeId);
+  var $place = $('#'+placeId);
+  var context = radiosObj;
+
+  var source = $('#questions-template').html();
   var template = Handlebars.compile(source);
   var html = template(context);
 
@@ -370,6 +416,12 @@ function getLists(cb){
   });
 }
 
+function getRadios(cb){
+  $.get("/api/radios/user", function(data){
+    cb(data);
+  });
+}
+
 function deleteList(id){
   $.ajax({
    url: '/api/lists/delete/'+id,
@@ -382,6 +434,19 @@ function deleteList(id){
 
 function cleanSpot(placeId){
   $('#'+placeId).html('');
+}
+
+function addToList(questId, listId){
+  var obj = {
+    listId: listId,
+    questionId: questId
+  };
+
+  if(listId !== undefined){
+    $.post("/api/radios/list", obj, function(list){
+      console.log('ADDED!', list);
+    });
+  }
 }
 function clear(id){
   $('#'+id).html('');

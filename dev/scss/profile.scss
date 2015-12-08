@@ -13,7 +13,16 @@
   h2 {
     font-size: 1em;
   }
+  h3 {
+    font-size: 0.75em;
+  }
   .listbackground {
+    background: #d3d3d3;
+    &:hover {
+      background: orange;
+    }
+  }
+  .questionbackground {
     background: #d3d3d3;
     &:hover {
       background: orange;
