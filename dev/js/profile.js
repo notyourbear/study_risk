@@ -16,9 +16,11 @@ $('document').ready(function(){
   var html = template(lists);
 
   $('#theLists').append(html);
-  console.log('hey');
   getCreateListForm('getListForm', 'selectedList', function(){
     submitNewList('createNewLists');
+  });
+  getCreateRadioForm('getRadioForm', 'selectedList', function(){
+    submitNewRadio('createNewRadio');
   });
  });
 });
@@ -28,6 +30,19 @@ function getCreateListForm(buttonId, placeId, cb){
     cleanSpot(placeId);
     var $place = $('#'+placeId);
     var source = $("#newList-template").html();
+    
+    var template = Handlebars.compile(source);
+
+    $place.append(source);
+    cb();
+  });
+}
+
+function getCreateRadioForm(buttonId, placeId, cb){
+  $('#'+buttonId).on('click', function(){
+    cleanSpot(placeId);
+    var $place = $('#'+placeId);
+    var source = $("#newRadio-template").html();
     
     var template = Handlebars.compile(source);
 
@@ -65,6 +80,31 @@ function submitNewList(id, href, obj){
     $.post("/api/lists", list, function(list){
       if(list){
         console.log('yay!', list);
+      }
+    });
+  });
+}
+
+function submitNewRadio(id, href, obj){
+  $('#'+id).on('submit', function(e){
+    e.preventDefault();
+
+    var $this = $(this);
+
+    var radio = {
+      question: $('#newquestion-question').val(),
+      answer: $('#newquestion-answer').val(),
+      false1: $('#newquestion-false1').val() || null,
+      false2: $('#newquestion-false2').val() || null,
+      false3: $('#newquestion-false3').val() || null,
+      false4: $('#newquestion-false4').val() || null,
+      false5: $('#newquestion-false5').val() || null
+    };
+
+    
+    $.post("/api/radios", radio, function(radio){
+      if(radio){
+        console.log('yay!', radio);
       }
     });
   });

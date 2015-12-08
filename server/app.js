@@ -12,6 +12,7 @@ var apiMapRoutes = require('./api/routes/map');
 var apiQuestionRoutes = require('./api/routes/questions');
 var apiUserRoutes = require('./api/routes/user');
 var apiListRoutes = require('./api/routes/list');
+var apiRadioRoutes = require('./api/routes/radio');
 
 var db = require('./api/models');
 
@@ -84,6 +85,7 @@ app.use('/api/map', apiMapRoutes);
 app.use('/api/questions', apiQuestionRoutes);
 app.use('/api/users', apiUserRoutes);
 app.use('/api/lists', apiListRoutes);
+app.use('/api/radios', apiRadioRoutes);
 app.use('/users', users);
 
 // catch 404 and forward to error handler

@@ -50,7 +50,7 @@ module.exports.userLists = function(req, res, next){
       where: {
         UserId: req.session.user.id
       },
-      include: [db.Radio]
+      // include: [db.Radio]
     }).then(function(lists){
       if(!lists){
           sendJsonResponse(res, '400', {'error': 'no lists found'});
