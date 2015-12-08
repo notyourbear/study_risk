@@ -37,7 +37,9 @@ module.exports.create = function(req, res, next){
 
 module.exports.all = function(req, res, next){
   console.log('trying to access questions!');
-  db.Radio.findAll().then(function(questions){
+  db.Radio.findAll({
+    include: db.List
+  }).then(function(questions){
     console.log(questions);
     if(!questions){
         sendJsonResponse(res, '400', {'error': 'no radio questions found'});
