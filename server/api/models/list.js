@@ -8,6 +8,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         this.belongsTo(models.User);
+        this.belongsToMany(models.Radio, {through: 'ListRadio'});
         // associations can be defined here
       }
     }
