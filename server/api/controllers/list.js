@@ -14,15 +14,11 @@ module.exports.create = function(req, res, next){
 
   db.List.create(list)
   .then(function(list){
-    console.log('here!');
-    console.log('user', req.session.user);
-
+   
     db.User.findById(req.session.user.id).then(function(user){
-      console.log('USER');
       user.addList(list);
     })
     .then(function(){
-      console.log('thid place', list);
         if(list){
           sendJsonResponse(res, 200, list);
         } else {
@@ -53,7 +49,8 @@ module.exports.userLists = function(req, res, next){
     db.List.findAll({
       where: {
         UserId: req.session.user.id
-      }
+      },
+      include: [db.Radio]
     }).then(function(lists){
       if(!lists){
           sendJsonResponse(res, '400', {'error': 'no lists found'});
