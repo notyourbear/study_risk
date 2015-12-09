@@ -57,7 +57,8 @@ module.exports.user = function(req, res, next){
     db.Radio.findAll({
       where: {
         UserId: req.session.user.id
-      }
+      },
+      include: [db.List]
     }).then(function(questions){
       if(!questions){
           sendJsonResponse(res, '400', {'error': 'no radio questions found'});

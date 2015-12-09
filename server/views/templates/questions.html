@@ -8,7 +8,10 @@
         \{{#each falseAnswers}}
         <h3>\{{this}}</h3>
         \{{/each}}
+
+        \{{#unless inCurrentList}}
         <button class="button" onclick="addToList(\{{this.id}}, currentList)">Add to current list</button>
+        \{{/unless}}
       </div> 
     </div>
   \{{/each}}

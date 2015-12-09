@@ -10,7 +10,6 @@ $('document').ready(function(){
   getRadios(function(radioData){
       lists = {lists:listData.lsts};
       var radios = {radios:radioData.radio};
-      console.log('radios', radios);
 
       lists.lists.forEach(function(entry) {
         listsObj[entry.id] = entry;
@@ -21,8 +20,13 @@ $('document').ready(function(){
           question: q.question,
           id: q.id,
           answer: q.answer,
-          falseAnswers: []
+          falseAnswers: [],
+          lists: []
         };
+
+        q.Lists.forEach(function(l){
+          radio.lists.push(l.id);
+        });
 
         for(var i = 1; i <=5; i++){
           var fls = "false"+i;
@@ -34,6 +38,7 @@ $('document').ready(function(){
 
         radiosObj.question[q.id] = radio;
       });
+      console.log('radios', radiosObj);
       console.log('lists', lists);
       getListsView('theLists');
       
@@ -74,7 +79,6 @@ function getListView(placeId, listId){
   var $place = $('#'+placeId);
   var context = listsObj[listId];
   currentList = listId;
-  console.log('the current list', listId);
 
   var source = $('#listView-template').html();
   var template = Handlebars.compile(source);
@@ -88,10 +92,7 @@ function getListsView(placeId){
   cleanSpot(placeId);
   var source = $("#lists-template").html();
   var template = Handlebars.compile(source);
-  console.log(lists, 'lll');
-  console.log(source, 'temp');
   var html = template(lists);
-  console.log(html);
  
   $('#'+placeId).append(html);
 
@@ -108,12 +109,24 @@ function getListsView(placeId){
 function getQuestionsView(placeId){
   cleanSpot(placeId);
   var $place = $('#'+placeId);
-  var context = radiosObj;
-
+  var i = 0;
+  
+  for(var q in radiosObj['question']){
+    console.log(radiosObj['question'][q], 'q');
+    radiosObj['question'][q]['inCurrentList'] = false;
+    for(i = 0; i<radiosObj['question'][q]['lists'].length; i++){
+      console.log('currentList', currentList);
+      console.log('list', radiosObj['question'][q]['lists'][i]);
+      if(radiosObj['question'][q]['lists'][i] === currentList){
+        radiosObj['question'][q]['inCurrentList'] = true;
+      }
+    }
+  }
+  console.log(radiosObj);
   var source = $('#questions-template').html();
   var template = Handlebars.compile(source);
-  var html = template(context);
-
+  var html = template(radiosObj);
+  
   $place.append(html);
   changeText('profile-callout', "You can add or remove questions from the selected list");
 
