@@ -45,13 +45,7 @@ $('document').ready(function(){
       getCreateListForm('getListForm', 'selectedList', function(){
         submitNewList('createNewLists');
       });
-      getCreateRadioForm('getRadioForm', 'selectedList', function(){
-        submitNewRadio('createNewRadio');
-      });
-
-
-
-
+      
 
   }); //end get radios
  }); //end get lists
@@ -96,6 +90,12 @@ function getListView(placeId, listId){
 
   $place.append(html);
   getQuestionsView('theLists');
+
+  getCreateRadioForm('getRadioForm', 'selectedList', function(){
+        submitNewRadio('createNewRadio');
+      });
+  
+  changeText('profile-callout', "You can add or remove questions from the selected list");
 }
 
 function getQuestionsView(placeId){
@@ -108,6 +108,7 @@ function getQuestionsView(placeId){
   var html = template(context);
 
   $place.append(html);
+
 }
 
 function submitNewList(id, href, obj){
@@ -198,4 +199,10 @@ function addToList(questId, listId){
 function startGame(listId){
   var href = "/game/"+listId;
   redirect(href);
+}
+
+function changeText(locationId, text){
+  cleanSpot(locationId);
+  var $place = $('#'+locationId);
+  $place.html(text);
 }
