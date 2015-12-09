@@ -283,6 +283,7 @@ $('document').ready(function(){
 
 
 var listsObj = {};
+var lists;
 var radiosObj = {
   question: {}
 };
@@ -291,9 +292,8 @@ $('document').ready(function(){
  
  getLists(function(listData){
   getRadios(function(radioData){
-      var lists = {lists:listData.lsts};
+      lists = {lists:listData.lsts};
       var radios = {radios:radioData.radio};
-      console.log('lists', lists);
       console.log('radios', radios);
 
       lists.lists.forEach(function(entry) {
@@ -318,17 +318,9 @@ $('document').ready(function(){
 
         radiosObj.question[q.id] = radio;
       });
+      console.log('lists', lists);
+      getListsView('theLists');
       
-
-      var source = $("#lists-template").html();
-      var template = Handlebars.compile(source);
-
-      var html = template(lists);
-
-      $('#theLists').append(html);
-      getCreateListForm('getListForm', 'selectedList', function(){
-        submitNewList('createNewLists');
-      });
       
 
   }); //end get radios
@@ -374,12 +366,27 @@ function getListView(placeId, listId){
 
   $place.append(html);
   getQuestionsView('theLists');
+}
 
-  getCreateRadioForm('getRadioForm', 'selectedList', function(){
-        submitNewRadio('createNewRadio');
-      });
-  
-  changeText('profile-callout', "You can add or remove questions from the selected list");
+function getListsView(placeId){
+  cleanSpot(placeId);
+  var source = $("#lists-template").html();
+  var template = Handlebars.compile(source);
+  console.log(lists, 'lll');
+  console.log(source, 'temp');
+  var html = template(lists);
+  console.log(html);
+ 
+  $('#'+placeId).append(html);
+
+  cleanSpot('profileButtons');
+
+  addButton('profileButtons', 'getCreateListForm', 'button', 'Create a new list');
+  getCreateListForm('getCreateListForm', 'selectedList', function(){
+    submitNewList('createNewLists');
+  });
+
+  changeText('profile-callout', "Select with which list to play");
 }
 
 function getQuestionsView(placeId){
@@ -392,7 +399,21 @@ function getQuestionsView(placeId){
   var html = template(context);
 
   $place.append(html);
+  changeText('profile-callout', "You can add or remove questions from the selected list");
 
+  cleanSpot('profileButtons');
+  addButton('profileButtons', 'getListsView', 'button', 'View all Lists');
+  
+  addButton('profileButtons', 'getRadioForm', 'button', 'Create a new question');
+  getCreateRadioForm('getRadioForm', 'selectedList', function(){
+      submitNewRadio('createNewRadio');
+    });
+
+  $('#getListsView').on('click', function(){
+    getListsView('theLists');
+  });
+
+  
 }
 
 function submitNewList(id, href, obj){
@@ -489,6 +510,11 @@ function changeText(locationId, text){
   cleanSpot(locationId);
   var $place = $('#'+locationId);
   $place.html(text);
+}
+
+function addButton(locationId, buttonId, buttonClass, text){
+  var button = "<button id='"+buttonId+"' class='"+buttonClass+"'>"+text+"</button>";
+  $('#'+locationId).append(button);
 }
 function clear(id){
   $('#'+id).html('');
