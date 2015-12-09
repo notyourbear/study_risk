@@ -24,6 +24,35 @@ function submitNewRadio(id, href, obj){
     $.post("/api/radios", radio, function(radio){
       if(radio){
         console.log('yay!', radio);
+
+        var newQ = {
+          id: radio.id,
+          question: radio.question,
+          answer: radio.answer,
+          lists: [],
+          falseAnswers: [],
+          inCurrentList: false
+        };
+
+        var fls = '';
+
+        for(var i = 1; i <= 5; i++){
+          fls = 'false'+i;
+          if(radio[fls] !== ''){
+            newQ.falseAnswers.push(radio[fls]);
+          }
+        }
+        console.log('newQ', newQ);
+
+        //add to page
+        var source = $('#createdQuestion-template').html();
+        var template = Handlebars.compile(source);
+        var html = template(newQ);
+
+        $('#theLists').append(html);
+
+        //append to radiosObj
+        radiosObj.question[newQ.id] = newQ;
       }
     });
   });
