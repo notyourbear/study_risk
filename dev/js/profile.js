@@ -232,3 +232,16 @@ function addButton(locationId, buttonId, buttonClass, text){
   var button = "<button id='"+buttonId+"' class='"+buttonClass+"'>"+text+"</button>";
   $('#'+locationId).append(button);
 }
+
+function removeQFromList(qId, listId){
+  var obj = {
+    listId: listId,
+    questionId: qId
+  };
+
+  if(listId !== undefined){
+    $.post("/api/radios/removefromlist", obj, function(list){
+      console.log('removed!', list);
+    });
+  }
+}

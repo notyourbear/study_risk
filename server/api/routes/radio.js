@@ -6,5 +6,6 @@ router.get('/', rCtrl.all);
 router.get('/user', rCtrl.user);
 router.post('/', rCtrl.create);
 router.post('/list', rCtrl.associateWithList);
+router.post('/removefromlist', rCtrl.removeFromList);
 
 module.exports = router;

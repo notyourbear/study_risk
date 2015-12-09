@@ -90,3 +90,24 @@ module.exports.associateWithList = function(req, res, next){
   }
 };
 
+module.exports.removeFromList = function(req, res, next){
+  if(!req.session.user){
+    sendJsonResponse(res, '400', {'error': 'user not logged in'});
+  } else {
+    var listId = req.body.listId;
+    var questionId = req.body.questionId;
+
+    db.Radio.findById(questionId).then(function(q){
+      db.List.findById(listId).then(function(list){
+        list.removeRadio(q).then(function(){
+          if(list){
+            sendJsonResponse(res, 200, list);
+          } else {
+            sendJsonResponse(res, 400, {'error': 'something went wrong'});
+          }
+        });
+      });
+    });
+  }
+};
+
