@@ -55,7 +55,7 @@ Gameboard.prototype.createState = function(map, state, layerColor, clickFn){
     if(clickFn === undefined){
       console.log('MEOW');
     } else {
-      getQuestion(function(question){
+      populateQuestion(questionSet ,function(question){
         async.series([
           function(callback){
             clear('questionField');

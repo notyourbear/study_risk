@@ -2,10 +2,15 @@ function clear(id){
   $('#'+id).html('');
 }
 
-function getQuestion(cb){
-  $.get("/api/questions/question", function(data){
-    cb(data);
+function getQuestions(listId, cb){
+  $.get("/api/lists/"+listId, function(list){
+    cb(list);
   });
+}
+
+
+function populateQuestion(questions, cb){
+    cb(questions[genRandomInt(0, questions.length-1)]);
 }
 
 function placeQuestion(id, context, cb){
@@ -22,7 +27,7 @@ function placeQuestion(id, context, cb){
 function validateQuestion(answers, context, successCb, failCb){
   $('.'+ answers).click(function(){
     var $this = $(this);
-    if($this.is(':checked') && $this.val() === context.correctAnswer) {
+    if($this.is(':checked') && $this.val() === context.answer) {
       successCb();
     } else {
       failCb();

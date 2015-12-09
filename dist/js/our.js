@@ -55,7 +55,7 @@ Gameboard.prototype.createState = function(map, state, layerColor, clickFn){
     if(clickFn === undefined){
       console.log('MEOW');
     } else {
-      getQuestion(function(question){
+      populateQuestion(questionSet ,function(question){
         async.series([
           function(callback){
             clear('questionField');
@@ -221,25 +221,55 @@ Gameboard.prototype.newTurn = function(map){
 var alabama = 'hey';
 var game = new Gameboard();
 var b;
+var questionSet = [];
 
 $('document').ready(function(){
+  ////get params
+  var pathname = window.location.pathname;
+  var listId = getListId();
+
   $.get("/api/map/access", function(data){
+    getQuestions(listId, function(questionList){
+      console.log(questionList);
 
-    var states = data.map + '?access_token=' + data.token;
-    var mapOptions = {
-      zoomControl: false,
-      minZoom: 4,
-      maxZoom: 4,
-      dragging: false
-    };
-    
-    //init map and set location
-    var map = createMap('map', mapOptions, [38.925, -94.481], 4);
-    setTile.call(map, states, '<a href="http://mapbox.com">Mapbox</a>');
-    b = map;
+      questionList.Radios.forEach(function(radio){
+        var question = {
+          question: radio.question,
+          answer: radio.answer,
+          possibleAnswers: []
+        };
 
-    game.initGame(map);
+        question.possibleAnswers.push(radio.answer);
 
+        var fls = "";
+
+        for(var i = 1; i<=5; i++){
+          fls = "false" + i;
+          if(radio[fls] !== ""){
+            question.possibleAnswers.push(radio[fls]);
+          }
+        }
+        questionSet.push(question);
+      });
+
+      var states = data.map + '?access_token=' + data.token;
+      var mapOptions = {
+        zoomControl: false,
+        minZoom: 4,
+        maxZoom: 4,
+        dragging: false
+      };
+      
+      //init map and set location
+      var map = createMap('map', mapOptions, [38.925, -94.481], 4);
+      setTile.call(map, states, '<a href="http://mapbox.com">Mapbox</a>');
+      b = map;
+
+      game.initGame(map);
+
+
+
+    });
   });
     
 
@@ -452,10 +482,15 @@ function clear(id){
   $('#'+id).html('');
 }
 
-function getQuestion(cb){
-  $.get("/api/questions/question", function(data){
-    cb(data);
+function getQuestions(listId, cb){
+  $.get("/api/lists/"+listId, function(list){
+    cb(list);
   });
+}
+
+
+function populateQuestion(questions, cb){
+    cb(questions[genRandomInt(0, questions.length-1)]);
 }
 
 function placeQuestion(id, context, cb){
@@ -472,7 +507,7 @@ function placeQuestion(id, context, cb){
 function validateQuestion(answers, context, successCb, failCb){
   $('.'+ answers).click(function(){
     var $this = $(this);
-    if($this.is(':checked') && $this.val() === context.correctAnswer) {
+    if($this.is(':checked') && $this.val() === context.answer) {
       successCb();
     } else {
       failCb();
@@ -480,6 +515,9 @@ function validateQuestion(answers, context, successCb, failCb){
   });
 }
 
+function genRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 function setTile(tile, attr) {
   var layer = L.tileLayer(tile, {
     attribution: attr
@@ -529,6 +567,18 @@ function addToUserStates(state, game, group, map){
 
 function createMap(id, options, coords, scale){
   return L.map(id, options).setView(coords, scale);
+}
+
+function getListId(){
+  var pathname = window.location.pathname;
+  var id = "";
+  var i = 6;
+
+  for(i; i<pathname.length; i++){
+    id += pathname[i];
+  }
+
+  return id;
 }
 function redirect(url){
   window.location.href = url;

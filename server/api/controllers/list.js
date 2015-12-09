@@ -65,6 +65,26 @@ module.exports.userLists = function(req, res, next){
   }
 };
 
+module.exports.single = function(req, res, next){
+  db.List.find({
+    where: {
+      id: req.params.id
+    },
+    include: [db.Radio]
+  })
+    .then(function(list){
+      if(list.private === false){
+        sendJsonResponse(res, '200', list);
+      } else if (req.session.user && list.UserId === req.session.user.id){
+        sendJsonResponse(res, '200', list);
+      } else if (req.session.user.id !== list.UserId) {
+        sendJsonResponse(res, '400', {error: 'list not associated with user'});
+      } else {
+        sendJsonResponse(res, '400', {error: 'not a public list and user is not logged in'});
+      }
+    });
+};
+
 module.exports.destroy = function(req, res, next){
   if(!req.session.user){
     sendJsonResponse(res, '400', {'error': 'not logged in'});

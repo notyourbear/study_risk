@@ -9,4 +9,6 @@ router.get('/user', listCtrl.userLists);
 
 router.delete('/delete/:id', listCtrl.destroy);
 
+router.get('/:id', listCtrl.single);
+
 module.exports = router;
