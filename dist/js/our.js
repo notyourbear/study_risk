@@ -478,6 +478,11 @@ function addToList(questId, listId){
     });
   }
 }
+
+function startGame(listId){
+  var href = "/game/"+listId;
+  redirect(href);
+}
 function clear(id){
   $('#'+id).html('');
 }

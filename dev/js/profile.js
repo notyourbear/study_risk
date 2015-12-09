@@ -194,3 +194,8 @@ function addToList(questId, listId){
     });
   }
 }
+
+function startGame(listId){
+  var href = "/game/"+listId;
+  redirect(href);
+}
