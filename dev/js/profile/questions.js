@@ -1,0 +1,93 @@
+function getRadios(cb){
+  $.get("/api/radios/user", function(data){
+    cb(data);
+  });
+}
+
+function submitNewRadio(id, href, obj){
+  $('#'+id).on('submit', function(e){
+    e.preventDefault();
+
+    var $this = $(this);
+
+    var radio = {
+      question: $('#newquestion-question').val(),
+      answer: $('#newquestion-answer').val(),
+      false1: $('#newquestion-false1').val() || null,
+      false2: $('#newquestion-false2').val() || null,
+      false3: $('#newquestion-false3').val() || null,
+      false4: $('#newquestion-false4').val() || null,
+      false5: $('#newquestion-false5').val() || null
+    };
+
+    
+    $.post("/api/radios", radio, function(radio){
+      if(radio){
+        console.log('yay!', radio);
+      }
+    });
+  });
+}
+
+function getQuestionsView(placeId){
+  cleanSpot(placeId);
+  var $place = $('#'+placeId);
+  var i = 0;
+  
+  for(var q in radiosObj['question']){
+    console.log(radiosObj['question'][q], 'q');
+    radiosObj['question'][q]['inCurrentList'] = false;
+    for(i = 0; i<radiosObj['question'][q]['lists'].length; i++){
+      console.log('currentList', currentList);
+      console.log('list', radiosObj['question'][q]['lists'][i]);
+      if(radiosObj['question'][q]['lists'][i] === currentList){
+        radiosObj['question'][q]['inCurrentList'] = true;
+      }
+    }
+  }
+  console.log(radiosObj);
+  var source = $('#questions-template').html();
+  var template = Handlebars.compile(source);
+  var html = template(radiosObj);
+  
+  $place.append(html);
+  changeText('profile-callout', "You can add or remove questions from the selected list");
+
+  cleanSpot('profileButtons');
+  addButton('profileButtons', 'getListsView', 'button', 'View all Lists');
+  
+  addButton('profileButtons', 'getRadioForm', 'button', 'Create a new question');
+  getCreateRadioForm('getRadioForm', 'selectedList', function(){
+      submitNewRadio('createNewRadio');
+    });
+
+  $('#getListsView').on('click', function(){
+    getListsView('theLists');
+  });
+}
+
+function getCreateRadioForm(buttonId, placeId, cb){
+  $('#'+buttonId).on('click', function(){
+    cleanSpot(placeId);
+    var $place = $('#'+placeId);
+    var source = $("#newRadio-template").html();
+    
+    var template = Handlebars.compile(source);
+
+    $place.append(source);
+    cb();
+  });
+}
+
+function removeQFromList(qId, listId){
+  var obj = {
+    listId: listId,
+    questionId: qId
+  };
+
+  if(listId !== undefined){
+    $.post("/api/radios/removefromlist", obj, function(list){
+      console.log('removed!', list);
+    });
+  }
+}
