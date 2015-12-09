@@ -11,16 +11,18 @@
       </div>
       <hr/>
 
-      <div class="row">
-        \{{#each Radios}}
-          <div class="small-9 columns">
-            \{{this.question}}
-          </div>
-          <div class="small-3 columns">
-            <button id="removeQFromList" class="button" onclick="removeQFromList(\{{this.id}}, currentList)">Remove From List</button>
-          </div>
-        \{{/each}}
+      
+      \{{#each Radios}}
+      <div id="listQuestion-\{{this.id}}" class="row">
+        <div class="small-9 columns">
+          \{{this.question}}
+        </div>
+        <div class="small-3 columns">
+          <button id="removeQFromList" class="button" onclick="removeQFromList(\{{this.id}}, currentList)">Remove From List</button>
+        </div>
       </div>
+      \{{/each}}
+      
 
       <hr/>
 

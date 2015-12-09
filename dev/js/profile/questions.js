@@ -117,6 +117,16 @@ function removeQFromList(qId, listId){
   if(listId !== undefined){
     $.post("/api/radios/removefromlist", obj, function(list){
       console.log('removed!', list);
+      //remove question from list
+      $("#listQuestion-"+qId).remove();
+      //append add to list button on the correct question
+        //question-qid
+      addButton("question-"+qId, "questionButton-"+qId, "button", "Add to current list");
+
+      $("#questionButton-"+qId).on('click', function(){
+        console.log('GO!');
+        addToList(qId, currentList);
+      });
     });
   }
 }
