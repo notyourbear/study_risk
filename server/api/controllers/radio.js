@@ -78,15 +78,14 @@ module.exports.associateWithList = function(req, res, next){
 
     db.Radio.findById(questionId).then(function(q){
       db.List.findById(listId).then(function(list){
-        list.addRadio(q);
-        return list;
+        list.addRadio(q).then(function(){
+          if(list){
+            sendJsonResponse(res, 200, list);
+          } else {
+            sendJsonResponse(res, 400, {'error': 'something went wrong'});
+          }
+        });
       });
-    }).then(function(list){
-        if(list){
-          sendJsonResponse(res, 200, list);
-        } else {
-          sendJsonResponse(res, 400, {'error': 'something went wrong'});
-        }
     });
   }
 };
