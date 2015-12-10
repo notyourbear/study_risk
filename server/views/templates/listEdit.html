@@ -1,0 +1,34 @@
+<script id="listEdit-template" type="text/x-handlebars-template">
+  <div id="listView" class="row">
+    <form id="listEditForm">
+      <div class="small-10 small-centered columns">
+        <div class="row">
+          <div class="small-12 columns">
+            <input id="editList-name" value="\{{this.name}}">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-12 columns">
+            <input id="editList-description" value="\{{this.description}}">
+          </div>
+        </div>
+
+        
+        <hr/>
+
+        
+
+        <div class="row">
+          <div class="small-6 columns">
+            <input type="submit" id="editList-button" class="button" value="Save Edits">
+          </div>
+          <div class="small-6 columns">
+            <button class="button" onclick="deleteList(\{{this.id}})">Delete List</button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</script>

@@ -85,6 +85,33 @@ module.exports.single = function(req, res, next){
     });
 };
 
+module.exports.edit = function(req, res, next){
+  var list = {
+    id: req.body.id,
+    name: req.body.name,
+    description: req.body.description
+  };
+
+  console.log('list', list);
+
+  if(!req.session.user){
+    sendJsonResponse(res, '400', {'error': 'not logged in'});
+  } else {
+    db.List.find({
+      where: {id: req.body.id},
+      include: [db.Radio]
+    })
+    .then(function(l){
+      console.log('l', l);
+      l.update(list);
+      return l;
+    })
+    .then(function(l){
+      sendJsonResponse(res, '200', l);
+    });
+  }
+};
+
 module.exports.destroy = function(req, res, next){
   if(!req.session.user){
     sendJsonResponse(res, '400', {'error': 'not logged in'});

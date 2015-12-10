@@ -196,7 +196,6 @@ function deleteQuestion(qId, qvId, qlId){
 }
 
 function getEditQuestionForm(placeId, qId){
-  console.log("CLICKED");
   cleanSpot(placeId);
   var $place = $('#'+placeId);
 
@@ -212,8 +211,6 @@ function getEditQuestionForm(placeId, qId){
 function editQuestion(formId, qId){
   $('#'+formId).on('submit', function(e){
     e.preventDefault();
-
-    var $this = $(this);
 
     var radio = {
       id: qId,

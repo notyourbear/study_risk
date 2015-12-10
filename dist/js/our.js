@@ -303,7 +303,7 @@ $('document').ready(function(){
         radiosObj.question[q.id] = genRadioQ(q);
       });
       console.log('radios', radiosObj);
-      console.log('lists', lists);
+      console.log('lists', listsObj);
       getListsView('theLists');
       
       
@@ -543,6 +543,43 @@ function deleteList(id){
   });
 }
 
+function getEditListForm(placeId, listId){
+  cleanSpot(placeId);
+  var $place = $('#'+placeId);
+  var source = $('#listEdit-template').html();
+  var template = Handlebars.compile(source);
+  var context = listsObj[listId];
+  var html = template(context);
+  $place.append(html);
+
+  editList('listEditForm', listId);
+}
+
+// create editList
+function editList(formId, listId){
+  $('#'+formId).on('submit', function(e){
+    e.preventDefault();
+
+    var list = {
+      id: listId,
+      name: $('#editList-name').val(),
+      description: $('#editList-description').val()
+    };
+
+    $.ajax({
+      method: "PUT",
+      url: "/api/lists",
+      data: list,
+      success: function(l){
+        console.log('EDITED!', l);
+        //change the radiosObj[id] from response
+      }
+    });
+  });
+  
+}
+
+
 function updateListQuestionTotal(way, id){
   var $place = $('#'+id);
   var total = $place.html();
@@ -755,7 +792,6 @@ function deleteQuestion(qId, qvId, qlId){
 }
 
 function getEditQuestionForm(placeId, qId){
-  console.log("CLICKED");
   cleanSpot(placeId);
   var $place = $('#'+placeId);
 
@@ -771,8 +807,6 @@ function getEditQuestionForm(placeId, qId){
 function editQuestion(formId, qId){
   $('#'+formId).on('submit', function(e){
     e.preventDefault();
-
-    var $this = $(this);
 
     var radio = {
       id: qId,

@@ -19,7 +19,7 @@ $('document').ready(function(){
         radiosObj.question[q.id] = genRadioQ(q);
       });
       console.log('radios', radiosObj);
-      console.log('lists', lists);
+      console.log('lists', listsObj);
       getListsView('theLists');
       
       

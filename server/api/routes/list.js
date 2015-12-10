@@ -11,4 +11,6 @@ router.delete('/delete/:id', listCtrl.destroy);
 
 router.get('/:id', listCtrl.single);
 
+router.put('/', listCtrl.edit);
+
 module.exports = router;

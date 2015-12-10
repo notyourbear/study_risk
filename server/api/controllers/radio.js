@@ -113,7 +113,6 @@ module.exports.removeFromList = function(req, res, next){
 };
 
 module.exports.edit = function(req, res, next){
-  console.log(req.body);
   var radio = {
     id: req.body.id,
     question: req.body.question,

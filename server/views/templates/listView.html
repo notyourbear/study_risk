@@ -1,7 +1,20 @@
 <script id="listView-template" type="text/x-handlebars-template">
   <div id="listView" class="row">
     <div class="small-10 small-centered columns">
-      <h3>\{{this.name}}</h3>
+      <div class="row">
+        <div class="small-9 columns">
+          <h3>\{{this.name}}</h3>
+        </div>
+        <div class="small-3 columns">
+          <button id="editCurrentList" class="button" onclick="getEditListForm('selectedList', currentList)">Edit</button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-9 columns">
+          <h4>\{{this.description}}
+        </div>
+      </div>
       
 
       <div class="row">
