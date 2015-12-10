@@ -563,7 +563,8 @@ function editList(formId, listId){
     var list = {
       id: listId,
       name: $('#editList-name').val(),
-      description: $('#editList-description').val()
+      description: $('#editList-description').val(),
+      private: $('#editList-private').prop('checked') ? true : false
     };
 
     $.ajax({

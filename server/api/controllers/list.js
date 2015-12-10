@@ -89,7 +89,8 @@ module.exports.edit = function(req, res, next){
   var list = {
     id: req.body.id,
     name: req.body.name,
-    description: req.body.description
+    description: req.body.description,
+    private: req.body.private
   };
 
   console.log('list', list);
