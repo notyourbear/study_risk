@@ -6,6 +6,7 @@ var radiosObj = {
   question: {}
 };
 var currentList;
+
 $('document').ready(function(){
  
  getLists(function(listData){

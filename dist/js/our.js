@@ -290,6 +290,7 @@ var radiosObj = {
   question: {}
 };
 var currentList;
+
 $('document').ready(function(){
  
  getLists(function(listData){
@@ -575,8 +576,9 @@ function editList(formId, listId){
       success: function(l){
         console.log('EDITED!', l);
         //update list obj
-        //update lists
+        listsObj.lists[listId] = l;
         //change to list view
+        getListView('selectedList', listId);
       }
     });
   });
