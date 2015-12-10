@@ -6,22 +6,23 @@
 
       <div class="row">
         <div class="small-12 columns">
-          Questions: <span id="list-amountOfQs">\{{this.Radios.length}}</span>
+          Questions: <span id="listView-amountOfQs">\{{this.Radios.length}}</span>
         </div>
       </div>
       <hr/>
 
-      
-      \{{#each Radios}}
-      <div id="listQuestion-\{{this.id}}" class="row">
-        <div class="small-9 columns">
-          \{{this.question}}
+      <div id="listView-questions">
+        \{{#each Radios}}
+        <div id="listQuestion-\{{this.id}}" class="row">
+          <div class="small-9 columns">
+            \{{this.question}}
+          </div>
+          <div class="small-3 columns">
+            <button id="removeQFromList" class="button" onclick="removeQFromList(\{{this.id}}, currentList)">Remove From List</button>
+          </div>
         </div>
-        <div class="small-3 columns">
-          <button id="removeQFromList" class="button" onclick="removeQFromList(\{{this.id}}, currentList)">Remove From List</button>
-        </div>
+        \{{/each}}
       </div>
-      \{{/each}}
       
 
       <hr/>

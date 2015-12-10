@@ -80,26 +80,13 @@ function deleteList(id){
   });
 }
 
-function addToList(questId, listId){
-  var obj = {
-    listId: listId,
-    questionId: questId
-  };
-
-  if(listId !== undefined){
-    $.post("/api/radios/list", obj, function(list){
-      console.log('ADDED!', list);
-    });
-  }
-}
-
 function updateListQuestionTotal(way, id){
   var $place = $('#'+id);
   var total = $place.html();
   var num = total - "";
   
   if(way === "++"){
-    num++; 
+    num++;
   } else {
     num--;
   }

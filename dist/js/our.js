@@ -538,26 +538,13 @@ function deleteList(id){
   });
 }
 
-function addToList(questId, listId){
-  var obj = {
-    listId: listId,
-    questionId: questId
-  };
-
-  if(listId !== undefined){
-    $.post("/api/radios/list", obj, function(list){
-      console.log('ADDED!', list);
-    });
-  }
-}
-
 function updateListQuestionTotal(way, id){
   var $place = $('#'+id);
   var total = $place.html();
   var num = total - "";
   
   if(way === "++"){
-    num++; 
+    num++;
   } else {
     num--;
   }
@@ -675,6 +662,31 @@ function getCreateRadioForm(buttonId, placeId, cb){
   });
 }
 
+function addToList(qId, listId){
+  var obj = {
+    listId: listId,
+    questionId: qId
+  };
+
+  if(listId !== undefined){
+    $.post("/api/radios/list", obj, function(list){
+      console.log('ADDED!', list);
+      //remove button from correct question;
+      $('#question-'+qId).find('button').remove();
+      //add outline to the question list
+      var $place = $('#listView-questions');
+      var source = $("#addQuestionToList-template").html();
+      var template = Handlebars.compile(source);
+      var context = radiosObj.question[qId];
+      var html = template(context);
+      $place.append(html);
+      
+      //update the count
+      updateListQuestionTotal('++', 'listView-amountOfQs');
+    });
+  }
+}
+
 function removeQFromList(qId, listId){
   var obj = {
     listId: listId,
@@ -690,7 +702,7 @@ function removeQFromList(qId, listId){
         //question-qid
       addButton("question-"+qId, "questionButton-"+qId, "button", "Add to current list");
 
-      updateListQuestionTotal('--', 'list-amountOfQs');
+      updateListQuestionTotal('--', 'listView-amountOfQs');
 
       $("#questionButton-"+qId).on('click', function(){
         console.log('GO!');
