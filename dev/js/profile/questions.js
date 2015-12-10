@@ -171,8 +171,17 @@ function getQuestionView(placeId, qId){
   $place.append(html);
 }
 
-function deleteQuestion(qId, placeId, listId){
+function deleteQuestion(qId, qvId, qlId){
   //api call to delete the question
-  //remove it from questionView
-  //remove it from questionList
+    $.ajax({
+     url: '/api/radios/delete/'+qId,
+     type: 'DELETE',
+     success: function(response) {
+       console.log(response);
+        //remove it from questionView
+        $('#'+qvId).html('<h1> Question has been deleted </h1>');
+        //remove it from questionList
+        $('#'+qlId).remove();
+     }
+    });
 }
