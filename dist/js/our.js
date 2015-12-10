@@ -551,6 +551,20 @@ function addToList(questId, listId){
   }
 }
 
+function updateListQuestionTotal(way, id){
+  var $place = $('#'+id);
+  var total = $place.html();
+  var num = total - "";
+  
+  if(way === "++"){
+    num++; 
+  } else {
+    num--;
+  }
+
+  $place.html(num);
+}
+
 function getRadios(cb){
   $.get("/api/radios/user", function(data){
     cb(data);
@@ -675,6 +689,8 @@ function removeQFromList(qId, listId){
       //append add to list button on the correct question
         //question-qid
       addButton("question-"+qId, "questionButton-"+qId, "button", "Add to current list");
+
+      updateListQuestionTotal('--', 'list-amountOfQs');
 
       $("#questionButton-"+qId).on('click', function(){
         console.log('GO!');

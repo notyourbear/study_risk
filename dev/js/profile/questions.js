@@ -123,6 +123,8 @@ function removeQFromList(qId, listId){
         //question-qid
       addButton("question-"+qId, "questionButton-"+qId, "button", "Add to current list");
 
+      updateListQuestionTotal('--', 'list-amountOfQs');
+
       $("#questionButton-"+qId).on('click', function(){
         console.log('GO!');
         addToList(qId, currentList);

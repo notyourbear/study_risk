@@ -92,3 +92,17 @@ function addToList(questId, listId){
     });
   }
 }
+
+function updateListQuestionTotal(way, id){
+  var $place = $('#'+id);
+  var total = $place.html();
+  var num = total - "";
+  
+  if(way === "++"){
+    num++; 
+  } else {
+    num--;
+  }
+
+  $place.html(num);
+}
