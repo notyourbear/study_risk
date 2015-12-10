@@ -20,6 +20,7 @@ module.exports.create = function(req, res, next){
     })
     .then(function(){
         if(list){
+          list['Radios'] = [];
           sendJsonResponse(res, 200, list);
         } else {
           sendJsonResponse(res, 400, {'error': 'something went wrong'});

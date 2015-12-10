@@ -56,9 +56,13 @@ function submitNewList(id, href, obj){
     };
 
     
-    $.post("/api/lists", list, function(list){
-      if(list){
-        console.log('yay!', list);
+    $.post("/api/lists", list, function(l){
+      if(l){
+        console.log('yay!', l);
+        //add to listsObj
+        listsObj.lists[l.id]=l;
+        //change to listView
+        getListView('selectedList', l.id);
       }
     });
   });
