@@ -14,7 +14,7 @@ function getCreateListForm(buttonId, placeId, cb){
 function getListView(placeId, listId){
   cleanSpot(placeId);
   var $place = $('#'+placeId);
-  var context = listsObj[listId];
+  var context = listsObj.lists[listId];
   currentList = listId;
 
   var source = $('#listView-template').html();
@@ -29,7 +29,7 @@ function getListsView(placeId){
   cleanSpot(placeId);
   var source = $("#lists-template").html();
   var template = Handlebars.compile(source);
-  var html = template(lists);
+  var html = template(listsObj);
  
   $('#'+placeId).append(html);
 
@@ -85,7 +85,7 @@ function getEditListForm(placeId, listId){
   var $place = $('#'+placeId);
   var source = $('#listEdit-template').html();
   var template = Handlebars.compile(source);
-  var context = listsObj[listId];
+  var context = listsObj.lists[listId];
   var html = template(context);
   $place.append(html);
 
@@ -110,7 +110,9 @@ function editList(formId, listId){
       data: list,
       success: function(l){
         console.log('EDITED!', l);
-        //change the radiosObj[id] from response
+        //update list obj
+        //update lists
+        //change to list view
       }
     });
   });

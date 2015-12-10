@@ -1,5 +1,7 @@
-var listsObj = {};
-var lists;
+var listsObj = {
+  lists: {}
+};
+
 var radiosObj = {
   question: {}
 };
@@ -8,18 +10,17 @@ $('document').ready(function(){
  
  getLists(function(listData){
   getRadios(function(radioData){
-      lists = {lists:listData.lsts};
       var radios = {radios:radioData.radio};
 
-      lists.lists.forEach(function(entry) {
-        listsObj[entry.id] = entry;
+      listData.lsts.forEach(function(entry) {
+        listsObj.lists[entry.id] = entry;
       });
 
       radios.radios.forEach(function(q){
         radiosObj.question[q.id] = genRadioQ(q);
       });
       console.log('radios', radiosObj);
-      console.log('lists', listsObj);
+      console.log('listsObj.lists', listsObj);
       getListsView('theLists');
       
       
