@@ -112,6 +112,32 @@ module.exports.removeFromList = function(req, res, next){
   }
 };
 
+module.exports.edit = function(req, res, next){
+  console.log(req.body);
+  var radio = {
+    id: req.body.id,
+    question: req.body.question,
+    false1: req.body.false1 || '',
+    false2: req.body.false2 || '',
+    false3: req.body.false3 || '',
+    false4: req.body.false4 || '',
+    false5: req.body.false5 || ''
+  };
+
+  if(!req.session.user){
+    sendJsonResponse(res, '400', {'error': 'not logged in'});
+  } else {
+    db.Radio.findById(req.body.id)
+    .then(function(q){
+      q.update(radio);
+      return q;
+    })
+    .then(function(q){
+      sendJsonResponse(res, '200', q);
+    });
+  }
+};
+
 module.exports.destroy = function(req, res, next){
   if(!req.session.user){
     sendJsonResponse(res, '400', {'error': 'not logged in'});

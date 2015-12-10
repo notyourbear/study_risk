@@ -752,6 +752,35 @@ function getEditQuestionForm(placeId, qId){
   var html = template(context);
 
   $place.append(html);
+  editQuestion('questionEditForm', qId);
+}
+
+function editQuestion(formId, qId){
+  $('#'+formId).on('submit', function(e){
+    e.preventDefault();
+
+    var $this = $(this);
+
+    var radio = {
+      id: qId,
+      question: $('#editQuestion-question').val(),
+      answer: $('#editQuestion-answer').val(),
+      false1: $('#editQuestion-false1').val() || null,
+      false2: $('#editQuestion-false2').val() || null,
+      false3: $('#editQuestion-false3').val() || null,
+      false4: $('#editQuestion-false4').val() || null,
+      false5: $('#editQuestion-false5').val() || null
+    };
+
+    $.ajax({
+      method: "PUT",
+      url: "/api/radios",
+      data: radio,
+      success: function(response){
+        console.log('EDITED!', response);
+      }
+    });
+  });
 }
 $('document').ready(function(){
 
