@@ -300,28 +300,7 @@ $('document').ready(function(){
       });
 
       radios.radios.forEach(function(q){
-        var radio = {
-          question: q.question,
-          id: q.id,
-          answer: q.answer,
-          falseAnswers: [],
-          lists: []
-        };
-
-        q.Lists.forEach(function(l){
-          radio.lists.push(l.id);
-        });
-
-        for(var i = 1; i <=5; i++){
-          var fls = "false"+i;
-
-          if(q[fls]!==""){
-            radio.falseAnswers.push(q[fls]);
-            radio[fls] = q[fls];
-          }
-        }
-
-        radiosObj.question[q.id] = radio;
+        radiosObj.question[q.id] = genRadioQ(q);
       });
       console.log('radios', radiosObj);
       console.log('lists', lists);
@@ -351,6 +330,31 @@ function changeText(locationId, text){
 function addButton(locationId, buttonId, buttonClass, text){
   var button = "<button id='"+buttonId+"' class='"+buttonClass+"'>"+text+"</button>";
   $('#'+locationId).append(button);
+}
+
+function genRadioQ(q){
+  var radio = {
+    question: q.question,
+    id: q.id,
+    answer: q.answer,
+    falseAnswers: [],
+    lists: []
+  };
+
+  q.Lists.forEach(function(l){
+    radio.lists.push(l.id);
+  });
+
+  for(var i = 1; i <=5; i++){
+    var fls = "false"+i;
+
+    if(q[fls]!==""){
+      radio.falseAnswers.push(q[fls]);
+      radio[fls] = q[fls];
+    }
+  }
+
+  return radio;
 }
 function clear(id){
   $('#'+id).html('');
@@ -599,18 +603,27 @@ function submitNewRadio(id, href, obj){
         }
         console.log('newQ', newQ);
 
-        //add to page
-        var source = $('#createdQuestion-template').html();
-        var template = Handlebars.compile(source);
-        var html = template(newQ);
-
-        $('#theLists').append(html);
-
         //append to radiosObj
         radiosObj.question[newQ.id] = newQ;
+
+        //add to page
+        addToQuestionList(newQ.id);
+        
       }
     });
   });
+}
+
+function addToQuestionList(qId){
+  var source = $('#createdQuestion-template').html();
+  var template = Handlebars.compile(source);
+  var html = template(radiosObj.question[qId]);
+
+  if($("#question-"+qId).length){
+    $("#question-"+qId).remove();
+  }
+    
+  $('#theLists').append(html);
 }
 
 function getQuestionsView(placeId){
@@ -776,8 +789,14 @@ function editQuestion(formId, qId){
       method: "PUT",
       url: "/api/radios",
       data: radio,
-      success: function(response){
-        console.log('EDITED!', response);
+      success: function(q){
+        console.log('EDITED!', q);
+        //change the radiosObj[id] from response
+        radiosObj.question[q.id] = genRadioQ(q);
+        //call the question view 
+        getQuestionView('selectedList', q.id);
+        //change the questionS view entry
+        addToQuestionList(q.id);
       }
     });
   });

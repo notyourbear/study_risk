@@ -44,18 +44,27 @@ function submitNewRadio(id, href, obj){
         }
         console.log('newQ', newQ);
 
-        //add to page
-        var source = $('#createdQuestion-template').html();
-        var template = Handlebars.compile(source);
-        var html = template(newQ);
-
-        $('#theLists').append(html);
-
         //append to radiosObj
         radiosObj.question[newQ.id] = newQ;
+
+        //add to page
+        addToQuestionList(newQ.id);
+        
       }
     });
   });
+}
+
+function addToQuestionList(qId){
+  var source = $('#createdQuestion-template').html();
+  var template = Handlebars.compile(source);
+  var html = template(radiosObj.question[qId]);
+
+  if($("#question-"+qId).length){
+    $("#question-"+qId).remove();
+  }
+    
+  $('#theLists').append(html);
 }
 
 function getQuestionsView(placeId){
@@ -221,8 +230,14 @@ function editQuestion(formId, qId){
       method: "PUT",
       url: "/api/radios",
       data: radio,
-      success: function(response){
-        console.log('EDITED!', response);
+      success: function(q){
+        console.log('EDITED!', q);
+        //change the radiosObj[id] from response
+        radiosObj.question[q.id] = genRadioQ(q);
+        //call the question view 
+        getQuestionView('selectedList', q.id);
+        //change the questionS view entry
+        addToQuestionList(q.id);
       }
     });
   });

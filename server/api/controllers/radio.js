@@ -127,7 +127,10 @@ module.exports.edit = function(req, res, next){
   if(!req.session.user){
     sendJsonResponse(res, '400', {'error': 'not logged in'});
   } else {
-    db.Radio.findById(req.body.id)
+    db.Radio.find({
+        where: {id: req.body.id},
+        include: [db.List]
+      })
     .then(function(q){
       q.update(radio);
       return q;

@@ -16,28 +16,7 @@ $('document').ready(function(){
       });
 
       radios.radios.forEach(function(q){
-        var radio = {
-          question: q.question,
-          id: q.id,
-          answer: q.answer,
-          falseAnswers: [],
-          lists: []
-        };
-
-        q.Lists.forEach(function(l){
-          radio.lists.push(l.id);
-        });
-
-        for(var i = 1; i <=5; i++){
-          var fls = "false"+i;
-
-          if(q[fls]!==""){
-            radio.falseAnswers.push(q[fls]);
-            radio[fls] = q[fls];
-          }
-        }
-
-        radiosObj.question[q.id] = radio;
+        radiosObj.question[q.id] = genRadioQ(q);
       });
       console.log('radios', radiosObj);
       console.log('lists', lists);
@@ -67,4 +46,29 @@ function changeText(locationId, text){
 function addButton(locationId, buttonId, buttonClass, text){
   var button = "<button id='"+buttonId+"' class='"+buttonClass+"'>"+text+"</button>";
   $('#'+locationId).append(button);
+}
+
+function genRadioQ(q){
+  var radio = {
+    question: q.question,
+    id: q.id,
+    answer: q.answer,
+    falseAnswers: [],
+    lists: []
+  };
+
+  q.Lists.forEach(function(l){
+    radio.lists.push(l.id);
+  });
+
+  for(var i = 1; i <=5; i++){
+    var fls = "false"+i;
+
+    if(q[fls]!==""){
+      radio.falseAnswers.push(q[fls]);
+      radio[fls] = q[fls];
+    }
+  }
+
+  return radio;
 }
