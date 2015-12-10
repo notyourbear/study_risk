@@ -185,3 +185,16 @@ function deleteQuestion(qId, qvId, qlId){
      }
     });
 }
+
+function getEditQuestionForm(placeId, qId){
+  console.log("CLICKED");
+  cleanSpot(placeId);
+  var $place = $('#'+placeId);
+
+  var source = $('#questionEdit-template').html();
+  var template = Handlebars.compile(source);
+  var context = radiosObj.question[qId];
+  var html = template(context);
+
+  $place.append(html);
+}
