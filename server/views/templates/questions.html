@@ -1,6 +1,6 @@
 <script id="questions-template" type="text/x-handlebars-template">
   \{{#each question}}
-    <div class="column">
+    <div class="column" onclick="getQuestionView('selectedList',\{{this.id}})">
       <div id="question-\{{this.id}}" class="questionbackground">
         <h1>\{{this.question}}</h1>
         <h2>\{{this.answer}}</h2>

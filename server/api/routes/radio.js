@@ -7,5 +7,6 @@ router.get('/user', rCtrl.user);
 router.post('/', rCtrl.create);
 router.post('/list', rCtrl.associateWithList);
 router.post('/removefromlist', rCtrl.removeFromList);
+router.delete('/delete/:id', rCtrl.destroy);
 
 module.exports = router;

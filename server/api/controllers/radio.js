@@ -112,3 +112,19 @@ module.exports.removeFromList = function(req, res, next){
   }
 };
 
+module.exports.destroy = function(req, res, next){
+  if(!req.session.user){
+    sendJsonResponse(res, '400', {'error': 'not logged in'});
+  } else {
+    db.Radio.findById(req.params.id)
+      .then(function(q){
+        if(q.UserId !== req.session.user.id){
+          sendJsonResponse(res, '400', {'error': 'not the owner of the question. cannot delete.'});
+        } else {
+          return q.destroy();
+        }
+      }).then(function(){
+        sendJsonResponse(res, '200', {'destroyed': req.params.id});
+      });
+  }
+};

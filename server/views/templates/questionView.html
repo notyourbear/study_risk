@@ -1,0 +1,68 @@
+<script id="questionView-template" type="text/x-handlebars-template">
+  <div id="questionView" class="row">
+    <div class="small-10 small-centered columns">
+      <h3>\{{this.question}}</h3>
+      <h4>Answer: \{{this.answer}}</h4>
+      
+      \{{#with false1}}
+      <hr/>
+      <div class="row falseTitle">
+        <div class="small-12 columns">
+        <h5>False Answers</h5>
+        </div>
+        <hr/>
+      </div>
+      
+      <div class="row">
+        <div class="small-12 columns">
+          <h5>\{{this}}</h5>
+        </div>
+      </div>
+      \{{/with}}
+
+      \{{#with false2}}
+      <div class="row">
+        <div class="small-12 columns">
+         <h5>\{{this}}</h5>
+        </div>
+      </div>
+      \{{/with}}
+
+      \{{#with false3}}
+      <div class="row">
+        <div class="small-12 columns">
+          <h5>\{{this}}</h5>
+        </div>
+      </div>
+      \{{/with}}
+
+      \{{#with false4}}
+      <div class="row">
+        <div class="small-12 columns">
+          <h5>\{{this}}</h5>
+        </div>
+      </div>
+      \{{/with}}
+
+      \{{#with false5}}
+      <div class="row">
+        <div class="small-12 columns">
+         <h5>\{{this}}</h5>
+        </div>
+      </div>
+      \{{/with}}
+      
+      <hr/>
+
+      <div class="row">
+        <div class="small-6 columns">
+          <button class="button" onclick="">Edit</button>
+        </div>
+        <div class="small-6 columns">
+          <button class="button" onclick="">Delete Question</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</script>

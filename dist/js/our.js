@@ -317,6 +317,7 @@ $('document').ready(function(){
 
           if(q[fls]!==""){
             radio.falseAnswers.push(q[fls]);
+            radio[fls] = q[fls];
           }
         }
 
@@ -710,6 +711,25 @@ function removeQFromList(qId, listId){
       });
     });
   }
+}
+
+function getQuestionView(placeId, qId){
+  cleanSpot(placeId);
+  var $place = $('#'+placeId);
+
+  
+  var source = $('#questionView-template').html();
+  var template = Handlebars.compile(source);
+  var context = radiosObj.question[qId];
+  var html = template(context);
+
+  $place.append(html);
+}
+
+function deleteQuestion(qId, placeId, listId){
+  //api call to delete the question
+  //remove it from questionView
+  //remove it from questionList
 }
 $('document').ready(function(){
 

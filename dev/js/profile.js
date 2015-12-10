@@ -33,6 +33,7 @@ $('document').ready(function(){
 
           if(q[fls]!==""){
             radio.falseAnswers.push(q[fls]);
+            radio[fls] = q[fls];
           }
         }
 
