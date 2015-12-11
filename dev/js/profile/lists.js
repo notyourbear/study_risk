@@ -80,6 +80,12 @@ function deleteList(id){
    type: 'DELETE',
    success: function(response) {
      console.log(response);
+     cleanSpot('selectedList');
+     $('#selectedList').html('<h1> List has been deleted </h1>');
+     //get rid of listsObj list
+     delete listsObj.lists[id];
+     //recall listsview
+     getListsView('theLists');
    }
   });
 }
