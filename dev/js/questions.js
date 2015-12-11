@@ -10,7 +10,9 @@ function getQuestions(listId, cb){
 
 
 function populateQuestion(questions, cb){
-    cb(questions[genRandomInt(0, questions.length-1)]);
+    var q = questions[genRandomInt(0, questions.length-1)];
+    shuffle(q['possibleAnswers']);
+    cb(q);
 }
 
 function placeQuestion(id, context, cb){

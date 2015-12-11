@@ -13,10 +13,11 @@ $background-dark: #7db3a6;
 #map {
   height: 620px;
   border-radius: 400px;
-  width: 720px;
+  width: 100%;
+  max-width: 720px;
   background: white;
   display: inline-block;
-  margin: 10px 50px 0;
+  margin-top: 10px;
   background: $background-light;
   background-image: linear-gradient($background-light, $background-dark);
 }

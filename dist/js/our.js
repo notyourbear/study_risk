@@ -56,8 +56,6 @@ Gameboard.prototype.createState = function(map, state, layerColorCurrent, layerC
   var layer = this.layers[state];
   var that = this;
   var num = this[layerColorCurrent];
-  console.log('color', that[layerColorArray][num]);
-  console.log(num, layerColorCurrent);
   layer.setStyle({
     color: that[layerColorArray][num],
   });
@@ -75,7 +73,7 @@ Gameboard.prototype.createState = function(map, state, layerColorCurrent, layerC
         async.series([
           function(callback){
             clear('questionField');
-            callback(null, {'one': 'placedQuestion'});
+            callback(null, {'one': 'cleared field'});
           },
           function(callback){
             placeQuestion('questionField', question, function(){
@@ -109,7 +107,7 @@ Gameboard.prototype.createState = function(map, state, layerColorCurrent, layerC
 };
 
 Gameboard.prototype.createLayerGroup = function(map, group, colorCurrent, colorArray, clickFn, cb){
-  console.log(group, this[group]);
+  
   for(var state in this[group]){
     if (this[group].hasOwnProperty(state)){
       this.createState(map, state, colorCurrent, colorArray, clickFn);
@@ -180,7 +178,6 @@ Gameboard.prototype.initGame = function(map){
     },
     function(callback){
       that.createLayerGroup(map, 'userStates', 'currentUserStateColor','userStatesColors', undefined, function(){
-        console.log('done! 4');
         callback(null, {'four': 'added user list to map'});
       });
     }
@@ -194,31 +191,26 @@ Gameboard.prototype.initGame = function(map){
 };
 
 Gameboard.prototype.newTurn = function(map){
-  console.log('new turn!');
   var that = this;
   async.series([
     function(callback){
       that.clearBoard(map, function(){
         clear('questionField');
-        console.log('done! clearboard');
         callback(null, {'one': 'clearedBoard'});
       });
     },
     function(callback){
       that.createBorderingGroup(function(){
-        console.log('done! border group created');
         callback(null, {'two': 'border group created'});
       });
     },
     function(callback){
       that.createLayerGroup(map, 'bordering', 'currentBorderStatesColor', 'borderStatesColors', addToUserStates, function(){
-        console.log('done! 5');
         callback(null, {'five': 'added touching list to map'});
       });
     },
     function(callback){
       that.createLayerGroup(map, 'userStates', 'currentUserStateColor' , 'userStatesColors', undefined, function(){
-        console.log('done! 4');
         callback(null, {'four': 'added user list to map'});
       });
     },
@@ -387,7 +379,9 @@ function getQuestions(listId, cb){
 
 
 function populateQuestion(questions, cb){
-    cb(questions[genRandomInt(0, questions.length-1)]);
+    var q = questions[genRandomInt(0, questions.length-1)];
+    shuffle(q['possibleAnswers']);
+    cb(q);
 }
 
 function placeQuestion(id, context, cb){
@@ -414,6 +408,24 @@ function validateQuestion(answers, context, successCb, failCb){
 
 function genRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function shuffle(array) {
+  var m = array.length, t, i;
+
+  // While there remain elements to shuffle…
+  while (m) {
+
+    // Pick a remaining element…
+    i = Math.floor(Math.random() * m--);
+
+    // And swap it with the current element.
+    t = array[m];
+    array[m] = array[i];
+    array[i] = t;
+  }
+
+  return array;
 }
 function setTile(tile, attr) {
   var layer = L.tileLayer(tile, {

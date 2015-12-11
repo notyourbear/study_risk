@@ -56,8 +56,6 @@ Gameboard.prototype.createState = function(map, state, layerColorCurrent, layerC
   var layer = this.layers[state];
   var that = this;
   var num = this[layerColorCurrent];
-  console.log('color', that[layerColorArray][num]);
-  console.log(num, layerColorCurrent);
   layer.setStyle({
     color: that[layerColorArray][num],
   });
@@ -75,7 +73,7 @@ Gameboard.prototype.createState = function(map, state, layerColorCurrent, layerC
         async.series([
           function(callback){
             clear('questionField');
-            callback(null, {'one': 'placedQuestion'});
+            callback(null, {'one': 'cleared field'});
           },
           function(callback){
             placeQuestion('questionField', question, function(){
@@ -109,7 +107,7 @@ Gameboard.prototype.createState = function(map, state, layerColorCurrent, layerC
 };
 
 Gameboard.prototype.createLayerGroup = function(map, group, colorCurrent, colorArray, clickFn, cb){
-  console.log(group, this[group]);
+  
   for(var state in this[group]){
     if (this[group].hasOwnProperty(state)){
       this.createState(map, state, colorCurrent, colorArray, clickFn);
@@ -180,7 +178,6 @@ Gameboard.prototype.initGame = function(map){
     },
     function(callback){
       that.createLayerGroup(map, 'userStates', 'currentUserStateColor','userStatesColors', undefined, function(){
-        console.log('done! 4');
         callback(null, {'four': 'added user list to map'});
       });
     }
@@ -194,31 +191,26 @@ Gameboard.prototype.initGame = function(map){
 };
 
 Gameboard.prototype.newTurn = function(map){
-  console.log('new turn!');
   var that = this;
   async.series([
     function(callback){
       that.clearBoard(map, function(){
         clear('questionField');
-        console.log('done! clearboard');
         callback(null, {'one': 'clearedBoard'});
       });
     },
     function(callback){
       that.createBorderingGroup(function(){
-        console.log('done! border group created');
         callback(null, {'two': 'border group created'});
       });
     },
     function(callback){
       that.createLayerGroup(map, 'bordering', 'currentBorderStatesColor', 'borderStatesColors', addToUserStates, function(){
-        console.log('done! 5');
         callback(null, {'five': 'added touching list to map'});
       });
     },
     function(callback){
       that.createLayerGroup(map, 'userStates', 'currentUserStateColor' , 'userStatesColors', undefined, function(){
-        console.log('done! 4');
         callback(null, {'four': 'added user list to map'});
       });
     },
