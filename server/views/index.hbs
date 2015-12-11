@@ -1,22 +1,45 @@
-<div class="row">
-  <div class="small-10 small-centered columns">
-    <div class="row">
-      <div class="small-12 columns">
-        <h1>{{title}}</h1>
+<div class="fixed index-nav">
+  <nav class="top-bar" data-topbar role="navigation"> 
+    <button class="small secondary hollow button index-button float-right" id="signupButton" type="button">Signup</button>
+    <button class="small secondary hollow button index-button float-right" id="loginButton" type="button">Login</button>
+  </nav>
+</div>
+<div class="row body">
+  <div class="small-12">
+    <div class="contnt">
+      <div class="title-field">
+          <span class="title float-center">
+            <img src="http://locallender.info/images/states/oregon.gif" alt=""><br/>
+            <h1>{{title}}</h1>
+            <h2>description goes here</h2>
+          </span>
       </div>
 
-      <div class="small-12 columns">
-        <p>Welcome to {{title}}</p>
+      <div class="more">
+        <h3>basic tooltip1</h3>
+        {{!-- take over states by playing stuff --}}
+      </div>
+      <div class="evenMore">
+        <h3>basic tooltip2</h3>
+        {{!-- you can create your own lists or play with public lists --}}
+      </div>
+      <div class="evenEvenMore">
+        <h3>basic tooltip3</h3>
+        {{!-- signup to play now--}}
       </div>
 
-    </div> 
-    {{!-- end row --}}
 
-    <div class="row">
-      <div id="content"></div>
-    </div>
-    {{!-- end row --}}
   </div>
 </div>
+    
+      
+
+    {{!-- end row --}}
+
+    
+</div>
+
+
+
 
 

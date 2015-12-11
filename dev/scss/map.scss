@@ -1,13 +1,28 @@
+$background-light: #d3e8dc;
+$background-dark: #7db3a6;
+// $1:#fce8c7;
+// $2:#edd8b9;
+// $3:#dec9ab;
+// $4:#d4bea1;
+// $5:#ab9a85;
+// $g1: #b8b453;
+// $g2: #9c9c44;
+// $g3: #96964d;
+// $g4: #8f8e4f;
+
 #map {
-  height: 650px;
-  border: 1px solid black;
-  width: 725px;
+  height: 620px;
+  border-radius: 400px;
+  width: 720px;
   background: white;
   display: inline-block;
+  margin: 10px 50px 0;
+  background: $background-light;
+  background-image: linear-gradient($background-light, $background-dark);
 }
 
 path {
   stroke-opacity: 1;
-  fill-opacity: .8;
-  stroke-width: 1px;
+  fill-opacity: .9;
+  stroke-width: 3px;
 }

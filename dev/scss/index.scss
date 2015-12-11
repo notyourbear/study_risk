@@ -1,0 +1,91 @@
+$background: #e3fcf1;
+$light: #a7ceff;
+$primary: #89c0ed;
+$font-stack: Helvetica, sans-serif;
+$title: 'Megrim', cursive;
+
+.body {
+  background: $background;
+  height:2000px;
+}
+
+.division {
+  position: absolute;
+  width: 100%;
+  height: 400px;
+  left: 0;
+}
+
+
+.index-nav {
+  position: fixed;
+  z-index: 20;
+  right: 0;
+  top: 0;
+  width: 100%;
+  .top-bar {
+    padding: .5rem 20px 0;
+    background: $background;
+    .index-button {
+      margin: 0 10 10px;
+    }
+  }
+
+
+}
+
+.contnt {
+  margin: 0 -20px;
+  color: $light;
+  .title-field{
+    background-color: $background;
+    width: 100%;
+    z-index: 1;
+    position: fixed;
+    height: 400px;
+    .title {
+      img {
+        margin: 0 0 0 20px;
+        width: 200px;
+      }
+      width: 310px;
+      border: 1px solid green;
+      margin-top: 100px;
+      padding-left: 30px;
+      h1 {
+        font-size: 3.5em;
+        margin-bottom: -5px;
+        font-family: $title;
+        font-weight: 700;
+      }
+      h2 {
+        font-size: 1.5em;
+        font-family: $title;
+        font-weight: 700;
+      }
+      button {
+        display: block;
+      }
+    }
+  }
+  .more {
+    @extend .division;
+    z-index: 5;
+    top: 500px;
+    border-top: 10px solid $primary;
+    border-bottom: 10px solid $primary;
+    background: $background;
+  }
+  .evenMore {
+    @extend .more;
+    top: 1000px;
+    background: green;
+  }
+
+  .evenEvenMore {
+    @extend .more;
+    top: 1500px;
+    background: orange;
+  }
+  
+}

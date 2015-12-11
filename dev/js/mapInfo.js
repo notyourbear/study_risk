@@ -41,7 +41,7 @@ $('document').ready(function(){
       };
       
       //init map and set location
-      var map = createMap('map', mapOptions, [38.925, -94.481], 4);
+      var map = createMap('map', mapOptions, [39.925, -96.481], 4);
       setTile.call(map, states, '<a href="http://mapbox.com">Mapbox</a>');
       b = map;
 

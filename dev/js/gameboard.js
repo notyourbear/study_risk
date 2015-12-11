@@ -6,7 +6,19 @@ function Gameboard(){
   this.userStates = {};
   this.vacantStates = {};
   this.enemyStates = {};
+  this.userStatesColors = ['#b8b453', '#9c9c44', '#96964d', '#8f8e4f'];
+  this.borderStatesColors = ['#fce8c7'];
+  this.currentUserStateColor = 0;
+  this.currentBorderStatesColor = 0;
 }
+
+Gameboard.prototype.updateColor = function(current, type){
+  if(this[current] === this[type].length - 1){
+    this[current] = 0;
+  } else {
+    this[current] += 1;
+  }
+};
 
 Gameboard.prototype.createBoard = function(map, layerColor, cb){
   var that = this;
@@ -40,20 +52,24 @@ Gameboard.prototype.clearBoard = function(map, cb){
   cb();
 };
 
-Gameboard.prototype.createState = function(map, state, layerColor, clickFn){
+Gameboard.prototype.createState = function(map, state, layerColorCurrent, layerColorArray, clickFn){
   var layer = this.layers[state];
   var that = this;
-  
+  var num = this[layerColorCurrent];
+  console.log('color', that[layerColorArray][num]);
+  console.log(num, layerColorCurrent);
   layer.setStyle({
-    color: layerColor,
+    color: that[layerColorArray][num],
   });
+
+  that.updateColor(layerColorCurrent, layerColorArray);
 
   layer.off('click');
   layer.on('click', function(){
     
-    console.log(clickFn);
+   
     if(clickFn === undefined){
-      console.log('MEOW');
+      
     } else {
       populateQuestion(questionSet ,function(question){
         async.series([
@@ -68,10 +84,10 @@ Gameboard.prototype.createState = function(map, state, layerColor, clickFn){
           },
           function(callback){
             validateQuestion('answers', question, function(){
-              console.log('correct!');
+              
               return clickFn(state, that, 'userStates', map);
             }, function(){
-              console.log('false!');
+              
               return that.newTurn(map);
             });
             
@@ -92,11 +108,11 @@ Gameboard.prototype.createState = function(map, state, layerColor, clickFn){
   map.addLayer(layer);
 };
 
-Gameboard.prototype.createLayerGroup = function(map, group, groupColor, clickFn, cb){
+Gameboard.prototype.createLayerGroup = function(map, group, colorCurrent, colorArray, clickFn, cb){
   console.log(group, this[group]);
   for(var state in this[group]){
     if (this[group].hasOwnProperty(state)){
-      this.createState(map, state, groupColor, clickFn);
+      this.createState(map, state, colorCurrent, colorArray, clickFn);
     }
   }
   cb();
@@ -136,33 +152,34 @@ Gameboard.prototype.createBorderingGroup = function(cb){
 
 Gameboard.prototype.initGame = function(map){
   var that = this;
+  var randomState = this.states[genRandomInt(0, this.states.length-1)];
   async.series([
     function(callback){
       that.createBoard(map, 'transparent', function(){
-        console.log('done! 1');
+        
         callback(null, {'one': 'map created'});
       });
     },
     function(callback){
-      that.addToGroup('oregon', 'userStates', function(){
-        console.log('done! 2');
+      that.addToGroup(randomState, 'userStates', function(){
+        
         callback(null, {'two': 'state added to user group'});
       });
     },
     function(callback){
       that.createBorderingGroup(function(){
-        console.log('done! 3');
+        
         callback(null, {'three': 'created touching list'});
       });
     },
     function(callback){
-      that.createLayerGroup(map, 'bordering', 'orange', addToUserStates, function(){
-        console.log('done! 5');
+      that.createLayerGroup(map, 'bordering', 'currentBorderStatesColor', 'borderStatesColors', addToUserStates, function(){
+        
         callback(null, {'five': 'added touching list to map'});
       });
     },
     function(callback){
-      that.createLayerGroup(map, 'userStates', 'green', undefined, function(){
+      that.createLayerGroup(map, 'userStates', 'currentUserStateColor','userStatesColors', undefined, function(){
         console.log('done! 4');
         callback(null, {'four': 'added user list to map'});
       });
@@ -194,13 +211,13 @@ Gameboard.prototype.newTurn = function(map){
       });
     },
     function(callback){
-      that.createLayerGroup(map, 'bordering', 'orange', addToUserStates, function(){
+      that.createLayerGroup(map, 'bordering', 'currentBorderStatesColor', 'borderStatesColors', addToUserStates, function(){
         console.log('done! 5');
         callback(null, {'five': 'added touching list to map'});
       });
     },
     function(callback){
-      that.createLayerGroup(map, 'userStates', 'green', undefined, function(){
+      that.createLayerGroup(map, 'userStates', 'currentUserStateColor' , 'userStatesColors', undefined, function(){
         console.log('done! 4');
         callback(null, {'four': 'added user list to map'});
       });
