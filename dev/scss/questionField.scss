@@ -1,7 +1,38 @@
+$qColor: #417365;
+$oceanColor: #d3e8dc;
+$darkOceanColor: #6fa395;
+
 #questionField {
-  border: 1px solid black;
-  width: 300px;
-  height: 300px;
+  margin-top: 80px;
+  width: 100%;
   display: inline-block;
   vertical-align: top;
+  h1 {
+    font-weight: 300;
+    font-size: 1.5em;
+    letter-spacing: 1px; 
+  }
+  label h1 {
+    width: 80%;
+    border-bottom: 2px solid $darkOceanColor;
+  }
+  input[type="radio"] {
+    display:none;
+    + label {
+      width: 80%;
+      font-size: 1.15em;
+      font-weight: 300;
+      letter-spacing: 1px;
+      padding: 5px 0;
+      margin-left: 0;
+      line-height: 1.5em;
+      margin-bottom: 15px;
+      cursor: pointer;
+      &:hover {
+        color: $qColor;
+        font-weight: 500;
+      }
+    }
+  }
+
 }

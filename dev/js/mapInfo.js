@@ -8,6 +8,18 @@ $('document').ready(function(){
   var pathname = window.location.pathname;
   var listId = getListId();
 
+  //profile button
+  $('#gameProfileButton').on('click', function(){
+    redirect('/users/profile');
+  });
+
+  //logout button
+  $('#gameLogoutButton').on('click', function(){
+    $.get('/api/users/logout', function(){
+      redirect('/users/login');
+    });
+  });
+
   $.get("/api/map/access", function(data){
     getQuestions(listId, function(questionList){
       console.log(questionList);

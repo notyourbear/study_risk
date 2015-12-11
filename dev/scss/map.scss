@@ -1,5 +1,7 @@
+$background: #f5fafa;
 $background-light: #d3e8dc;
 $background-dark: #7db3a6;
+$buttonColor: #417365;
 // $1:#fce8c7;
 // $2:#edd8b9;
 // $3:#dec9ab;
@@ -9,6 +11,25 @@ $background-dark: #7db3a6;
 // $g2: #9c9c44;
 // $g3: #96964d;
 // $g4: #8f8e4f;
+
+.playingField {
+  background: linear-gradient($background, #fff);
+  background-size: cover; 
+  .button.hollow.secondary{
+      border-color: $buttonColor;
+      color: $buttonColor;
+      border-radius: 20px;
+      opacity: .5;
+    &:hover{
+      color: $background;
+      background: $buttonColor;
+      opacity: 1;
+    }
+  }
+  .menuButtons {
+    margin-top: 20px;
+  }
+}
 
 #map {
   height: 620px;

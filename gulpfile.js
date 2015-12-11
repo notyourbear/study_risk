@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var imagemin = require('gulp-imagemin');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var bower = require('gulp-main-bower-files');
@@ -45,6 +46,7 @@ function clean() {
 
 function images(){
   return gulp.src(paths.dev + '/images/**/*')
+  .pipe(imagemin({optimizationLevel: 5}))
   .pipe(gulp.dest(paths.dist + '/images'));
 }
 
@@ -149,7 +151,9 @@ function watch(){
   var js = paths.dev + '/js/**/*';
   var scss = paths.dev + '/scss/**/*';
   var tsts = paths.test + '**/*';
+  var imgs = paths.dev + '/images/**/*';
   gulp.watch(js, scripts);
   gulp.watch(scss, styles);
   gulp.watch(tsts, testScripts);
+  gulp.watch(imgs, images);
 }
