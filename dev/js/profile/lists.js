@@ -35,7 +35,7 @@ function getListsView(placeId){
 
   cleanSpot('profileButtons');
 
-  addButton('profileButtons', 'getCreateListForm', 'button', 'Create a new list');
+  addButton('profileButtons', 'getCreateListForm', 'button small secondary hollow', 'Create a new list');
   getCreateListForm('getCreateListForm', 'selectedList', function(){
     submitNewList('createNewLists');
   });

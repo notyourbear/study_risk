@@ -1,36 +1,46 @@
-<div class="off-canvas-wrapper">
- 
-  <div class="off-canvas-content" data-off-canvas-content>
-    <div class="title-bar">
-      <div class="title-bar-left">
-        <span class="title-bar-title">
-          {{user.email}}
-        </span>
-      </div>
-      <div class="title-bar-right">
-        <button id="logoutButton" type="button">Logout</button>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="row">
-    <div class="small-6 columns">
-      <div class="callout primary">
-        <div class="row column">
-          <h5 id="profile-callout">Select with which list to play</h5>
+<div class="row profile">
+  <div class="small-10 small-centered columns">
+       
+    <div class="row profileMenu">
+      <div class="small-4 float-right columns">
+        <div class="row">
+          <div class="small-5 columns">
+            <span class="title-bar-title">
+              {{user.email}}
+            </span>
+          </div>
+          <div class="small-5 columns">
+            
+              <button id="logoutButton" type="button" class="button hollow secondary small">Logout</button>
+            
+          </div>
+          
         </div>
       </div>
-
-      <div id="theLists" class="row small-up-3"></div>
-
     </div>
-    <div id="profileButtons" class="small-2 columns">
+
+
+    <div class="row">
+      <div class="small-6 columns">
       
+        <div class="row">
+          <div class="small-12 columns">
+            <h2 id="profile-callout"></h2>
+          </div>
+        </div>
+       
+
+        <div id="theLists" class="row small-up-1"></div>
+
+      </div>
+      <div id="profileButtons" class="small-2 columns">
+        
+      </div>
+      <div id="selectedList" class="small-4 columns">
+        selected list will go here.
+      </div>
     </div>
-    <div id="selectedList" class="small-4 columns">
-      selected list will go here.
-    </div>
+
   </div>
 </div>
 

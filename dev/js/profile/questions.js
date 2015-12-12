@@ -92,9 +92,9 @@ function getQuestionsView(placeId){
   changeText('profile-callout', "You can add or remove questions from the selected list");
 
   cleanSpot('profileButtons');
-  addButton('profileButtons', 'getListsView', 'button', 'View all Lists');
+  addButton('profileButtons', 'getListsView', 'button small hollow secondary', 'View all Lists');
   
-  addButton('profileButtons', 'getRadioForm', 'button', 'Create a new question');
+  addButton('profileButtons', 'getRadioForm', 'button small hollow secondary', 'Create a new question');
   getCreateRadioForm('getRadioForm', 'selectedList', function(){
       submitNewRadio('createNewRadio');
     });
