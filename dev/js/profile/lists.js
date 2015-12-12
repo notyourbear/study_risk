@@ -40,7 +40,7 @@ function getListsView(placeId){
     submitNewList('createNewLists');
   });
 
-  changeText('profile-callout', "Select with which list to play");
+  changeText('profile-callout', "<h2>Your Lists</h2><h3>Select with which list to play</h3>");
 }
 
 function submitNewList(id, href, obj){

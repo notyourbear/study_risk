@@ -26,12 +26,23 @@ $buttonColor: #417365;
     }
   }
   #profile-callout {
-    border-radius: 40px;
     border-width: 0px;
-    font-size: 1.5em;
     font-weight: 300;
     letter-spacing: 1px;
-    padding-bottom: 40px;
+    padding-bottom: 20px;
+    h2{
+      @extend #profile-callout;
+      font-size: .85em;
+      padding-bottom: 0;
+    }
+    h3{
+      @extend #profile-callout;
+      margin-top: -10px;
+      font-size: .5em;
+      padding-bottom: 0;
+      border-bottom: 2px solid $buttonColor;
+    }
+    
   }
   #profileButtons {
     .button.hollow.secondary{
