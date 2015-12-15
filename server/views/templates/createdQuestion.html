@@ -1,16 +1,18 @@
 <script id="createdQuestion-template" type="text/x-handlebars-template">
-  <div class="column">
-    <div id="question-\{{this.id}}" class="questionbackground">
-      <h1>\{{this.question}}</h1>
-      <h2>\{{this.answer}}</h2>
-      
-      \{{#each falseAnswers}}
-      <h3>\{{this}}</h3>
-      \{{/each}}
+  <div class="row">
+    <div class="small-12 columns"> 
+      <div id="question-\{{this.id}}" class="questionbackground">
+        <h1>\{{this.question}}</h1>
+        <h2>\{{this.answer}}</h2>
+        
+        \{{#each falseAnswers}}
+        <h3>\{{this}}</h3>
+        \{{/each}}
 
-      \{{#unless inCurrentList}}
-      <button class="button" onclick="addToList(\{{this.id}}, currentList)">Add to current list</button>
-      \{{/unless}}
-    </div> 
+        \{{#unless inCurrentList}}
+        <button class="button" onclick="addToList(\{{this.id}}, currentList)">Add to current list</button>
+        \{{/unless}}
+      </div> 
+    </div>
   </div>
 </script>

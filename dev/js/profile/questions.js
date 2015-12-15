@@ -89,7 +89,7 @@ function getQuestionsView(placeId){
   var html = template(radiosObj);
   
   $place.append(html);
-  changeText('profile-callout', "You can add or remove questions from the selected list");
+  changeText('profile-callout', "<h2>Your Questions</h2><h3>You can add or remove questions from the selected list</h3>");
 
   cleanSpot('profileButtons');
   addButton('profileButtons', 'getListsView', 'button small hollow secondary', 'View all Lists');
