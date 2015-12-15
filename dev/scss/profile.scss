@@ -104,20 +104,97 @@ $buttonColor: #417365;
       border-color: $background;
       color: $background;
       &:hover {
-        border-color: $buttonColor;
         color: $buttonColor;
         background: $background;
       }
     }
     .buttonRow {
-      margin-bottom: -12px;
+      margin-bottom: -1px;
       margin-top: 25px;
+      margin-right: -3px;
+      margin-left: -3px;
+      .btLeft {
+        border-left-width: 0px;
+        border-bottom-width: 0px;
+      }
+      .btRight {
+        border-bottom-width: 0px;
+        width: 50%;
+      }
     }
   }
 }
 
 #selectedList {
-  border-left: 5px solid orange;
-  border-top: 0px solid orange;
-  border-bottom: 0px solid orange;
+  background: $buttonColor;
+  color: $background;
+  .x-out {
+    text-align: right;
+  }
+  #listView-questions{
+    .listQuestion{
+      padding: 20px 0;
+      #removeQFromList{
+        border-color: $background;
+        color: $background;
+        background: $buttonColor;
+        padding: 5px;
+        line-height: 10px;
+        font-size: .5em;
+        &:hover {
+          border-color: $buttonColor;
+          color: $buttonColor;
+          background: $background;
+        }
+      }
+    }
+  }
+  .buttonRow {
+    margin-bottom: -1px;
+    margin-top: 25px;
+    margin-right: -16px;
+    margin-left: -16px;
+    button {
+      border-color: $background;
+      color: $background;
+      &:hover {
+        color: $buttonColor;
+        background: $background;
+      }
+    }
+    .btLeft {
+      border-left-width: 0px;
+      border-bottom-width: 0px;
+    }
+    .btRight {
+      border-bottom-width: 0px;
+      width: 50%;
+    }
+  }
+  #listView {
+    #listEditForm {
+      color: $buttonColor;
+      input {
+        padding: 8px 0 8px 5px;
+      }
+      .label {
+        font-size: 1em;
+        margin-left: -22px;
+        margin-top: 10px;
+        background: transparent;
+        color: $background;
+      }
+      .buttonRow{
+        input {
+          border-color: $background;
+          color: $background;
+          padding: .85em 1em;
+          &:hover {
+            color: $buttonColor;
+            background: $background;
+          }
+        }
+      }
+    }
+  }
 }

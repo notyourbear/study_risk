@@ -10,15 +10,15 @@
           <h3>\{{this}}</h3>
           \{{/each}}
 
-          <div class="row buttonRow">
-            <div class="small-6 columns">
+          <div class="expanded button-group buttonRow">
+            
               \{{#unless inCurrentList}}
-                <button class="button hollow secondary" onclick="addToList(\{{this.id}}, currentList)">Add to list</button>
+                <button class="button hollow secondary btLeft" onclick="addToList(\{{this.id}}, currentList)">Add to list</button>
               \{{/unless}}
-            </div>
-            <div class="small-6 columns">
-                <button class="button hollow secondary" onclick="getQuestionView('selectedList',\{{this.id}})">Edit Question</button>
-            </div>
+            
+            
+                <button class="button hollow secondary btRight" onclick="getQuestionView('selectedList',\{{this.id}})">Edit Question</button>
+           
           </div>
 
         </div>

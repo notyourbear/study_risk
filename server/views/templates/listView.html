@@ -1,12 +1,9 @@
 <script id="listView-template" type="text/x-handlebars-template">
   <div id="listView" class="row">
-    <div class="small-10 small-centered columns">
+    <div class="small-12 columns">
       <div class="row">
-        <div class="small-9 columns">
+        <div class="small-12 columns">
           <h3>\{{this.name}}</h3>
-        </div>
-        <div class="small-3 columns">
-          <button id="editCurrentList" class="button" onclick="getEditListForm('selectedList', currentList)">Edit</button>
         </div>
       </div>
 
@@ -22,33 +19,43 @@
           Questions: <span id="listView-amountOfQs">\{{this.Radios.length}}</span>
         </div>
       </div>
+      
+
+      \{{#if Radios}}
       <hr/>
+      <div class="row">
+        <div class="small-10 float-right columns x-out">
+          Remove from list
+        </div>
+      </div>
+      \{{/if}}
 
       <div id="listView-questions">
         \{{#each Radios}}
-        <div id="listQuestion-\{{this.id}}" class="row">
+        <div id="listQuestion-\{{this.id}}" class="row listQuestion">
           <div class="small-9 columns">
             \{{this.question}}
           </div>
           <div class="small-3 columns">
-            <button id="removeQFromList" class="button" onclick="removeQFromList(\{{this.id}}, currentList)">Remove From List</button>
+            <button id="removeQFromList" class="button small" onclick="removeQFromList(\{{this.id}}, currentList)">X</button>
           </div>
         </div>
         \{{/each}}
       </div>
       
-
-      <hr/>
-
       <div class="row">
-        <div class="small-6 columns">
-          <button class="button" onclick="startGame(\{{this.id}})">Play</button>
-        </div>
-        <div class="small-6 columns">
-          <button class="button" onclick="deleteList(\{{this.id}})">Delete List</button>
+        <div class="small-12 columns">
+          <div class="expanded button-group buttonRow">
+            \{{#if Radios}}
+              <button class="button hollow secondary btLeft" onclick="startGame(\{{this.id}})">Play</button>
+            \{{/if}}
+            
+            
+              <button class="button hollow secondary btRight" onclick="getEditListForm('selectedList', currentList)">Edit List</button>
+            
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 </script>

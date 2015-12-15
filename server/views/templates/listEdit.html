@@ -1,37 +1,47 @@
 <script id="listEdit-template" type="text/x-handlebars-template">
   <div id="listView" class="row">
     <form id="listEditForm">
-      <div class="small-10 small-centered columns">
+      <div class="small-12 columns">
+        <div class="row nameLabel label">
+          <div class="small-12 columns">
+           List Name
+          </div>
+        </div>
         <div class="row">
           <div class="small-12 columns">
             <input id="editList-name" value="\{{this.name}}">
           </div>
         </div>
 
+        <div class="row descLabel label">
+          <div class="small-12 columns">
+           Description
+          </div>
+        </div>
         <div class="row">
           <div class="small-12 columns">
             <input id="editList-description" value="\{{this.description}}">
           </div>
         </div>
 
+        <div class="row privateLabel label">
+          <div class="small-12 columns">
+            Make list private?
+          </div>
+        </div>
         <div class="row">
           <div class="small-12 columns">
             <input type="checkbox" id="editList-private" \{{#if this.private}} checked \{{/if}}>
           </div>
-        </div>
+        </div>        
 
-        
-        <hr/>
-
-        
-
-        <div class="row">
-          <div class="small-6 columns">
-            <input type="submit" id="editList-button" class="button" value="Save Edits">
-          </div>
-          <div class="small-6 columns">
-            <button class="button" onclick="deleteList(\{{this.id}})">Delete List</button>
-          </div>
+        <div class="expanded button-group buttonRow">
+          
+            <input type="submit" id="editList-button" class="button hollow secondary btLeft" value="Save Edits">
+         
+          
+            <button class="button hollow secondary btRight" onclick="deleteList(\{{this.id}})">Delete List</button>
+         
         </div>
 
       </div>
