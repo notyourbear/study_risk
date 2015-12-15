@@ -50,6 +50,7 @@ $buttonColor: #417365;
       background: $buttonColor;
       letter-spacing: 1px;
       font-size: 14px;
+      width: 100%;
       &:hover{
         border-color: $buttonColor;
         color: $buttonColor;
@@ -176,6 +177,10 @@ $buttonColor: #417365;
       color: $buttonColor;
       input {
         padding: 8px 0 8px 5px;
+      }
+      .privacy-exp {
+        color: $background;
+        font-size: .75em;
       }
       .label {
         font-size: 1em;
