@@ -1,10 +1,10 @@
 <script id="addQuestionToList-template" type="text/x-handlebars-template">
-  <div id="listQuestion-\{{this.id}}" class="row">
+  <div id="listQuestion-\{{this.id}}" class="row listQuestion">
     <div class="small-9 columns">
       \{{this.question}}
     </div>
     <div class="small-3 columns">
-      <button id="removeQFromList" class="button" onclick="removeQFromList(\{{this.id}}, currentList)">Remove From List</button>
+      <button id="removeQFromList" class="button small" onclick="removeQFromList(\{{this.id}}, currentList)">X</button>
     </div>
   </div>
 </script>

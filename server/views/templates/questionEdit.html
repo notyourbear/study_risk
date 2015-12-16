@@ -1,7 +1,12 @@
 <script id="questionEdit-template" type="text/x-handlebars-template">
   <div id="questionEdit" class="row">
-    <div class="small-10 small-centered columns">
+    <div class="small-12 small-centered columns">
       <form id="questionEditForm">
+        <div class="row">
+          <div class="small-12 columns">
+            <h1> Question </h1>
+          </div>
+        </div>
         <div class="row">
           <div class="small-12 columns">
           <input id="editQuestion-question" value="\{{this.question}}">
@@ -9,7 +14,17 @@
         </div>
         <div class="row">
           <div class="small-12 columns">
+            <h2> Correct Answer </h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="small-12 columns">
           <input id="editQuestion-answer" value="\{{this.answer}}">
+          </div>
+        </div>
+        <div class="row">
+          <div class="small-12 columns">
+            <h2> Wrong Answers </h2>
           </div>
         </div>
         <div class="row">
@@ -39,10 +54,9 @@
         </div>
         
 
-        <div class="row">
-          <div class="small-12 columns">
-            <input class="button" type="submit" value="Save Edits"> 
-          </div>
+         <div class="expanded button-group buttonRow">
+            <input class="button expanded secondary hollow" type="submit" value="Save Edits"> 
+            <button class="button expanded secondary hollow" onclick="deleteQuestion(\{{this.id}}, 'questionView', 'question-\{{this.id}}')">Delete Question</button>
         </div>
       </form>
 

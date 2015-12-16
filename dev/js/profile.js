@@ -39,15 +39,26 @@ function startGame(listId){
   redirect(href);
 }
 
-function changeText(locationId, text){
+function changeText(locationId, text, clss){
   cleanSpot(locationId);
   var $place = $('#'+locationId);
   $place.html(text);
+  
+  if(clss){
+    $place.addClass(clss);
+  }
+  
 }
 
-function addButton(locationId, buttonId, buttonClass, text){
+function addButton(locationId, buttonId, buttonClass, text, prepend){
   var button = "<button id='"+buttonId+"' class='"+buttonClass+"'>"+text+"</button>";
-  $('#'+locationId).append(button);
+
+  if(prepend === 'prepend'){
+    $('#'+locationId).prepend(button);
+  } else {
+    $('#'+locationId).append(button);
+  }
+  
 }
 
 function genRadioQ(q){

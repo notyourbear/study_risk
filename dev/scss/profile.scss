@@ -2,6 +2,22 @@ $background: #f5fafa;
 $buttonColor: #417365;
 
 .profile{
+  .privacy-exp {
+    color: $background;
+    font-size: .75em;
+  }
+  #createNewLists{
+    .button.hollow.secondary{
+      border-color: $background;
+      color: $background;
+      width: 122%;
+      margin: 16px -10px -10px -20px;
+      &:hover{
+        color: $buttonColor;
+        background: $background;
+      }
+    }
+  }
   background: $background;
   .profileMenu {
     padding-top: 20px;
@@ -30,6 +46,7 @@ $buttonColor: #417365;
     font-weight: 300;
     letter-spacing: 1px;
     padding-bottom: 20px;
+    color: $buttonColor;
     h2{
       @extend #profile-callout;
       font-size: .85em;
@@ -70,6 +87,7 @@ $buttonColor: #417365;
 }
 
 #theLists {
+  color: $buttonColor;
   h1 {
     font-size: 1.5em;
     padding: 0 14px 0 20px;
@@ -178,10 +196,6 @@ $buttonColor: #417365;
       input {
         padding: 8px 0 8px 5px;
       }
-      .privacy-exp {
-        color: $background;
-        font-size: .75em;
-      }
       .label {
         font-size: 1em;
         margin-left: -22px;
@@ -202,4 +216,70 @@ $buttonColor: #417365;
       }
     }
   }
+}
+
+#questionView {
+  h1 {
+    font-size: 1.25em;
+    padding: 10px 0 5px;
+  }
+}
+
+.deleted {
+  background: $background;
+  color: $buttonColor;
+  h1 {
+    font-size: 1.45em;
+  }
+}
+
+#createNewRadio {
+  color: $background;
+  h1 {
+    font-size: 1.20em;
+    padding: 10px 0 5px;
+  }
+  h2 {
+    font-size: 1em;
+    padding: 14px 0 0;
+  }
+  .button.secondary.hollow {
+    border-color: $background;
+    color: $background;
+    width: 120%;
+    margin: 20px 0 0 -20px;
+    &:hover {
+      color: $buttonColor;
+      background: $background;
+    }
+  }
+}
+
+#questionEdit {
+  input{
+    color: $buttonColor;
+    padding: 10px;
+    margin: 5px 0;
+    width: 100%;
+  }
+  h1 {
+    font-size: 1.45em;
+    padding: 10px 0 5px;
+  }
+  h2 {
+    font-size: 1.25em;
+    padding: 20px 0 0px;
+  }
+  .button.secondary.hollow {
+    border-color: $background;
+    color: $background;
+    padding: .85em 1em;
+    width: 50%;
+    margin: 0;
+    &:hover {
+      color: $buttonColor;
+      background: $background;
+    }
+  }
+
 }

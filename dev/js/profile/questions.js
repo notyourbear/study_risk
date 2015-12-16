@@ -127,7 +127,7 @@ function addToList(qId, listId){
     $.post("/api/radios/list", obj, function(list){
       console.log('ADDED!', list);
       //remove button from correct question;
-      $('#question-'+qId).find('button').remove();
+      $('#question-'+qId).find('button.btLeft').remove();
       //add outline to the question list
       var $place = $('#listView-questions');
       var source = $("#addQuestionToList-template").html();
@@ -155,7 +155,10 @@ function removeQFromList(qId, listId){
       $("#listQuestion-"+qId).remove();
       //append add to list button on the correct question
         //question-qid
-      addButton("question-"+qId, "questionButton-"+qId, "button", "Add to current list");
+
+      var place = "question-" + qId + " .button-group";
+      console.log(place);
+      addButton(place, "questionButton-"+qId, "button hollow secondary btLeft", "Add to list", 'prepend');
 
       updateListQuestionTotal('--', 'listView-amountOfQs');
 
@@ -172,7 +175,7 @@ function getQuestionView(placeId, qId){
   var $place = $('#'+placeId);
 
   
-  var source = $('#questionView-template').html();
+  var source = $('#questionEdit-template').html();
   var template = Handlebars.compile(source);
   var context = radiosObj.question[qId];
   var html = template(context);
@@ -188,7 +191,7 @@ function deleteQuestion(qId, qvId, qlId){
      success: function(response) {
        console.log(response);
         //remove it from questionView
-        $('#'+qvId).html('<h1> Question has been deleted </h1>');
+        changeText(qvId, '<div class="small-12 columns"> Question has been deleted</div>', 'deleted');
         //remove it from questionList
         $('#'+qlId).remove();
      }
