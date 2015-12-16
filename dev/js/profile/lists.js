@@ -81,7 +81,7 @@ function deleteList(id){
    success: function(response) {
      console.log(response);
      cleanSpot('selectedList');
-     $('#selectedList').html('<h1> List has been deleted </h1>');
+     changeText('selectedList', '<div style="color: #417365; background: #f5fafa;" class="row"><div class="small-12 columns"> <h1>List has been deleted</h1> </div></div>', 'deleted');
      //get rid of listsObj list
      delete listsObj.lists[id];
      //recall listsview

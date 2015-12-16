@@ -216,6 +216,13 @@ $buttonColor: #417365;
       }
     }
   }
+  .deleted{
+    background: $background !important;
+    color: $buttonColor !important;
+    h1 {
+      font-size: 1.45em;
+    }
+  }
 }
 
 #questionView {
@@ -263,11 +270,11 @@ $buttonColor: #417365;
     width: 100%;
   }
   h1 {
-    font-size: 1.45em;
+    font-size: 1em;
     padding: 10px 0 5px;
   }
   h2 {
-    font-size: 1.25em;
+    font-size: 1em;
     padding: 20px 0 0px;
   }
   .button.secondary.hollow {
@@ -281,5 +288,4 @@ $buttonColor: #417365;
       background: $background;
     }
   }
-
 }
