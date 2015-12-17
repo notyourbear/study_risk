@@ -1,5 +1,13 @@
 module.exports.index = function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  info = {
+     title: 'Riskionaire',
+     description1: 'Take over the States.',
+     description2: 'One question at a time.'
+  };
+
+
+
+  res.render('index', info);
 };
 
 module.exports.test = function(req, res, next){
