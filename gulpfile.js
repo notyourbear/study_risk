@@ -17,15 +17,15 @@ var paths = {
 };
 
 //minifies js, converts scss to css and minifies
-gulp.task('build production', gulp.series(
+gulp.task('production', gulp.series(
   clean,
-  gulp.parallel(minifyScripts, bowerScripts, styles, bowerStyles, icons)
+  gulp.parallel(fnMinifyScripts, gameMinifyScripts, profileMinifyScripts, userMinifyScripts, bowerScripts, styles, bowerStyles, icons, images, testScripts, bowerTestScripts)
 ));
 
 //won't minify the js for easier bug-fixing
 gulp.task('build', gulp.series(
   clean,
-  gulp.parallel(scripts, bowerScripts, handlebarsScripts, styles, bowerStyles, icons, images, testScripts, bowerTestScripts)
+  gulp.parallel(fnScripts, gameScripts, profileScripts, userScripts, bowerScripts, styles, bowerStyles, icons, images, testScripts, bowerTestScripts)
 ));
 
 // The default task (called when you run `gulp` from cli)
@@ -33,8 +33,6 @@ gulp.task('default', gulp.series('build'));
 
 //tasks
 gulp.task(watch);
-gulp.task(scripts);
-gulp.task(minifyScripts);
 gulp.task(styles);
 
 
@@ -50,9 +48,27 @@ function images(){
   .pipe(gulp.dest(paths.dist + '/images'));
 }
 
-function scripts(){
-  return gulp.src(paths.dev + '/js/**/*.js')
-  .pipe(concat('our.js'))
+function fnScripts(){
+  return gulp.src(paths.dev + '/js/functions/*.js')
+  .pipe(concat('fn.js'))
+  .pipe(gulp.dest(paths.dist + '/js'));
+}
+
+function gameScripts(){
+  return gulp.src(paths.dev + '/js/game/*.js')
+  .pipe(concat('game.js'))
+  .pipe(gulp.dest(paths.dist + '/js'));
+}
+
+function profileScripts(){
+  return gulp.src(paths.dev + '/js/profile/*.js')
+  .pipe(concat('profile.js'))
+  .pipe(gulp.dest(paths.dist + '/js'));
+}
+
+function userScripts(){
+  return gulp.src(paths.dev + '/js/users/*.js')
+  .pipe(concat('user.js'))
   .pipe(gulp.dest(paths.dist + '/js'));
 }
 
@@ -61,9 +77,30 @@ function testScripts(){
   .pipe(gulp.dest(paths.dist + '/js/'));
 }
 
-function minifyScripts() {
-  return gulp.src(paths.dev + '/js/**/*.js')
-  .pipe(concat('our.js'))
+function fnMinifyScripts(){
+  return gulp.src(paths.dev + '/js/functions/*.js')
+  .pipe(concat('fn.js'))
+  .pipe(uglify())
+  .pipe(gulp.dest(paths.dist + '/js'));
+}
+
+function gameMinifyScripts(){
+  return gulp.src(paths.dev + '/js/game/*.js')
+  .pipe(concat('game.js'))
+  .pipe(uglify())
+  .pipe(gulp.dest(paths.dist + '/js'));
+}
+
+function profileMinifyScripts(){
+  return gulp.src(paths.dev + '/js/profile/*.js')
+  .pipe(concat('profile.js'))
+  .pipe(uglify())
+  .pipe(gulp.dest(paths.dist + '/js'));
+}
+
+function userMinifyScripts(){
+  return gulp.src(paths.dev + '/js/users/*.js')
+  .pipe(concat('user.js'))
   .pipe(uglify())
   .pipe(gulp.dest(paths.dist + '/js'));
 }
@@ -96,7 +133,7 @@ function bowerScripts() {
           ignore: true
         },
         'handlebars': {
-          ignore: true
+          main: ['handlebars.js']
         },
         'what-input': {
           // main: ['what-input.js']
@@ -148,11 +185,17 @@ function icons(){
 }
 
 function watch(){
-  var js = paths.dev + '/js/**/*';
+  var usr = paths.dev + '/js/users/*';
+  var game = paths.dev + '/js/game/*';
+  var profile = paths.dev + '/js/profile/*';
+  var functions = paths.dev + '/js/functions/*';
   var scss = paths.dev + '/scss/**/*';
   var tsts = paths.test + '**/*';
   var imgs = paths.dev + '/images/**/*';
-  gulp.watch(js, scripts);
+  gulp.watch(usr, userScripts);
+  gulp.watch(profile, profileScripts);
+  gulp.watch(functions, fnScripts);
+  gulp.watch(game, gameScripts);
   gulp.watch(scss, styles);
   gulp.watch(tsts, testScripts);
   gulp.watch(imgs, images);

@@ -7,9 +7,6 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/signup', userCtrl.signup);
-router.get('/login', userCtrl.login);
-
 router.get('/profile', userCtrl.profile);
 
 module.exports = router;

@@ -16,7 +16,7 @@ $('document').ready(function(){
   //logout button
   $('#gameLogoutButton').on('click', function(){
     $.get('/api/users/logout', function(){
-      redirect('/users/login');
+      redirect('/');
     });
   });
 
@@ -63,11 +63,6 @@ $('document').ready(function(){
 
     });
   });
-    
-
-
-    
-
   
 }); //end ready
 
