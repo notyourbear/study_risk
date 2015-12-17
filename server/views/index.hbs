@@ -2,11 +2,21 @@
   <div class="small-12 columns">
 
     <div class="row">
-      <div class="small-12 columns menuButtons">
-          <div class="button-group float-right profileButtons">
-            <button id="indexSignupButton" class="secondary hollow button small">Signup</button>
-            <button id="indexLoginButton" class="secondary hollow button small">Login</button>
+      <div id="indexMenu" class="small-3 float-right columns menuButtons">
+        <div class="row">
+          <div class="small-12 columns">
+            <div class="button-group profileButtons">
+              <button id="indexSignupButton" class="secondary hollow button small">Signup</button>
+              <button id="indexLoginButton" class="secondary hollow button small">Login</button>
+            </div>
           </div>
+        </div>
+
+        <div class="row">
+          <div id="indexForm" class="small-12 columns">
+          
+          </div>
+        </div>
       </div>
     </div>
 
@@ -41,15 +51,4 @@
   </div>
 </div>
 
-
-
-
-
-
-    
-
-
-
-
-
-
+{{> loginForm}}

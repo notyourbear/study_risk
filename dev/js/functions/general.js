@@ -19,3 +19,26 @@ function shuffle(array) {
 
   return array;
 }
+
+function addButton(locationId, buttonId, buttonClass, text, prepend){
+  var button = "<button id='"+buttonId+"' class='"+buttonClass+"'>"+text+"</button>";
+
+  if(prepend === 'prepend'){
+    $('#'+locationId).prepend(button);
+  } else {
+    $('#'+locationId).append(button);
+  }
+}
+
+function cleanSpot(placeId){
+  $('#'+placeId).html('');
+}
+
+
+function addForm(locationId, formId){
+  var $place = $('#'+locationId);
+
+  var source = $('#'+formId).html();
+  var template = Handlebars.compile(source);
+  $place.append(template);
+}

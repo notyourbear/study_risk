@@ -30,10 +30,6 @@ $('document').ready(function(){
  }); //end get lists
 }); //end ready
 
-function cleanSpot(placeId){
-  $('#'+placeId).html('');
-}
-
 function startGame(listId){
   var href = "/game/"+listId;
   redirect(href);
@@ -46,17 +42,6 @@ function changeText(locationId, text, clss){
   
   if(clss){
     $place.addClass(clss);
-  }
-  
-}
-
-function addButton(locationId, buttonId, buttonClass, text, prepend){
-  var button = "<button id='"+buttonId+"' class='"+buttonClass+"'>"+text+"</button>";
-
-  if(prepend === 'prepend'){
-    $('#'+locationId).prepend(button);
-  } else {
-    $('#'+locationId).append(button);
   }
   
 }

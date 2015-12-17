@@ -335,10 +335,6 @@ $('document').ready(function(){
  }); //end get lists
 }); //end ready
 
-function cleanSpot(placeId){
-  $('#'+placeId).html('');
-}
-
 function startGame(listId){
   var href = "/game/"+listId;
   redirect(href);
@@ -351,17 +347,6 @@ function changeText(locationId, text, clss){
   
   if(clss){
     $place.addClass(clss);
-  }
-  
-}
-
-function addButton(locationId, buttonId, buttonClass, text, prepend){
-  var button = "<button id='"+buttonId+"' class='"+buttonClass+"'>"+text+"</button>";
-
-  if(prepend === 'prepend'){
-    $('#'+locationId).prepend(button);
-  } else {
-    $('#'+locationId).append(button);
   }
   
 }
@@ -449,6 +434,29 @@ function shuffle(array) {
   }
 
   return array;
+}
+
+function addButton(locationId, buttonId, buttonClass, text, prepend){
+  var button = "<button id='"+buttonId+"' class='"+buttonClass+"'>"+text+"</button>";
+
+  if(prepend === 'prepend'){
+    $('#'+locationId).prepend(button);
+  } else {
+    $('#'+locationId).append(button);
+  }
+}
+
+function cleanSpot(placeId){
+  $('#'+placeId).html('');
+}
+
+
+function addForm(locationId, formId){
+  var $place = $('#'+locationId);
+
+  var source = $('#'+formId).html();
+  var template = Handlebars.compile(source);
+  $place.append(template);
 }
 function setTile(tile, attr) {
   var layer = L.tileLayer(tile, {
@@ -908,31 +916,41 @@ function editQuestion(formId, qId){
 }
 $('document').ready(function(){
 
-  $('#loginForm').submit(function(e){
-    e.preventDefault();
-    var $this = $(this);
-    var user = {
-      email: $this.find('input:text').val(),
-      password: $this.find('input:password').val()
-    };
+  // $('#loginForm').submit(function(e){
+  //   e.preventDefault();
+  //   var $this = $(this);
+  //   var user = {
+  //     email: $this.find('input:text').val(),
+  //     password: $this.find('input:password').val()
+  //   };
 
-    $.post("/api/users/login", user, function(user) {
-      console.log(user);
-      //redirect user
-      redirect('/users/profile');
-    });
-  });
+  //   $.post("/api/users/login", user, function(user) {
+  //     console.log(user);
+  //     //redirect user
+  //     redirect('/users/profile');
+  //   });
+  // });
 
-  $('#logoutButton').click(function(){
-    console.log('CLICKED!');
-    $.get("/api/users/logout", function(result){
-        console.log(result);
-        //redirect user
-        redirect('/users/login');
-    });
+  // $('#logoutButton').click(function(){
+  //   console.log('CLICKED!');
+  //   $.get("/api/users/logout", function(result){
+  //       console.log(result);
+  //       //redirect user
+  //       redirect('/users/login');
+  //   });
+  // });
+
+  $('#indexSignupButton').on('click', function(){
+    console.log('hey');
+    var placeId = 'indexForm';
+
+    cleanSpot(placeId);
+    addForm(placeId, 'login-template');
   });
 
 });
+
+
 $('document').ready(function(){
 
   $('#signupForm').submit(function(e){
