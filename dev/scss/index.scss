@@ -57,6 +57,16 @@ $titleColor: black;
       border-radius: 20px;
       opacity: .5;
       margin-right: 5px;
+    &.active {
+      color: $background;
+      background: $buttonColor;
+      opacity: 1;
+      &:hover{
+        color: $buttonColor;
+        background: $background;
+        opacity: .5;
+      }
+    }
     &:hover{
       color: $background;
       background: $buttonColor;
@@ -67,13 +77,34 @@ $titleColor: black;
 
 #indexForm {
     position: absolute;
-    right: 40px;
-    width: 340px;
+    right: 60px;
+    top: 55px;
+    width: 300px;
     z-index: 10;
-    
-    background: white;
     padding: 0;
     #loginForm {
-      border: 1px solid black;
+      box-shadow: 0 4px 30px -5px;
+      padding: 20px;
+      margin: 4px;
+      border: 1px solid $buttonColor;
+      background: $buttonColor;
+      border-radius: 20px;
+      input {
+        color: $buttonColor;
+      }
+      label {
+        font-size: 1em;
+        color: $background;
+      }
+      .button.secondary.hollow {
+        margin: 20px 0 0 0;
+        color: $background;
+        border-color: $background;
+        &:hover {
+          color: $buttonColor;
+          background: $background;
+          border-color: $buttonColor;
+        }
+      }
     }
   }

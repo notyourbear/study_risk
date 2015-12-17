@@ -1,5 +1,21 @@
 $('document').ready(function(){
 
+function postableForm(formId, href, redirectUrl){
+  $place = $('#'+formId);
+
+  $place.submit(function(e){
+    e.preventDefault();
+    var $this = $(this);
+    var user = {
+      email: $this.find('input:text').val(),
+      password: $this.find('input:password').val()
+    };
+
+    $.post(href, user, function(u){
+      redirect(redirectUrl);
+    });
+  });
+}
   // $('#loginForm').submit(function(e){
   //   e.preventDefault();
   //   var $this = $(this);
@@ -24,13 +40,18 @@ $('document').ready(function(){
   //   });
   // });
 
-  $('#indexSignupButton').on('click', function(){
-    console.log('hey');
+  $('#indexLoginButton').on('click', function(){
+    var formed = checkForForm('indexLoginButton', 'indexForm');
+    $(this).toggleClass('active');
+
     var placeId = 'indexForm';
 
-    cleanSpot(placeId);
-    addForm(placeId, 'login-template');
+    
+    if(!formed){
+      addForm(placeId, 'login-template');
+      postableForm('loginForm', '/api/users/login', '/users/profile');
+    }
+    
   });
 
 });
-

@@ -458,6 +458,17 @@ function addForm(locationId, formId){
   var template = Handlebars.compile(source);
   $place.append(template);
 }
+
+function checkForForm(buttonId, formId){
+  var $place = $('#'+buttonId);
+  var classed = $place.hasClass('active');
+  console.log('hey');
+  if(classed){
+    cleanSpot(formId);
+    return true;
+  }
+  return false;
+}
 function setTile(tile, attr) {
   var layer = L.tileLayer(tile, {
     attribution: attr
@@ -916,6 +927,22 @@ function editQuestion(formId, qId){
 }
 $('document').ready(function(){
 
+function postableForm(formId, href, redirectUrl){
+  $place = $('#'+formId);
+
+  $place.submit(function(e){
+    e.preventDefault();
+    var $this = $(this);
+    var user = {
+      email: $this.find('input:text').val(),
+      password: $this.find('input:password').val()
+    };
+
+    $.post(href, user, function(u){
+      redirect(redirectUrl);
+    });
+  });
+}
   // $('#loginForm').submit(function(e){
   //   e.preventDefault();
   //   var $this = $(this);
@@ -940,16 +967,21 @@ $('document').ready(function(){
   //   });
   // });
 
-  $('#indexSignupButton').on('click', function(){
-    console.log('hey');
+  $('#indexLoginButton').on('click', function(){
+    var formed = checkForForm('indexLoginButton', 'indexForm');
+    $(this).toggleClass('active');
+
     var placeId = 'indexForm';
 
-    cleanSpot(placeId);
-    addForm(placeId, 'login-template');
+    
+    if(!formed){
+      addForm(placeId, 'login-template');
+      postableForm('loginForm', '/api/users/login', '/users/profile');
+    }
+    
   });
 
 });
-
 
 $('document').ready(function(){
 
