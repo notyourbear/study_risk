@@ -53,3 +53,20 @@ function checkForForm(buttonId, formId){
   }
   return false;
 }
+
+function postableForm(formId, href, redirectUrl){
+  $place = $('#'+formId);
+
+  $place.submit(function(e){
+    e.preventDefault();
+    var $this = $(this);
+    var user = {
+      email: $this.find('input:text').val(),
+      password: $this.find('input:password').val()
+    };
+
+    $.post(href, user, function(u){
+      redirect(redirectUrl);
+    });
+  });
+}
