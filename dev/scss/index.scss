@@ -106,5 +106,14 @@ $titleColor: black;
           border-color: $buttonColor;
         }
       }
+      h3 {
+        text-align: center;
+        color: $background;
+        margin: -5px 0;
+        font-size: 1.75em;
+      }
+    }
+    #signupForm {
+      @extend #loginForm;
     }
   }
