@@ -1,8 +1,8 @@
 $background: #f5fafa;
 $lightBg: white;
 $buttonColor: #417365;
-$titleBackground: rgba(65, 115, 101, .1);
-$titleColor: black;
+$titleBackground: rgba(65, 115, 101, 0);
+$titleColor: #144537;
 
 .body {
   background: $lightBg;
@@ -17,19 +17,15 @@ $titleColor: black;
         border-radius: 100px;
         opacity: 1;
         background: $titleBackground;
-        margin-top: 310px;
-        margin-bottom: -10px;
+        margin-top: 323px;
+        margin-bottom: -30px;
         margin-left: -40px;
         margin-right: -40px;
-        animation-name: show;
-        animation-duration: 1ms;
-        animation-delay: 2s;
-        animation-iteration-count: 1;
         h1 {
           color: $titleColor;
           padding: 5px;
           text-align: center;
-          font-size: 6em;
+          font-size: 5.5em;
         }
       }
       .descRow {
@@ -41,7 +37,8 @@ $titleColor: black;
         margin-top: 0px;
         text-align: center;
         h2 {
-          margin-bottom: -10px;
+          color: $titleColor;
+          margin-bottom: -14px;
           font-size: 2.5em;
         }
       }  
