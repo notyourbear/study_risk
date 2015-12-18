@@ -33,6 +33,7 @@ npm-debug.log
 .sass-cache
 
 #config
+.env
 
 readme.md
 
