@@ -11,14 +11,13 @@ var config    = require(path.join(__dirname, '../../../database/config/config.js
 var db        = {};
 
 console.log(env);
-console.log(config)
+console.log(config);
 console.log(config.use_env_variable);
-console.log(process.env);
 
 if (config.use_env_variable) {
   console.log("\n\n\n\n\n\n\n\n\n\n\n");
   console.log(process.env[config.use_env_variable]);
-  var sequelize = new Sequelize(config.use_env_variable);
+  var sequelize = new Sequelize(process.env[config.use_env_variable]);
   
   
 } else {
