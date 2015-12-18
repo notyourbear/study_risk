@@ -3,11 +3,14 @@ var sendJsonResponse = function(res, status, content){
   res.json(content);
 };
 
-var secrets = require('../../../secrets');
+var env = process.env;
 var states = require('../../stateData');
 
 module.exports.token = function(req, res, next){
-  var token = secrets.mapAccessToken();
+  var token = {
+    token: env.mapToken,
+    map: env.map
+  };
 
   sendJsonResponse(res, '200', token);
 };
