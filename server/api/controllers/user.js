@@ -25,7 +25,10 @@ module.exports.create = function(req, res, next){
 
   db.User.createSecure(user.email, user.password).
   then(function(createdUser){
-    sendJsonResponse(res, 200, createdUser);
+    req.login(createdUser);
+    req.currentUser(function(createdUser){
+      sendJsonResponse(res, 200, createdUser);
+    });
   });
 
 };
@@ -45,7 +48,6 @@ module.exports.login = function(req, res, next){
           // note here the super step
           req.login(user);
           req.currentUser(function(user){
-            console.log(user, 'user');
             sendJsonResponse(res, 200, user);
           });
       });

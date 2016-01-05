@@ -56,8 +56,8 @@ module.exports.userLists = function(req, res, next){
       },
       include: [db.Radio]
     }).then(function(lists){
-      if(!lists){
-          sendJsonResponse(res, '400', {'error': 'no lists found'});
+      if(!lists && !req.session.user){
+          sendJsonResponse(res, '200', {lsts: []});
         } else {
           var obj = {lsts: lists};
           sendJsonResponse(res, '200', obj);

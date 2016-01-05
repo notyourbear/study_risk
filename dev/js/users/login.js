@@ -4,7 +4,6 @@ $('document').ready(function(){
     var placeId = 'indexForm';
     var signupId = 'indexSignupButton';
     var formed = checkForForm('indexLoginButton', placeId);
-
     var signupActive = checkForForm(signupId, placeId);
 
     if(signupActive){
