@@ -238,8 +238,6 @@ $('document').ready(function(){
 
   $.get("/api/map/access", function(data){
     getQuestions(listId, function(questionList){
-      console.log(questionList);
-
       questionList.Radios.forEach(function(radio){
         var question = {
           question: radio.question,

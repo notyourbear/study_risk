@@ -6,7 +6,6 @@ router.post('/', listCtrl.create);
 
 router.get('/', listCtrl.all);
 router.get('/user', listCtrl.userLists);
-router.get('/quickPlay', listCtrl.quickPlay);
 
 router.delete('/delete/:id', listCtrl.destroy);
 
