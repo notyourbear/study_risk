@@ -17,5 +17,5 @@ module.exports.game = function(req, res, next) {
 };
 
 module.exports.quickPlay = function(req, res, next) {
-  res.render('game', { title: 'Riskionaire Quickplay', quickPlay: true})
+  res.render('game', { title: 'Riskionaire Quickplay' })
 }

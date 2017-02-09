@@ -3,7 +3,7 @@ var imagemin = require('gulp-imagemin');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var bower = require('gulp-main-bower-files');
-var sass = require('gulp-ruby-sass');
+var sass = require('gulp-sass');
 var minifyCSS = require('gulp-minify-css');
 var autoprefixer = require('gulp-autoprefixer');
 var del = require('del');
@@ -106,8 +106,8 @@ function userMinifyScripts(){
 }
 
 function styles(){
-  return sass(paths.dev + '/scss/**/*', {style: 'compressed'})
-    .on('error', sass.logError)
+  return gulp.src(paths.dev + '/scss/**/*', {style: 'compressed'})
+  	.pipe(sass().on('error', sass.logError))
     .pipe(concat('our.css'))
     .pipe(autoprefixer({
             browsers: ['last 2 versions'],
@@ -125,7 +125,7 @@ function bowerScripts() {
         //   main: [
         //     './dist/js/bootstrap.js'
         //   ]
-        // }, 
+        // },
         'jquery': {
           main: ['./dist/jquery.js']
         },
