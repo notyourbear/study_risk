@@ -1,1 +1,322 @@
-function Gameboard(){this.states=["alabama","arizona","arkansas","california","colorado","connecticut","maryland","dc","florida","georgia","idaho","illinois","indiana","iowa","kansas","kentucky","louisiana","maine","maryland","massachusetts","michigan","minnesota","mississippi","missouri","montana","nebraska","nevada","newhampshire","newjersey","newmexico","newyork","northcarolina","northdakota","ohio","oklahoma","oregon","pennsylvania","rhodeisland","southcarolina","southdakota","tennessee","texas","utah","vermont","virginia","washington","westvirginia","wisconsin","wyoming"],this.layers={},this.stateProperties={},this.bordering={},this.userStates={},this.vacantStates={},this.enemyStates={},this.userStatesColors=["#b8b453","#9c9c44","#96964d","#8f8e4f"],this.borderStatesColors=["#fce8c7"],this.currentUserStateColor=0,this.currentBorderStatesColor=0}function clear(e){$("#"+e).html("")}function getQuestions(e,t){$.get("/api/lists/"+e,function(e){t(e)})}function populateQuestion(e,t){var o=e[genRandomInt(0,e.length-1)];shuffle(o.possibleAnswers),t(o)}function placeQuestion(e,t,o){var n=$("#question-template").html(),a=Handlebars.compile(n),r=a(t);$("#"+e).append(r),o()}function validateQuestion(e,t,o,n){$("."+e).click(function(){var e=$(this);e.is(":checked")&&e.val()===t.answer?o():n()})}Gameboard.prototype.updateColor=function(e,t){this[e]===this[t].length-1?this[e]=0:this[e]+=1},Gameboard.prototype.createBoard=function(e,t,o){var n,a=this;getStatesData(function(r){for(var i in r)n=createGeoJson(r[i],t),a.layers[i]=n,a.stateProperties[i]=r[i],e.addLayer(n);o()})},Gameboard.prototype.clearBoard=function(e,t){e.eachLayer(function(t){e.removeLayer(t)}),t()},Gameboard.prototype.createState=function(e,t,o,n,a){var r=this.layers[t],i=this,s=this[o];r.setStyle({color:i[n][s]}),i.updateColor(o,n),r.off("click"),r.on("click",function(){void 0===a||populateQuestion(questionSet,function(o){async.series([function(e){clear("questionField"),e(null,{one:"cleared field"})},function(e){placeQuestion("questionField",o,function(){e(null,{one:"placedQuestion"})})},function(n){validateQuestion("answers",o,function(){return a(t,i,"userStates",e)},function(){return i.newTurn(e)}),n(null,{two:"border group created"})}],function(e,t){e?console.log(e):console.log("done!",t)})})}),e.addLayer(r)},Gameboard.prototype.createLayerGroup=function(e,t,o,n,a,r){for(var i in this[t])this[t].hasOwnProperty(i)&&this.createState(e,i,o,n,a);r()},Gameboard.prototype.addToGroup=function(e,t,o){this[t][e]=e,o()},Gameboard.prototype.createBorderingGroup=function(e){var t=this,o=[];this.bordering={};for(var n in this.userStates)this.userStates.hasOwnProperty(n)&&(o=this.stateProperties[n].properties.touching,o.forEach(function(e){t.addToGroup(e,"bordering",function(){t.userStates.hasOwnProperty(e)&&delete t.bordering[e]})}));e()},Gameboard.prototype.initGame=function(e){var t=this,o=this.states[genRandomInt(0,this.states.length-1)];async.series([function(o){t.createBoard(e,"transparent",function(){o(null,{one:"map created"})})},function(e){t.addToGroup(o,"userStates",function(){e(null,{two:"state added to user group"})})},function(e){t.createBorderingGroup(function(){e(null,{three:"created touching list"})})},function(o){t.createLayerGroup(e,"bordering","currentBorderStatesColor","borderStatesColors",addToUserStates,function(){o(null,{five:"added touching list to map"})})},function(o){t.createLayerGroup(e,"userStates","currentUserStateColor","userStatesColors",void 0,function(){o(null,{four:"added user list to map"})})}],function(e,t){e?console.log(e):console.log("done!",t)})},Gameboard.prototype.newTurn=function(e){var t=this;async.series([function(o){t.clearBoard(e,function(){clear("questionField"),o(null,{one:"clearedBoard"})})},function(e){t.createBorderingGroup(function(){e(null,{two:"border group created"})})},function(o){t.createLayerGroup(e,"bordering","currentBorderStatesColor","borderStatesColors",addToUserStates,function(){o(null,{five:"added touching list to map"})})},function(o){t.createLayerGroup(e,"userStates","currentUserStateColor","userStatesColors",void 0,function(){o(null,{four:"added user list to map"})})}],function(e,t){e?console.log(e):console.log("done!",t)})};var alabama="hey",game=new Gameboard,b,questionSet=[];$("document").ready(function(){var e=(window.location.pathname,getListId());$("#gameProfileButton").on("click",function(){redirect("/users/profile")}),$("#gameLogoutButton").on("click",function(){$.get("/api/users/logout",function(){redirect("/")})}),$.get("/api/map/access",function(t){getQuestions(e,function(e){console.log(e),e.Radios.forEach(function(e){var t={question:e.question,answer:e.answer,possibleAnswers:[]};t.possibleAnswers.push(e.answer);for(var o="",n=1;5>=n;n++)o="false"+n,""!==e[o]&&t.possibleAnswers.push(e[o]);questionSet.push(t)});var o=t.map+"?access_token="+t.token,n={zoomControl:!1,minZoom:4,maxZoom:4,dragging:!1},a=createMap("map",n,[39.925,-96.481],4);setTile.call(a,o,'<a href="http://mapbox.com">Mapbox</a>'),b=a,game.initGame(a)})})});
+function Gameboard(){
+  this.states = ['alabama', 'arizona', 'arkansas', 'california', 'colorado', 'connecticut', 'maryland', 'dc', 'florida', 'georgia', 'idaho', 'illinois', 'indiana', 'iowa', 'kansas', 'kentucky', 'louisiana', 'maine', 'maryland', 'massachusetts', 'michigan', 'minnesota', 'mississippi', 'missouri', 'montana', 'nebraska', 'nevada', 'newhampshire', 'newjersey', 'newmexico', 'newyork', 'northcarolina', 'northdakota', 'ohio', 'oklahoma', 'oregon', 'pennsylvania', 'rhodeisland', 'southcarolina', 'southdakota', 'tennessee', 'texas', 'utah', 'vermont', 'virginia', 'washington', 'westvirginia', 'wisconsin', 'wyoming'];
+  this.layers = {};
+  this.stateProperties = {};
+  this.bordering = {};
+  this.userStates = {};
+  this.vacantStates = {};
+  this.enemyStates = {};
+  this.userStatesColors = ['#b8b453', '#9c9c44', '#96964d', '#8f8e4f'];
+  this.borderStatesColors = ['#fce8c7'];
+  this.currentUserStateColor = 0;
+  this.currentBorderStatesColor = 0;
+}
+
+Gameboard.prototype.updateColor = function(current, type){
+  if(this[current] === this[type].length - 1){
+    this[current] = 0;
+  } else {
+    this[current] += 1;
+  }
+};
+
+Gameboard.prototype.createBoard = function(map, layerColor, cb){
+  var that = this;
+  var layer;
+  var i = 1;
+
+  getStatesData(function(states){
+    for(var state in states){
+
+      //create layer
+      layer = createGeoJson(states[state], layerColor);
+
+      //add to layers
+      that.layers[state] = layer;
+
+      //add to properties
+      that.stateProperties[state] = states[state];
+
+      //add to map
+      map.addLayer(layer);
+    }
+
+    cb();
+  });
+};
+
+Gameboard.prototype.clearBoard = function(map, cb){
+  map.eachLayer(function(layer){
+    map.removeLayer(layer);
+  });
+  cb();
+};
+
+Gameboard.prototype.createState = function(map, state, layerColorCurrent, layerColorArray, clickFn){
+  var layer = this.layers[state];
+  var that = this;
+  var num = this[layerColorCurrent];
+  layer.setStyle({
+    color: that[layerColorArray][num],
+  });
+
+  that.updateColor(layerColorCurrent, layerColorArray);
+
+  layer.off('click');
+  layer.on('click', function(){
+
+    if(clickFn === undefined){
+
+    } else {
+      populateQuestion(questionSet ,function(question){
+        async.series([
+          function(callback){
+            clear('questionField');
+            callback(null, {'one': 'cleared field'});
+          },
+          function(callback){
+            placeQuestion('questionField', question, function(){
+              callback(null, {'one': 'placedQuestion'});
+            });
+          },
+          function(callback){
+            validateQuestion('answers', question, function(){
+
+              return clickFn(state, that, 'userStates', map);
+            }, function(){
+
+              return that.newTurn(map);
+            });
+
+            callback(null, {'two': 'border group created'});
+          }
+          ], function(err,results){
+          if(err){
+            console.log(err);
+          }
+        });
+      });
+    }
+
+  });
+
+  map.addLayer(layer);
+};
+
+Gameboard.prototype.createLayerGroup = function(map, group, colorCurrent, colorArray, clickFn, cb){
+
+  for(var state in this[group]){
+    if (this[group].hasOwnProperty(state)){
+      this.createState(map, state, colorCurrent, colorArray, clickFn);
+    }
+  }
+  cb();
+};
+
+Gameboard.prototype.addToGroup = function(stateName, groupName, cb){
+  //adds to group name
+  this[groupName][stateName] = stateName;
+  cb();
+};
+
+Gameboard.prototype.createBorderingGroup = function(cb){
+  var that = this;
+  var arr = [];
+  this.bordering = {};
+
+  //run through states in user group
+  for(var state in this.userStates){
+    if(this.userStates.hasOwnProperty(state)){
+        arr = this.stateProperties[state].properties.touching;
+
+        arr.forEach(function(borderingState){
+          that.addToGroup(borderingState, 'bordering', function(){
+
+            //double check that borderingState is not in user owned states
+
+            if(that.userStates.hasOwnProperty(borderingState)){
+              //if so, delete it from the bordering list
+              delete that.bordering[borderingState];
+            }
+          });
+        });
+    }
+  }
+  cb();
+};
+
+Gameboard.prototype.initGame = function(map){
+  var that = this;
+  var randomState = this.states[genRandomInt(0, this.states.length-1)];
+  async.series([
+    function(callback){
+      that.createBoard(map, 'transparent', function(){
+
+        callback(null, {'one': 'map created'});
+      });
+    },
+    function(callback){
+      that.addToGroup(randomState, 'userStates', function(){
+
+        callback(null, {'two': 'state added to user group'});
+      });
+    },
+    function(callback){
+      that.createBorderingGroup(function(){
+
+        callback(null, {'three': 'created touching list'});
+      });
+    },
+    function(callback){
+      that.createLayerGroup(map, 'bordering', 'currentBorderStatesColor', 'borderStatesColors', addToUserStates, function(){
+
+        callback(null, {'five': 'added touching list to map'});
+      });
+    },
+    function(callback){
+      that.createLayerGroup(map, 'userStates', 'currentUserStateColor','userStatesColors', undefined, function(){
+        callback(null, {'four': 'added user list to map'});
+      });
+    }
+  ], function(err,results){
+    if(err){
+      console.log(err);
+    }
+  });
+};
+
+Gameboard.prototype.newTurn = function(map){
+  var that = this;
+  async.series([
+    function(callback){
+      that.clearBoard(map, function(){
+        clear('questionField');
+        callback(null, {'one': 'clearedBoard'});
+      });
+    },
+    function(callback){
+      that.createBorderingGroup(function(){
+        callback(null, {'two': 'border group created'});
+      });
+    },
+    function(callback){
+      that.createLayerGroup(map, 'bordering', 'currentBorderStatesColor', 'borderStatesColors', addToUserStates, function(){
+        callback(null, {'five': 'added touching list to map'});
+      });
+    },
+    function(callback){
+      that.createLayerGroup(map, 'userStates', 'currentUserStateColor' , 'userStatesColors', undefined, function(){
+        callback(null, {'four': 'added user list to map'});
+      });
+    },
+    ], function(err,results){
+    if(err){
+      console.log(err);
+    }
+  });
+};
+
+var game = new Gameboard();
+var questionSet = [];
+
+$('document').ready(function(){
+  ////get params
+  var pathname = window.location.pathname;
+  var listId = getListId();
+
+  //profile button
+  $('#gameProfileButton').on('click', function(){
+    redirect('/users/profile');
+  });
+
+  //logout button
+  $('#gameLogoutButton').on('click', function(){
+    $.get('/api/users/logout', function(){
+      redirect('/');
+    });
+  });
+
+  $.get("/api/map/access", function(data){
+    getQuestions(listId, function(questionList){
+      console.log(questionList);
+
+      questionList.Radios.forEach(function(radio){
+        var question = {
+          question: radio.question,
+          answer: radio.answer,
+          possibleAnswers: []
+        };
+
+        question.possibleAnswers.push(radio.answer);
+
+        var fls = "";
+
+        for(var i = 1; i<=5; i++){
+          fls = "false" + i;
+          if(radio[fls] !== ""){
+            question.possibleAnswers.push(radio[fls]);
+          }
+        }
+        questionSet.push(question);
+      });
+
+      var states = data.map + '?access_token=' + data.token;
+      var mapOptions = {
+        zoomControl: false,
+        minZoom: 4,
+        maxZoom: 4,
+        dragging: false
+      };
+
+      //init map and set location
+      var map = createMap('map', mapOptions, [39.925, -96.481], 4);
+      setTile.call(map, states, '<a href="http://mapbox.com">Mapbox</a>');
+      b = map;
+
+      game.initGame(map);
+
+
+
+    });
+  });
+
+}); //end ready
+
+function clear(id){
+  $('#'+id).html('');
+}
+
+function getQuestions(listId, cb){
+  $.get("/api/lists/"+listId, function(list){
+    cb(list);
+  });
+}
+
+
+function populateQuestion(questions, cb){
+    var q = questions[genRandomInt(0, questions.length-1)];
+    shuffle(q['possibleAnswers']);
+    cb(q);
+}
+
+function placeQuestion(id, context, cb){
+  var source = $('#question-template').html();
+  var template = Handlebars.compile(source);
+
+  var html = template(context);
+
+  $('#'+id).append(html);
+
+  cb();
+}
+
+function validateQuestion(answers, context, successCb, failCb){
+  $('.'+ answers).click(function(){
+    var $this = $(this);
+    if($this.is(':checked') && $this.val() === context.answer) {
+      successCb();
+    } else {
+      failCb();
+    }
+  });
+}

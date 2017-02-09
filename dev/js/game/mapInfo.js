@@ -1,6 +1,4 @@
-var alabama = 'hey';
 var game = new Gameboard();
-var b;
 var questionSet = [];
 
 $('document').ready(function(){
@@ -51,7 +49,7 @@ $('document').ready(function(){
         maxZoom: 4,
         dragging: false
       };
-      
+
       //init map and set location
       var map = createMap('map', mapOptions, [39.925, -96.481], 4);
       setTile.call(map, states, '<a href="http://mapbox.com">Mapbox</a>');
@@ -63,8 +61,5 @@ $('document').ready(function(){
 
     });
   });
-  
+
 }); //end ready
-
-
-

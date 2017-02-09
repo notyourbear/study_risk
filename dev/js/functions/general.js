@@ -46,7 +46,6 @@ function addForm(locationId, formId){
 function checkForForm(buttonId, formId){
   var $place = $('#'+buttonId);
   var classed = $place.hasClass('active');
-  console.log('hey');
   if(classed){
     cleanSpot(formId);
     return true;

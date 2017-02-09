@@ -33,14 +33,8 @@ function addToMap(layer){
   this.addLayer(layer);
 }
 
-function consoleState(state){
-  return console.log('HEY', state);
-}
-
 function addToUserStates(state, game, group, map){
   game['addToGroup'](state, group, function(){
-    console.log(game[group]);
     game['newTurn'](map);
   });
 }
-

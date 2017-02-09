@@ -27,7 +27,7 @@ Gameboard.prototype.createBoard = function(map, layerColor, cb){
 
   getStatesData(function(states){
     for(var state in states){
-      
+
       //create layer
       layer = createGeoJson(states[state], layerColor);
 
@@ -64,10 +64,9 @@ Gameboard.prototype.createState = function(map, state, layerColorCurrent, layerC
 
   layer.off('click');
   layer.on('click', function(){
-    
-   
+
     if(clickFn === undefined){
-      
+
     } else {
       populateQuestion(questionSet ,function(question){
         async.series([
@@ -82,32 +81,30 @@ Gameboard.prototype.createState = function(map, state, layerColorCurrent, layerC
           },
           function(callback){
             validateQuestion('answers', question, function(){
-              
+
               return clickFn(state, that, 'userStates', map);
             }, function(){
-              
+
               return that.newTurn(map);
             });
-            
+
             callback(null, {'two': 'border group created'});
           }
           ], function(err,results){
           if(err){
             console.log(err);
-          } else {
-            console.log('done!', results);
           }
         });
       });
     }
 
   });
-  
+
   map.addLayer(layer);
 };
 
 Gameboard.prototype.createLayerGroup = function(map, group, colorCurrent, colorArray, clickFn, cb){
-  
+
   for(var state in this[group]){
     if (this[group].hasOwnProperty(state)){
       this.createState(map, state, colorCurrent, colorArray, clickFn);
@@ -134,9 +131,9 @@ Gameboard.prototype.createBorderingGroup = function(cb){
 
         arr.forEach(function(borderingState){
           that.addToGroup(borderingState, 'bordering', function(){
-          
+
             //double check that borderingState is not in user owned states
-  
+
             if(that.userStates.hasOwnProperty(borderingState)){
               //if so, delete it from the bordering list
               delete that.bordering[borderingState];
@@ -154,25 +151,25 @@ Gameboard.prototype.initGame = function(map){
   async.series([
     function(callback){
       that.createBoard(map, 'transparent', function(){
-        
+
         callback(null, {'one': 'map created'});
       });
     },
     function(callback){
       that.addToGroup(randomState, 'userStates', function(){
-        
+
         callback(null, {'two': 'state added to user group'});
       });
     },
     function(callback){
       that.createBorderingGroup(function(){
-        
+
         callback(null, {'three': 'created touching list'});
       });
     },
     function(callback){
       that.createLayerGroup(map, 'bordering', 'currentBorderStatesColor', 'borderStatesColors', addToUserStates, function(){
-        
+
         callback(null, {'five': 'added touching list to map'});
       });
     },
@@ -184,8 +181,6 @@ Gameboard.prototype.initGame = function(map){
   ], function(err,results){
     if(err){
       console.log(err);
-    } else {
-      console.log('done!', results);
     }
   });
 };
@@ -217,9 +212,6 @@ Gameboard.prototype.newTurn = function(map){
     ], function(err,results){
     if(err){
       console.log(err);
-    } else {
-      console.log('done!', results);
     }
   });
 };
-

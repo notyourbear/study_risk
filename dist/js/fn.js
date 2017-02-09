@@ -1,1 +1,131 @@
-function genRandomInt(t,n){return Math.floor(Math.random()*(n-t+1))+t}function shuffle(t){for(var n,o,e=t.length;e;)o=Math.floor(Math.random()*e--),n=t[e],t[e]=t[o],t[o]=n;return t}function addButton(t,n,o,e,a){var r="<button id='"+n+"' class='"+o+"'>"+e+"</button>";"prepend"===a?$("#"+t).prepend(r):$("#"+t).append(r)}function cleanSpot(t){$("#"+t).html("")}function addForm(t,n){var o=$("#"+t),e=$("#"+n).html(),a=Handlebars.compile(e);o.append(a)}function checkForForm(t,n){var o=$("#"+t),e=o.hasClass("active");return console.log("hey"),e?(cleanSpot(n),!0):!1}function postableForm(t,n,o){$place=$("#"+t),$place.submit(function(t){t.preventDefault();var e=$(this),a={email:e.find("input:text").val(),password:e.find("input:password").val()};$.post(n,a,function(t){redirect(o)})})}function setTile(t,n){var o=L.tileLayer(t,{attribution:n});this.addLayer(o)}function getStateData(t,n){$.get("/api/map/states/"+t,function(t){n(t)})}function getStatesData(t){$.get("/api/map/states",function(n){t(n)})}function createGeoJson(t,n){var o=L.geoJson(t,{style:function(){return{color:n}}});return o}function addToMap(t){this.addLayer(t)}function consoleState(t){return console.log("HEY",t)}function addToUserStates(t,n,o,e){n.addToGroup(t,o,function(){console.log(n[o]),n.newTurn(e)})}function createMap(t,n,o,e){return L.map(t,n).setView(o,e)}function getListId(){var t=window.location.pathname,n="",o=6;for(o;o<t.length;o++)n+=t[o];return n}function redirect(t){window.location.href=t}
+function genRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function shuffle(array) {
+  var m = array.length, t, i;
+
+  // While there remain elements to shuffle…
+  while (m) {
+
+    // Pick a remaining element…
+    i = Math.floor(Math.random() * m--);
+
+    // And swap it with the current element.
+    t = array[m];
+    array[m] = array[i];
+    array[i] = t;
+  }
+
+  return array;
+}
+
+function addButton(locationId, buttonId, buttonClass, text, prepend){
+  var button = "<button id='"+buttonId+"' class='"+buttonClass+"'>"+text+"</button>";
+
+  if(prepend === 'prepend'){
+    $('#'+locationId).prepend(button);
+  } else {
+    $('#'+locationId).append(button);
+  }
+}
+
+function cleanSpot(placeId){
+  $('#'+placeId).html('');
+}
+
+
+function addForm(locationId, formId){
+  var $place = $('#'+locationId);
+
+  var source = $('#'+formId).html();
+  var template = Handlebars.compile(source);
+  $place.append(template);
+}
+
+function checkForForm(buttonId, formId){
+  var $place = $('#'+buttonId);
+  var classed = $place.hasClass('active');
+  if(classed){
+    cleanSpot(formId);
+    return true;
+  }
+  return false;
+}
+
+function postableForm(formId, href, redirectUrl){
+  $place = $('#'+formId);
+
+  $place.submit(function(e){
+    e.preventDefault();
+    var $this = $(this);
+    var user = {
+      email: $this.find('input:text').val(),
+      password: $this.find('input:password').val()
+    };
+
+    $.post(href, user, function(u){
+      redirect(redirectUrl);
+    });
+  });
+}
+
+function setTile(tile, attr) {
+  var layer = L.tileLayer(tile, {
+    attribution: attr
+  });
+
+  this.addLayer(layer);
+}
+
+function getStateData(name, cb){
+  $.get("/api/map/states/" + name, function(data){
+    cb(data);
+  });
+}
+
+function getStatesData(cb){
+  $.get("/api/map/states", function(data){
+    cb(data);
+  });
+}
+
+function createGeoJson(data, stateColor){
+  var layer = L.geoJson(data, {
+    style: function(){
+      return {
+        color: stateColor
+      };
+    }
+  });
+  return layer;
+}
+
+function addToMap(layer){
+  this.addLayer(layer);
+}
+
+function addToUserStates(state, game, group, map){
+  game['addToGroup'](state, group, function(){
+    game['newTurn'](map);
+  });
+}
+
+function createMap(id, options, coords, scale){
+  return L.map(id, options).setView(coords, scale);
+}
+
+function getListId(){
+  var pathname = window.location.pathname;
+  var id = "";
+  var i = 6;
+
+  for(i; i<pathname.length; i++){
+    id += pathname[i];
+  }
+
+  return id;
+}
+function redirect(url){
+  window.location.href = url;
+}
